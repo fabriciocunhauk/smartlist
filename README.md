@@ -32,16 +32,17 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## Shopping List PWA with Price Comparison
 
 User Stories
-As a user,I want to be able to create a shopping list,so that I can keep track of the items I need to buy.
-As a user,I want to be able to add new products to my shopping list,so that I can include all the items I need.
-As a user,I want to be able to view my current shopping list,so that I can easily see what I need to buy.
-As a user,I want to be able to compare prices of products from different stores,so that I can find the best deals.
-As a user,I want to be able to add new price information for products,so that the price comparison feature can be kept up-to-date.
-As a user,I want to be able to view the lowest price for each product on my shopping list,so that I can make informed purchasing decisions.
-As a user,I want to be able to view the store where the lowest price for each product was found,so that I know where to go to get the best deals.
-As a user,I want to be able to use the app offline,so that I can access my shopping list and price comparisons even when I don't have an internet connection.
-As a user,I want to be able to install the app on my home screen,so that I can easily access it from my device.
-Technical Tasks
+- As a user,I want to be able to create a shopping list,so that I can keep track of the items I need to buy.
+- As a user,I want to be able to add new products to my shopping list,so that I can include all the items I need.
+- As a user,I want to be able to view my current shopping list,so that I can easily see what I need to buy.
+- As a user,I want to be able to compare prices of products from different stores,so that I can find the best deals.
+- As a user,I want to be able to add new price information for products,so that the price comparison feature can be kept up-to-date.
+- As a user,I want to be able to view the lowest price for each product on my shopping list,so that I can make informed purchasing decisions.
+- As a user,I want to be able to view the store where the lowest price for each product was found,so that I know where to go to get the best deals.
+- As a user,I want to be able to use the app offline,so that I can access my shopping list and price comparisons even when I don't have an internet connection.
+- As a user,I want to be able to install the app on my home screen,so that I can easily access it from my device.
+  
+## Technical Tasks:
 Set up the React project
 Create components for the shopping list, product form, price comparison, and navigation
 Implement API calls to interact with the backend
