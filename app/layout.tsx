@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { classNames } from "./utils/appearance";
-import Navbar from "./components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,13 +31,7 @@ export default function RootLayout({
           "flex flex-col justify-between"
         )}
       >
-        <header className="flex items-center justify-center h-16 text-xl font-semibold">
-          <h1>ShopWize</h1>
-        </header>
-
         <main className="flex-grow">{children}</main>
-
-        <Navbar />
       </body>
     </html>
   );

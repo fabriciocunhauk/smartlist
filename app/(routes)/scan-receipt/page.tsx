@@ -1,5 +1,7 @@
 "use client";
+import BackButton from "@/app/components/BackButton";
 import Button from "@/app/components/Button";
+import Header from "@/app/components/Header";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
@@ -99,12 +101,15 @@ export default function ReceiptUpload() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-10">
-      <video
+      <Header>
+        <BackButton />
+      </Header>
+      {/* <video
         ref={videoRef}
         autoPlay
         playsInline
         className="w-full h-full"
-      ></video>
+      ></video> */}
 
       <Button
         classes={{

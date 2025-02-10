@@ -1,7 +1,13 @@
+import Navbar from "@/app/components/Navbar";
 import React from "react";
 
 function History() {
-  return <div>History</div>;
+  return (
+    <div>
+      <p>History</p>
+      <Navbar />
+    </div>
+  );
 }
 
 export default History;
