@@ -43,47 +43,45 @@ export default function Home() {
   };
 
   return (
-    <main>
-      <Container>
-        <form onSubmit={handleSave} className="flex gap-4">
-          <input
-            type="text"
-            onChange={(event) => setListItem(event.target.value)}
-            className="border rounded w-full h-11 mb-10 pl-4"
-            placeholder="Add To Shopping List"
-            value={listItem}
-          />
-          <Button type="submit">
-            <MdFormatListBulletedAdd className="w-6 h-6 text-white" />
-          </Button>
-        </form>
+    <Container>
+      <form onSubmit={handleSave} className="flex gap-4">
+        <input
+          type="text"
+          onChange={(event) => setListItem(event.target.value)}
+          className="border rounded w-full h-11 mb-10 pl-4"
+          placeholder="Add To Shopping List"
+          value={listItem}
+        />
+        <Button type="submit">
+          <MdFormatListBulletedAdd className="w-6 h-6 text-white" />
+        </Button>
+      </form>
 
-        <div className="flex flex-col gap-4 overflow-auto justify-between max-h-[500px]">
-          {list.map((list, index) => (
-            <Card
-              key={index}
-              classes={{
-                card: "flex items-center justify-between w-full h-20 border rounded",
-              }}
-            >
-              <span>{list.item}</span>
-              <div className="flex items-center gap-4">
-                <RiCloseCircleLine
-                  className="w-6 h-6 text-red-500 cursor-pointer"
-                  onClick={() => handleDelete(list.item)}
-                />
-                <SiTicktick
-                  className={classNames(
-                    "w-5 h-5 text-gray-500 cursor-pointer",
-                    list.status && "text-green-500"
-                  )}
-                  onClick={() => handleMarkedAsDone(list.item)}
-                />
-              </div>
-            </Card>
-          ))}
-        </div>
-      </Container>
-    </main>
+      <div className="flex flex-col gap-4 overflow-auto justify-between h-full">
+        {list.map((list, index) => (
+          <Card
+            key={index}
+            classes={{
+              card: "flex items-center justify-between w-full h-20 border rounded",
+            }}
+          >
+            <span>{list.item}</span>
+            <div className="flex items-center gap-4">
+              <RiCloseCircleLine
+                className="w-6 h-6 text-red-500 cursor-pointer"
+                onClick={() => handleDelete(list.item)}
+              />
+              <SiTicktick
+                className={classNames(
+                  "w-5 h-5 text-gray-500 cursor-pointer",
+                  list.status && "text-green-500"
+                )}
+                onClick={() => handleMarkedAsDone(list.item)}
+              />
+            </div>
+          </Card>
+        ))}
+      </div>
+    </Container>
   );
 }

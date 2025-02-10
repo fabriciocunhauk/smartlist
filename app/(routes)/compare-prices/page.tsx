@@ -22,18 +22,21 @@ function Compare() {
   return (
     <Container>
       <div className="flex flex-col gap-4 overflow-auto justify-between max-h-[500px]">
-        {products.map(({ id, supermarket_name, product_name, price }: any) => (
-          <Card
-            key={id}
-            classes={{
-              card: "flex flex-col items-center justify-between w-full h-20 border rounded",
-            }}
-          >
-            <h2>{supermarket_name}</h2>
-            <p className="text-xs">{product_name}</p>
-            <p className="text-xs">{price}</p>
-          </Card>
-        ))}
+        {products.map(({ id, supermarket_name, product_name, price }: any) => {
+          console.log(supermarket_name);
+          return (
+            <Card
+              key={id}
+              classes={{
+                card: "flex flex-col items-center justify-between w-full h-20 border rounded",
+              }}
+            >
+              <h2>{supermarket_name}</h2>
+              <p className="text-xs">{product_name}</p>
+              <p className="text-xs">{price}</p>
+            </Card>
+          );
+        })}
       </div>
     </Container>
   );

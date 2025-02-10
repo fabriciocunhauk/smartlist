@@ -8,7 +8,7 @@ import { MdOutlineHome } from "react-icons/md";
 
 function Navbar() {
   return (
-    <div className="flex items-center justify-between text-gray-400 border h-20 p-4">
+    <footer className="fixed bottom-0 flex items-center justify-between text-gray-400 border h-20 w-full p-4">
       <Button
         link="/"
         classes={{
@@ -54,7 +54,7 @@ function Navbar() {
         <LiaStoreAltSolid className="w-7 h-7" />
         <span className="text-xs">History</span>
       </Button>
-    </div>
+    </footer>
   );
 }
 

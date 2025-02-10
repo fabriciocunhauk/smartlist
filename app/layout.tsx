@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={classNames(
           `${geistSans.variable} ${geistMono.variable} antialiased`,
-          "flex flex-col justify-between h-screen"
+          "flex flex-col justify-between"
         )}
       >
         <header className="flex items-center justify-center h-16 text-xl font-semibold">
@@ -38,9 +38,7 @@ export default function RootLayout({
 
         <main className="flex-grow">{children}</main>
 
-        <footer>
-          <Navbar />
-        </footer>
+        <Navbar />
       </body>
     </html>
   );
