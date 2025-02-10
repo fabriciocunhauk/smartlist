@@ -105,13 +105,13 @@ export default function ReceiptUpload() {
         ref={videoRef}
         autoPlay
         playsInline
-        className="absolute top-0 right-0 bottom-0 left-0 flex-shrink-0 content-cover w-screen h-screen"
+        className="absolute top-0 right-0 bottom-0 left-0 flex-shrink-0 object-cover w-screen h-screen z-10"
       ></video>
 
       <Button
         classes={{
           button:
-            "fixed bottom-0 mb-10 rounded-full bg-red-500 min-w-11 min-h-10 outline outline-offset-2",
+            "fixed bottom-0 mb-10 rounded-full bg-red-500 min-w-11 min-h-10 outline outline-offset-2 z-10",
         }}
         onClick={handleTakePhoto}
       ></Button>
@@ -119,7 +119,7 @@ export default function ReceiptUpload() {
       {image && (
         <Image
           src={image}
-          className="absolute top-0 right-0 bottom-0 left-0 flex-shrink-0 content-cover w-screen h-screen"
+          className="absolute top-0 right-0 bottom-0 left-0 flex-shrink-0 object-cover w-screen h-screen z-10"
           alt="Receipt Preview"
           width={400}
           height={500}
