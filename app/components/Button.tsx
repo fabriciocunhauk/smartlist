@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { ReactNode } from "react";
 
 type ButtonProps = {
-  children: ReactNode;
+  children?: ReactNode;
   type?: "button" | "submit" | "reset" | undefined;
   onClick?: () => void;
   link?: string;
