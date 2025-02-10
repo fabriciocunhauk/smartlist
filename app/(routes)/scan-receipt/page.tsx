@@ -100,7 +100,7 @@ export default function ReceiptUpload() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10">
+    <div className="relative flex flex-col items-center justify-center gap-10">
       <Header>
         <BackButton />
       </Header>
@@ -114,15 +114,19 @@ export default function ReceiptUpload() {
       <Button
         classes={{
           button:
-            "rounded-full bg-red-500 min-w-11 min-h-10 outline outline-offset-2",
+            "absolute bottom-0 mb-10 rounded-full bg-red-500 min-w-11 min-h-10 outline outline-offset-2",
         }}
         onClick={handleTakePhoto}
       ></Button>
 
       {image && (
-        <div>
-          <Image src={image} alt="Receipt Preview" width={200} height={200} />
-        </div>
+        <Image
+          src={image}
+          className="absolute top-0 right-0 bottom-0 left-0 flex-shrink-0 content-cover w-screen h-screen"
+          alt="Receipt Preview"
+          width={400}
+          height={500}
+        />
       )}
     </div>
   );
