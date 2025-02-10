@@ -30,7 +30,7 @@ export default function ReceiptUpload() {
         formData.append("file", blob, "receipt.jpeg");
 
         try {
-          const response = await fetch(BASE_URL || "", {
+          const response = await fetch(`${BASE_URL}/api/parse-receipt` || "", {
             method: "POST",
             body: formData,
           });
