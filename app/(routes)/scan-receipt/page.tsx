@@ -104,12 +104,12 @@ export default function ReceiptUpload() {
       <Header>
         <BackButton />
       </Header>
-      {/* <video
+      <video
         ref={videoRef}
         autoPlay
         playsInline
         className="w-full h-full"
-      ></video> */}
+      ></video>
 
       <Button
         classes={{
