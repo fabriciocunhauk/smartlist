@@ -8,7 +8,7 @@ import { MdOutlineHome } from "react-icons/md";
 
 function Navbar() {
   return (
-    <footer className="fixed bottom-0 flex items-center justify-between text-gray-400 border h-20 w-full p-4">
+    <footer className="fixed bottom-0 flex items-center justify-between text-gray-400 border h-20 w-full p-4 bg-white">
       <Button
         link="/"
         classes={{

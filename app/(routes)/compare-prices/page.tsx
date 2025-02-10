@@ -18,12 +18,10 @@ function Compare() {
     }
   }, []);
 
-  console.log(products);
-
   return (
     <>
       <Container>
-        <div className="flex flex-col gap-4 overflow-auto justify-between max-h-[500px]">
+        <div className="flex flex-col gap-4 overflow-auto justify-between h-screen pb-20">
           {products.map(
             ({ id, supermarket_name, product_name, price }: any) => {
               console.log(supermarket_name);
