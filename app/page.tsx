@@ -61,7 +61,7 @@ export default function Home() {
           </Button>
         </form>
 
-        <div className="flex flex-col gap-4 overflow-auto h-[460px] pb-10">
+        <div className="flex flex-col gap-4 overflow-auto h-[400px] md:h-[500px] pb-10">
           {list.map((list, index) => (
             <Card
               key={index}
