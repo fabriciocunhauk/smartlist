@@ -8,7 +8,7 @@ interface HeaderProps {
 
 function Header({ children }: HeaderProps) {
   return (
-    <header className="grid grid-cols-3 text-center text-xl font-semibold w-full place-items-center bg-orange">
+    <header className="fixed top-0 grid grid-cols-3 text-center text-xl font-semibold w-full place-items-center bg-orange">
       <div className="place-self-start">{children}</div>
       <Image
         src={logo.src}

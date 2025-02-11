@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Container>
+      <Container classes={{ container: "py-24" }}>
         <form onSubmit={handleSave} className="flex gap-4">
           <input
             type="text"
