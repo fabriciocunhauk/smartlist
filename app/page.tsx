@@ -52,7 +52,7 @@ export default function Home() {
           <input
             type="text"
             onChange={(event) => setListItem(event.target.value)}
-            className="border rounded w-full h-11 mb-10 pl-4"
+            className="border rounded w-full h-11 mb-10 pl-4 uppercase"
             placeholder="Add To Shopping List"
             value={listItem}
           />
@@ -69,7 +69,7 @@ export default function Home() {
                 card: "flex items-center justify-between w-full h-20 border rounded",
               }}
             >
-              <span>{list.name}</span>
+              <span className=" uppercase">{list.name}</span>
               <div className="flex items-center gap-4">
                 <RiCloseCircleLine
                   className="w-6 h-6 text-red-500 cursor-pointer"
