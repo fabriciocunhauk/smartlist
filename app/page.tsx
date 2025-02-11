@@ -47,8 +47,8 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Container classes={{ container: "py-24" }}>
-        <form onSubmit={handleSave} className="flex gap-4">
+      <Container classes={{ container: "pb-24" }}>
+        <form onSubmit={handleSave} className="flex gap-4 mt-24">
           <input
             type="text"
             onChange={(event) => setListItem(event.target.value)}
@@ -61,7 +61,7 @@ export default function Home() {
           </Button>
         </form>
 
-        <div className="flex flex-col gap-4 overflow-auto justify-between h-full">
+        <div className="flex flex-col gap-4 overflow-auto justify-between h-[640px]">
           {list.map((list, index) => (
             <Card
               key={index}
