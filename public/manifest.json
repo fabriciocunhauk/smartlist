@@ -135,5 +135,24 @@
       "src": "ios/1024.png",
       "sizes": "1024x1024"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop_screenshot.png", 
+      "sizes": "1080x1920", 
+      "type": "image/png"   ,
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/mobile_screenshot.jpeg", 
+      "sizes": "1080x1920", 
+      "type": "image/png"   
+    },
+    {
+      "src": "screenshots/mobile_screenshot.jpeg", 
+      "sizes": "1080x1920", 
+      "type": "image/png",
+      "form_factor": "narrow" 
+    }
   ]
 }
