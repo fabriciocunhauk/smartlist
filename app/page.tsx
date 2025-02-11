@@ -8,10 +8,11 @@ import Button from "./components/Button";
 import { useEffect, useState } from "react";
 import { classNames } from "./utils/appearance";
 import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 
 export default function Home() {
   const [listItem, setListItem] = useState("");
-  const [list, setList] = useState<{ item: string; status: boolean }[]>([]);
+  const [list, setList] = useState<{ name: string; status: boolean }[]>([]);
 
   useEffect(() => {
     const storedList = localStorage.getItem("list_item");
@@ -22,21 +23,21 @@ export default function Home() {
 
   const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const updatedList = [...list, { item: listItem, status: false }];
+    const updatedList = [...list, { name: listItem, status: false }];
     localStorage.setItem("list_item", JSON.stringify(updatedList));
     setList(updatedList);
     setListItem("");
   };
 
   const handleDelete = (itemToDelete: string) => {
-    const updatedList = list.filter((list) => list.item !== itemToDelete);
+    const updatedList = list.filter((list) => list.name !== itemToDelete);
     localStorage.setItem("list_item", JSON.stringify(updatedList));
     setList(updatedList);
   };
 
   const handleMarkedAsDone = (itemToMark: string) => {
     const updatedList = list.map((list) =>
-      list.item === itemToMark ? { ...list, status: !list.status } : list
+      list.name === itemToMark ? { ...list, status: !list.status } : list
     );
 
     localStorage.setItem("list_item", JSON.stringify(updatedList));
@@ -45,6 +46,7 @@ export default function Home() {
 
   return (
     <>
+      <Header />
       <Container>
         <form onSubmit={handleSave} className="flex gap-4">
           <input
@@ -67,18 +69,18 @@ export default function Home() {
                 card: "flex items-center justify-between w-full h-20 border rounded",
               }}
             >
-              <span>{list.item}</span>
+              <span>{list.name}</span>
               <div className="flex items-center gap-4">
                 <RiCloseCircleLine
                   className="w-6 h-6 text-red-500 cursor-pointer"
-                  onClick={() => handleDelete(list.item)}
+                  onClick={() => handleDelete(list.name)}
                 />
                 <SiTicktick
                   className={classNames(
                     "w-5 h-5 text-gray-500 cursor-pointer",
                     list.status && "text-green-500"
                   )}
-                  onClick={() => handleMarkedAsDone(list.item)}
+                  onClick={() => handleMarkedAsDone(list.name)}
                 />
               </div>
             </Card>
