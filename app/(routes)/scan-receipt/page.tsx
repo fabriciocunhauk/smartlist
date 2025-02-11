@@ -95,7 +95,7 @@ export default function ReceiptUpload() {
           <Spinner />
           <Image
             src={image}
-            className="absolute top-0 right-0 bottom-0 left-0 flex-shrink-0 object-cover w-screen h-screen z-10"
+            className="absolute top-0 right-0 bottom-0 left-0 flex-shrink-0 w-screen h-screen z-10"
             alt="Receipt Preview"
             width={400}
             height={500}
