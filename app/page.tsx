@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Container classes={{ container: "pb-24" }}>
+      <Container>
         <form onSubmit={handleSave} className="flex gap-4 mt-24">
           <input
             type="text"
@@ -61,7 +61,7 @@ export default function Home() {
           </Button>
         </form>
 
-        <div className="flex flex-col gap-4 overflow-auto h-[640px]">
+        <div className="flex flex-col gap-4 overflow-auto h-[460px] pb-10">
           {list.map((list, index) => (
             <Card
               key={index}
