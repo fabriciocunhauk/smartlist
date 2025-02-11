@@ -23,7 +23,7 @@ function Button({
     <Link
       href={link}
       className={classNames(
-        "flex items-center justify-center bg-green-500 hover:bg-green-500/75 transition ease-in-out duration-300 max-w-max h-11 p-2 rounded",
+        "flex items-center justify-center bg-orange hover:bg-orange/75 transition ease-in-out duration-300 max-w-max h-11 p-2 rounded",
         classes?.link
       )}
     >
@@ -32,7 +32,7 @@ function Button({
   ) : (
     <button
       className={classNames(
-        "flex items-center justify-center bg-green-500 hover:bg-green-500/75 transition ease-in-out duration-300 max-w-max h-11 p-2 rounded",
+        "flex items-center justify-center bg-orange hover:bg-orange/75 transition ease-in-out duration-300 max-w-max h-11 p-2 rounded",
         classes?.button,
         disabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
       )}
