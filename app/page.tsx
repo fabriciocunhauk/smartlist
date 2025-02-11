@@ -61,7 +61,7 @@ export default function Home() {
           </Button>
         </form>
 
-        <div className="flex flex-col gap-4 overflow-auto justify-between h-[640px]">
+        <div className="flex flex-col gap-4 overflow-auto h-[640px]">
           {list.map((list, index) => (
             <Card
               key={index}

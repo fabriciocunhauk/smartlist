@@ -118,15 +118,15 @@ function Compare() {
   };
 
   return (
-    <>
+    <div className="h-screen">
       <Header />
-      <Container classes={{ container: "py-24" }}>
-        <div className="flex flex-col gap-4 overflow-auto h-screen pb-20">
+      <Container>
+        <div className="flex flex-col gap-4 overflow-auto py-20">
           {renderProductCards()}
         </div>
       </Container>
       <Navbar />
-    </>
+    </div>
   );
 }
 
