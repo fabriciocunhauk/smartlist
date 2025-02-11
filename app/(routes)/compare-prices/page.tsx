@@ -110,8 +110,8 @@ function Compare() {
             }
           })}
 
-          <p className="font-semibold">{product_name}</p>
-          <p className="text-xl">{price}</p>
+          <p className="font-semibold text-xs md:text-base">{product_name}</p>
+          <p className="text-xl font-semibold text-green-500">{price}</p>
         </Card>
       )
     );
