@@ -3,6 +3,7 @@
   "short_name": "ShopWize",
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
+  "id": "/",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -153,6 +154,12 @@
       "sizes": "1170x2007", 
       "type": "image/png",
       "form_factor": "narrow" 
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+shopwize",
+      "url": "https://shopwize-livid.vercel.app?type=%s"
     }
   ]
 }
