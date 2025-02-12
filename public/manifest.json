@@ -155,11 +155,5 @@
       "type": "image/png",
       "form_factor": "narrow" 
     }
-  ],
-  "protocol_handlers": [
-    {
-      "protocol": "web+shopwize",
-      "url": "https://shopwize-livid.vercel.app?type=%s"
-    }
   ]
 }

@@ -82,8 +82,11 @@ function Compare() {
   };
 
   const renderProductCards = () => {
-    return filterProductsData().map(
-      ({ id, supermarket_name, product_name, price }) => (
+    return filterProductsData()
+      .sort((a, b) => {
+        return parseFloat(a.price) - parseFloat(b.price);
+      })
+      .map(({ id, supermarket_name, product_name, price }) => (
         <Card key={id}>
           {supermarketLogos.map((logo) => {
             if (
@@ -108,8 +111,7 @@ function Compare() {
           <p className="font-semibold text-xs md:text-base">{product_name}</p>
           <p className="text-xl font-semibold text-green-500">{price}</p>
         </Card>
-      )
-    );
+      ));
   };
 
   return (

@@ -43,7 +43,7 @@ function Navbar() {
         }}
       >
         <IoIosList className="w-7 h-7" />
-        <span className="text-xs">Compare</span>
+        <span className="text-xs">Price List</span>
       </Button>
       <Button
         link="/history"
