@@ -84,12 +84,7 @@ function Compare() {
   const renderProductCards = () => {
     return filterProductsData().map(
       ({ id, supermarket_name, product_name, price }) => (
-        <Card
-          key={id}
-          classes={{
-            card: "flex items-center justify-between w-full h-20 border rounded",
-          }}
-        >
+        <Card key={id}>
           {supermarketLogos.map((logo) => {
             if (
               supermarket_name

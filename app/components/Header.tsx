@@ -9,12 +9,11 @@ interface HeaderProps {
 
 function Header({ children }: HeaderProps) {
   return (
-    <header className="fixed top-0 grid grid-cols-3 text-center text-xl font-semibold w-full place-items-center bg-orange p-2">
+    <header className="fixed top-0 grid grid-cols-3 w-full place-items-center bg-orange p-4">
       <div className="place-self-start">{children}</div>
       <Link href="/">
         <Image
           src={logo.src}
-          className="flex-shrink-0 w-48"
           alt="Logo"
           width={logo.width}
           height={logo.height}

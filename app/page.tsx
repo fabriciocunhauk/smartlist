@@ -9,6 +9,12 @@ import { useEffect, useState } from "react";
 import { classNames } from "./utils/appearance";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
+import { Schoolbell } from "next/font/google";
+
+const schoolbell = Schoolbell({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export default function Home() {
   const [listItem, setListItem] = useState("");
@@ -61,15 +67,14 @@ export default function Home() {
           </Button>
         </form>
 
-        <div className="flex flex-col gap-4 overflow-auto h-[400px] md:h-[500px] lg:h-[1000px] pb-10">
+        <div
+          className={`flex flex-col gap-4 overflow-auto h-[400px] md:h-[500px] lg:h-[1000px] pb-10 ${schoolbell.className}`}
+        >
           {list.map((list, index) => (
-            <Card
-              key={index}
-              classes={{
-                card: "flex items-center justify-between w-full h-20 border rounded",
-              }}
-            >
-              <span className=" uppercase">{list.name}</span>
+            <Card key={index}>
+              <span className="tracking-widest uppercase font-bold text-xl">
+                {list.name}
+              </span>
               <div className="flex items-center gap-4">
                 <RiCloseCircleLine
                   className="w-6 h-6 text-red-500 cursor-pointer"
@@ -77,7 +82,7 @@ export default function Home() {
                 />
                 <SiTicktick
                   className={classNames(
-                    "w-5 h-5 text-gray-500 cursor-pointer",
+                    "w-5 h-5 text-slate-500 cursor-pointer",
                     list.status && "text-green-500"
                   )}
                   onClick={() => handleMarkedAsDone(list.name)}
