@@ -9,9 +9,9 @@ interface HeaderProps {
 
 function Header({ children }: HeaderProps) {
   return (
-    <header className="fixed top-0 grid grid-cols-3 w-full place-items-center bg-orange p-4">
+    <header className="fixed top-0 grid grid-cols-3 w-full place-items-center bg-orange h-20">
       <div className="place-self-start">{children}</div>
-      <Link href="/">
+      <Link href="/" className="w-52">
         <Image
           src={logo.src}
           alt="Logo"

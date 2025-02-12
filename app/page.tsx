@@ -82,7 +82,7 @@ export default function Home() {
                 />
                 <SiTicktick
                   className={classNames(
-                    "w-5 h-5 text-slate-500 cursor-pointer",
+                    "w-5 h-5 cursor-pointer",
                     list.status && "text-green-500"
                   )}
                   onClick={() => handleMarkedAsDone(list.name)}

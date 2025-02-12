@@ -37,7 +37,7 @@ export default function RootLayout({
 
       <body
         className={classNames(
-          `${geistSans.variable} ${geistMono.variable} antialiased`,
+          `${geistSans.variable} ${geistMono.variable} antialiased text-darkGray`,
           "flex flex-col justify-between"
         )}
       >

@@ -7,7 +7,7 @@ import Navbar from "@/app/components/Navbar";
 import morrisons from "@/public/images/morrisons.svg";
 import sainsburys from "@/public/images/sainsburys-logo.svg";
 import lidl from "@/public/images/lidl.svg";
-import tesco from "@/public/images/tesco_logo.svg";
+import tesco from "@/public/images/tesco-logo.svg";
 import aldi from "@/public/images/aldi-logo.svg";
 import Image from "next/image";
 

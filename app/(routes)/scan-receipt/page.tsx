@@ -6,6 +6,8 @@ import Spinner from "@/app/components/Spinner";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Header from "@/app/components/Header";
+import receiptGif from "@/public/gif/receipt-gif.gif";
+import Container from "@/app/components/Container";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -80,10 +82,30 @@ export default function ReceiptUpload() {
         <BackButton />
       </Header>
 
+      <Container
+        classes={{
+          container: "flex flex-col items-center gap-4 text-4xl py-28",
+        }}
+      >
+        <h2 className="font-bold">Scan your Receipt</h2>
+        <Image
+          src={receiptGif}
+          className="w-52 md:w-full h-96 md:h-full object-cover rounded"
+          alt="Loading Gif"
+        />
+        <ul className="text-sm space-y-4">
+          <li>1: Fold the receipt before the balance.</li>
+          <li>2: make sure it displays the supermarket name.</li>
+          <li>3: Tap the &quot;Upload Receipt&quot; button.</li>
+          <li>4: Select the receipt from your gallery or take a photo.</li>
+          <li>5: Wait for the upload to complete.</li>
+        </ul>
+      </Container>
+
       <Button
         classes={{
           button:
-            "fixed bottom-0 mb-10 rounded-full z-10 flex items-center justify-center gap-4 text-white bg-blue-500 hover:bg-blue-500/50 min-w-40",
+            "fixed bottom-0 mb-10 rounded-full flex items-center justify-center gap-4 text-white min-w-40",
         }}
         onClick={handleGallery}
       >
