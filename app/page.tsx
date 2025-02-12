@@ -29,7 +29,7 @@ export default function Home() {
 
   const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const updatedList = [...list, { name: listItem, status: false }];
+    const updatedList = [{ name: listItem, status: false }, ...list];
     localStorage.setItem("list_item", JSON.stringify(updatedList));
     setList(updatedList);
     setListItem("");
