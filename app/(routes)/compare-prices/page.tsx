@@ -56,6 +56,7 @@ interface ListItem {
 function Compare() {
   const [products, setProducts] = useState<Product[]>([]);
   const [list, setList] = useState<ListItem[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const storedList = localStorage.getItem("list_item");
@@ -66,34 +67,79 @@ function Compare() {
     if (BASE_URL) {
       fetch(`${BASE_URL}/api/price-list`)
         .then((response) => response.json())
-        .then((products) => setProducts(products))
+        .then((fetchedProducts: Product[]) => {
+          setProducts(fetchedProducts);
+          // Filter products initially, after fetching
+          const initialFiltered = filterProducts(
+            fetchedProducts,
+            JSON.parse(storedList || "[]")
+          );
+          setFilteredProducts(initialFiltered);
+        })
         .catch((error) => console.error("Error fetching products:", error));
     }
   }, []);
 
-  const filterProductsData = (): Product[] => {
-    return products.filter((product) =>
-      list.some((item) =>
+  useEffect(() => {
+    //Filter products when list changes
+    const updatedFiltered = filterProducts(products, list);
+    setFilteredProducts(updatedFiltered);
+  }, [list, products]);
+
+  const filterProducts = (
+    allProducts: Product[],
+    currentList: ListItem[]
+  ): Product[] => {
+    const cleanedProducts = allProducts.map((product) => ({
+      ...product,
+      product_name: product.product_name
+        .replace(/£\d+\.\d+[a-zA-Z]?/g, "")
+        .trim(),
+    }));
+
+    const filtered = cleanedProducts.filter((product) =>
+      currentList.some((item) =>
         product.product_name
           .toLocaleLowerCase()
           .includes(item.name.toLocaleLowerCase())
       )
     );
-  };
-  const makeTotal = () => {
-    const total = filterProductsData().reduce(
-      (acc: any, product: any) => acc + parseFloat(product.price),
-      0
+
+    const groupedProducts = filtered.reduce(
+      (acc: { [key: string]: Product[] }, product) => {
+        const name = product.product_name.toLocaleLowerCase();
+        if (!acc[name]) {
+          acc[name] = [];
+        }
+        acc[name].push(product);
+        return acc;
+      },
+      {}
     );
 
-    return total;
+    const lowestPriceProducts: Product[] = Object.values(groupedProducts).map(
+      (group) => {
+        return group.reduce((minProduct, currentProduct) => {
+          const currentPrice = parseFloat(currentProduct.price);
+          const minPrice = parseFloat(minProduct.price);
+          return currentPrice < minPrice ? currentProduct : minProduct;
+        });
+      }
+    );
+
+    return lowestPriceProducts;
+  };
+
+  const sumTotalAmount = () => {
+    return filteredProducts.reduce(
+      (acc, product) => acc + parseFloat(product.price),
+      0
+    );
   };
 
   const renderProductCards = () => {
-    return filterProductsData()
-      .sort((a, b) => {
-        return parseFloat(a.price) - parseFloat(b.price);
-      })
+    return filteredProducts
+      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
       .map(({ id, supermarket_name, product_name, price }) => (
         <Card key={id}>
           {supermarketLogos.map((logo) => {
@@ -133,8 +179,8 @@ function Compare() {
       <Navbar />
       <div className="fixed bottom-24 right-4 min-w-20 text-xl font-semibold text-green-500 text-center">
         <h3>Total</h3>
-        <p className="bg-orange bg-opacity-40 rounded-xl min-w-20 text-xl font-semibold text-green-500 text-center px-4 py-1">
-          £ {makeTotal()}
+        <p className="bg-orange/40 rounded-xl min-w-20 text-xl font-semibold text-green-500 text-center px-4 py-1">
+          £ {sumTotalAmount()}
         </p>
       </div>
     </div>
