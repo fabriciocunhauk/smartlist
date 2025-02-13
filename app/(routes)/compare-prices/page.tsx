@@ -80,6 +80,14 @@ function Compare() {
       )
     );
   };
+  const makeTotal = () => {
+    const total = filterProductsData().reduce(
+      (acc: any, product: any) => acc + parseFloat(product.price),
+      0
+    );
+
+    return total;
+  };
 
   const renderProductCards = () => {
     return filterProductsData()
@@ -123,6 +131,12 @@ function Compare() {
         </div>
       </Container>
       <Navbar />
+      <div className="fixed bottom-24 right-4 min-w-20 text-xl font-semibold text-green-500 text-center">
+        <h3>Total</h3>
+        <p className="bg-orange bg-opacity-40 rounded-xl min-w-20 text-xl font-semibold text-green-500 text-center px-4 py-1">
+          £ {makeTotal()}
+        </p>
+      </div>
     </div>
   );
 }
