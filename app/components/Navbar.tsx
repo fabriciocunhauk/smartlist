@@ -3,8 +3,8 @@ import Button from "./Button";
 import { LuScanText } from "react-icons/lu";
 import { FaRegKeyboard } from "react-icons/fa";
 import { IoIosList } from "react-icons/io";
-import { LiaStoreAltSolid } from "react-icons/lia";
 import { MdOutlineHome } from "react-icons/md";
+import { IoShareSocialOutline } from "react-icons/io5";
 
 function Navbar() {
   return (
@@ -46,13 +46,13 @@ function Navbar() {
         <span className="text-xs">Price List</span>
       </Button>
       <Button
-        link="/history"
+        link="/share"
         classes={{
           link: "flex flex-col bg-transparent hover:bg-transparent h-20",
         }}
       >
-        <LiaStoreAltSolid className="w-7 h-7" />
-        <span className="text-xs">History</span>
+        <IoShareSocialOutline className="w-7 h-7" />
+        <span className="text-xs">Share</span>
       </Button>
     </footer>
   );
