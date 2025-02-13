@@ -118,7 +118,7 @@ function Compare() {
     <div className="h-screen">
       <Header />
       <Container>
-        <div className="flex flex-col gap-4 overflow-auto py-20">
+        <div className="flex flex-col gap-4 overflow-auto py-24">
           {renderProductCards()}
         </div>
       </Container>
