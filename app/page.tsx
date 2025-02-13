@@ -1,8 +1,5 @@
 "use client";
-import Card from "./components/Card";
 import Container from "./components/Container";
-import { SiTicktick } from "react-icons/si";
-import { RiCloseCircleLine } from "react-icons/ri";
 import { MdFormatListBulletedAdd } from "react-icons/md";
 import Button from "./components/Button";
 import { useEffect, useState } from "react";
@@ -10,6 +7,8 @@ import { classNames } from "./utils/appearance";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import { Schoolbell } from "next/font/google";
+import { MdOutlineDeleteSweep } from "react-icons/md";
+import { IoCheckmarkSharp } from "react-icons/io5";
 
 const schoolbell = Schoolbell({
   weight: "400",
@@ -71,24 +70,32 @@ export default function Home() {
           className={`flex flex-col gap-4 overflow-auto h-[400px] md:h-[500px] lg:h-[1000px] pb-10 ${schoolbell.className}`}
         >
           {list.map((list, index) => (
-            <Card key={index}>
-              <span className="tracking-widest uppercase font-bold text-xl">
+            <div
+              key={index}
+              className="flex items-center justify-between w-full border-darkGray/20 border-b pb-2"
+            >
+              <span
+                className={classNames(
+                  "tracking-widest uppercase font-bold text-xl",
+                  list.status && "line-through animate-fade-in-left"
+                )}
+              >
                 {list.name}
               </span>
               <div className="flex items-center gap-4">
-                <RiCloseCircleLine
+                <MdOutlineDeleteSweep
                   className="w-6 h-6 text-red-500 cursor-pointer"
                   onClick={() => handleDelete(list.name)}
                 />
-                <SiTicktick
+                <IoCheckmarkSharp
                   className={classNames(
-                    "w-5 h-5 cursor-pointer",
+                    "w-6 h-6 cursor-pointer",
                     list.status && "text-green-500"
                   )}
                   onClick={() => handleMarkedAsDone(list.name)}
                 />
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </Container>
