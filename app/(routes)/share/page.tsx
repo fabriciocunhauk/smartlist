@@ -15,7 +15,7 @@ function IoShareSocialOutline() {
     }
   }, []);
   return (
-    <div className="flex flex-col gap-10 items-center justify-center h-screen">
+    <div className="flex flex-col gap-10 items-center justify-center h-full">
       <Header />
 
       <Image
@@ -27,7 +27,7 @@ function IoShareSocialOutline() {
       <SocialMediaShare
         url={currentURL}
         title="Unlock Your Smart Shopping Experience!"
-        text="Streamline your shopping with SmartList, the ultimate tool for organizing, price comparison, and deal hunting!"
+        text="Streamline your shopping with SmartList, the ultimate tool for organizing, price comparison, and deal hunting."
       />
 
       <Navbar />

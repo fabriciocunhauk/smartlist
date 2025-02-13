@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import BackButton from "@/app/components/BackButton";
 import Button from "@/app/components/Button";
 import Spinner from "@/app/components/Spinner";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Header from "@/app/components/Header";
-import receiptGif from "@/public/gif/receipt-gif.gif";
-import Container from "@/app/components/Container";
+// import receiptGif from "@/public/gif/receipt-gif.gif";
+// import Container from "@/app/components/Container";
+import Navbar from "@/app/components/Navbar";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -78,11 +78,9 @@ export default function ReceiptUpload() {
 
   return (
     <div className="relative flex flex-col items-center justify-center gap-10">
-      <Header>
-        <BackButton />
-      </Header>
+      <Header />
 
-      <Container
+      {/* <Container
         classes={{
           container: "flex flex-col items-center gap-4 text-4xl py-28",
         }}
@@ -100,12 +98,12 @@ export default function ReceiptUpload() {
           <li>4: Select the receipt from your gallery or take a photo.</li>
           <li>5: Wait for the upload to complete.</li>
         </ul>
-      </Container>
+      </Container> */}
 
       <Button
         classes={{
           button:
-            "fixed bottom-0 mb-10 rounded-full flex items-center justify-center gap-4 text-white min-w-40",
+            "fixed bottom-0 mb-28 rounded-full flex items-center justify-center gap-4 text-white min-w-40",
         }}
         onClick={handleGallery}
       >
@@ -124,6 +122,7 @@ export default function ReceiptUpload() {
           />
         </>
       )}
+      <Navbar />
     </div>
   );
 }

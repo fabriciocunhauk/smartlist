@@ -21,7 +21,7 @@ function SocialMediaShare({ url, title, text }: SocialMediaShareProps) {
     twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${
       encodedTitle + " - " + encodedText
     }`,
-    linkedin: `https://www.linkedin.com/sharing/shareArticle?url=${encodedUrl}&title=${encodedTitle}&summary=${encodedText}`,
+    linkedin: `https://www.linkedin.com/shareArticle?url=${encodedUrl}&title=${encodedTitle}&summary=${encodedText}`,
     instagram: `https://www.instagram.com/direct/new/?text=${encodedText} ${encodedUrl}`,
     whatsapp: `https://api.whatsapp.com/send?text=${encodedText} ${encodedUrl}`,
   };

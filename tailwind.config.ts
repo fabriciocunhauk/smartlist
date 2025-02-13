@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        orange: "#feb337",
+        orange: "#FBB14B",
         darkGray: "#34495e",
       },
       keyframes: {
@@ -18,7 +18,7 @@ export default {
           to: {transform: "translateX(0%)", opacity: "100%"}
         },
       },
-       animation: { 
+      animation: { 
         "fade-in-left": "fade-in-left 0.2s ease-in-out forwards",
       },
     },

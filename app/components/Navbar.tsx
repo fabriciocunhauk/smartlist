@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button";
 import { LuScanText } from "react-icons/lu";
-import { FaRegKeyboard } from "react-icons/fa";
+// import { FaRegKeyboard } from "react-icons/fa";
 import { IoIosList } from "react-icons/io";
 import { MdOutlineHome } from "react-icons/md";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -27,7 +27,7 @@ function Navbar() {
         <LuScanText className="w-7 h-7" />
         <span className="text-xs">Scan</span>
       </Button>
-      <Button
+      {/* <Button
         link="/register-product"
         classes={{
           link: "flex flex-col bg-transparent hover:bg-transparent h-20",
@@ -35,7 +35,7 @@ function Navbar() {
       >
         <FaRegKeyboard className="w-7 h-7" />
         <span className="text-xs">Register</span>
-      </Button>
+      </Button> */}
       <Button
         link="/compare-prices"
         classes={{
