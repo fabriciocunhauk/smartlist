@@ -1,16 +1,17 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import Card from "@/app/components/Card";
 import Container from "@/app/components/Container";
 import Header from "@/app/components/Header";
 import Navbar from "@/app/components/Navbar";
+import { classNames } from "@/app/utils/appearance";
 import morrisons from "@/public/images/morrisons.svg";
 import sainsburys from "@/public/images/sainsburys-logo.svg";
 import lidl from "@/public/images/lidl.svg";
 import tesco from "@/public/images/tesco-logo.svg";
 import aldi from "@/public/images/aldi-logo.svg";
 import asda from "@/public/images/asda.svg";
-import Image from "next/image";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -38,15 +39,14 @@ interface ListItem {
 const Compare = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [list, setList] = useState<ListItem[]>([]);
-  const [filteredProductsLowPrice, setFilteredProductsLowPrice] = useState<
-    Product[]
-  >([]);
-  const [filteredProductsHighPrice, setFilteredProductsHighPrice] = useState<
-    Product[]
-  >([]);
   const [highestPrice, setHighestPrice] = useState<number | null>(null);
   const [lowestPrice, setLowestPrice] = useState<number | null>(null);
-  const [isLowestPrice, setIsLowestPrice] = useState<boolean>(true);
+  const [showLowestPrice, setShowLowestPrice] = useState<boolean>(true);
+  const [lowestPriceProducts, setLowestPriceProducts] = useState<Product[]>([]);
+  const [highestPriceProducts, setHighestPriceProducts] = useState<Product[]>(
+    []
+  );
+
   const backgroundGradient = `linear-gradient(to top, #FBB14B, 50%, transparent)`;
 
   useEffect(() => {
@@ -54,40 +54,27 @@ const Compare = () => {
     if (storedList) {
       setList(JSON.parse(storedList));
     }
+  }, []);
 
+  useEffect(() => {
     if (BASE_URL) {
       fetch(`${BASE_URL}/api/price-list`)
         .then((response) => response.json())
-        .then((fetchedProducts: Product[]) => {
-          setProducts(fetchedProducts);
-          const initialFiltered = filterProducts(
-            fetchedProducts,
-            JSON.parse(storedList || "[]"),
-            "lowest"
-          );
-          setFilteredProductsLowPrice(initialFiltered);
-        })
+        .then((fetchedProducts: Product[]) => setProducts(fetchedProducts))
         .catch((error) => console.error("Error fetching products:", error));
     }
   }, []);
 
   useEffect(() => {
-    const updatedFilteredLowestPrice = filterProducts(products, list, "lowest");
-    const updatedFilteredHighestPrice = filterProducts(
-      products,
-      list,
-      "highest"
-    );
-    setFilteredProductsLowPrice(updatedFilteredLowestPrice);
-    setFilteredProductsHighPrice(updatedFilteredHighestPrice);
-  }, [list, products]);
+    if (products.length > 0) {
+      const filteredProducts = filterProducts(products, list);
+      setLowestPriceProducts(findMinMaxPrices(filteredProducts, "lowest"));
+      setHighestPriceProducts(findMinMaxPrices(filteredProducts, "highest"));
+    }
+  }, [products, list]);
 
   const filterProducts = useCallback(
-    (
-      allProducts: Product[],
-      currentList: ListItem[],
-      type: "lowest" | "highest"
-    ): Product[] => {
+    (allProducts: Product[], currentList: ListItem[]) => {
       const cleanedProducts = allProducts.map((product) => ({
         ...product,
         product_name: product.product_name
@@ -95,148 +82,145 @@ const Compare = () => {
           .trim(),
       }));
 
-      const filtered = cleanedProducts.filter((product) =>
+      return cleanedProducts.filter((product) =>
         currentList.some((item) =>
           product.product_name
             .toLocaleLowerCase()
             .includes(item.name.toLocaleLowerCase())
         )
       );
+    },
+    []
+  );
 
-      const groupedProducts = filtered.reduce(
+  const findMinMaxPrices = useCallback(
+    (productsToCalculate: Product[], type: "highest" | "lowest") => {
+      const groupedProducts = productsToCalculate.reduce(
         (acc: { [key: string]: Product[] }, product) => {
           const name = product.product_name.toLocaleLowerCase();
-          if (!acc[name]) {
-            acc[name] = [];
-          }
-          acc[name].push(product);
+          acc[name] = [...(acc[name] || []), product];
           return acc;
         },
         {}
       );
 
-      return Object.values(groupedProducts).map((group) =>
-        group.reduce((minProduct, currentProduct) => {
-          const currentPrice = parseFloat(currentProduct.price);
-          const minPrice = parseFloat(minProduct.price);
+      const minMaxProducts = Object.values(groupedProducts).map((group) =>
+        group.reduce((minMax, current) => {
+          const currentPrice = parseFloat(current.price);
+          const minMaxPrice = parseFloat(minMax.price);
           return type === "lowest"
-            ? currentPrice < minPrice
-              ? currentProduct
-              : minProduct
-            : currentPrice > minPrice
-            ? currentProduct
-            : minProduct;
+            ? currentPrice < minMaxPrice
+              ? current
+              : minMax
+            : currentPrice > minMaxPrice
+            ? current
+            : minMax;
         })
       );
-    },
-    []
-  );
-
-  const calculatePrices = useCallback(
-    (productsToCalculate: Product[], type: "highest" | "lowest") => {
-      const prices: { [product: string]: number } = {};
-      let sum = 0;
-
-      productsToCalculate.forEach((product) => {
-        const productName = product.product_name.toLocaleLowerCase();
-        const price = parseFloat(product.price);
-
-        if (
-          !prices[productName] ||
-          (type === "highest"
-            ? price > prices[productName]
-            : price < prices[productName])
-        ) {
-          prices[productName] = price;
-        }
-      });
-
-      sum = Object.values(prices).reduce((acc, p) => acc + p, 0);
-
-      return { prices, sum: parseFloat(sum.toFixed(2)) };
+      return minMaxProducts;
     },
     []
   );
 
   useEffect(() => {
-    if (
-      filteredProductsLowPrice.length > 0 ||
-      filteredProductsHighPrice.length > 0
-    ) {
-      const { sum: lowestSum } = calculatePrices(
-        filteredProductsLowPrice,
-        "lowest"
+    if (lowestPriceProducts.length > 0 && highestPriceProducts.length > 0) {
+      const lowestSum = lowestPriceProducts.reduce(
+        (acc, p) => acc + parseFloat(p.price),
+        0
       );
-      const { sum: highestSum } = calculatePrices(
-        filteredProductsHighPrice,
-        "highest"
+      const highestSum = highestPriceProducts.reduce(
+        (acc, p) => acc + parseFloat(p.price),
+        0
       );
 
-      console.log({ filteredProductsLowPrice, filteredProductsHighPrice });
-
-      setHighestPrice(highestSum);
-      setLowestPrice(lowestSum);
+      setHighestPrice(parseFloat(highestSum.toFixed(2)));
+      setLowestPrice(parseFloat(lowestSum.toFixed(2)));
     } else {
       setHighestPrice(null);
       setLowestPrice(null);
     }
-  }, [
-    filteredProductsLowPrice,
-    calculatePrices,
-    products,
-    filteredProductsHighPrice,
-  ]);
+  }, [lowestPriceProducts, highestPriceProducts]);
 
   const renderProductCards = useCallback(() => {
-    const productsToRender = isLowestPrice
-      ? filteredProductsLowPrice
-      : filteredProductsHighPrice.sort(
-          (a, b) => parseFloat(a.price) - parseFloat(b.price)
-        );
+    const productsToRender = showLowestPrice
+      ? lowestPriceProducts
+      : highestPriceProducts;
 
     return productsToRender.map(
       ({ id, supermarket_name, product_name, price }) => (
         <Card key={id}>
-          {supermarketLogos.map((logo) => {
-            if (
-              supermarket_name
-                .toLocaleLowerCase()
-                .split(" ")
-                .some((word) => logo.name.toLocaleLowerCase().includes(word))
-            ) {
-              return (
-                <Image
-                  key={logo.id}
-                  src={logo.image.src}
-                  className="flex-shrink-0 object-cover w-20"
-                  alt="Receipt Preview"
-                  width={logo.image.width}
-                  height={logo.image.height}
-                />
-              );
-            }
-          })}
-
+          {supermarketLogos.find((logo) =>
+            supermarket_name
+              .toLocaleLowerCase()
+              .split(" ")
+              .some((word) =>
+                logo.name.toLocaleLowerCase().includes(word.toLocaleLowerCase())
+              )
+          ) && (
+            <Image
+              src={
+                supermarketLogos.find((logo) =>
+                  supermarket_name
+                    .toLocaleLowerCase()
+                    .split(" ")
+                    .some((word) =>
+                      logo.name
+                        .toLocaleLowerCase()
+                        .includes(word.toLocaleLowerCase())
+                    )
+                )?.image.src
+              }
+              className="flex-shrink-0 object-cover w-20"
+              alt={supermarket_name}
+              width={
+                supermarketLogos.find((logo) =>
+                  supermarket_name
+                    .toLocaleLowerCase()
+                    .split(" ")
+                    .some((word) =>
+                      logo.name
+                        .toLocaleLowerCase()
+                        .includes(word.toLocaleLowerCase())
+                    )
+                )?.image.width
+              }
+              height={
+                supermarketLogos.find((logo) =>
+                  supermarket_name
+                    .toLocaleLowerCase()
+                    .split(" ")
+                    .some((word) =>
+                      logo.name
+                        .toLocaleLowerCase()
+                        .includes(word.toLocaleLowerCase())
+                    )
+                )?.image.height
+              }
+            />
+          )}
           <p className="font-semibold text-xs md:text-base uppercase">
             {product_name}
           </p>
-          <p className="text-xl font-semibold text-green-500">£{price}</p>
+          <p
+            className={classNames(
+              "text-xl font-semibold",
+              highestPriceProducts.some((p) => p.id === id)
+                ? "text-red-500"
+                : "text-green-500"
+            )}
+          >
+            £{price}
+          </p>
         </Card>
       )
     );
-  }, [filteredProductsLowPrice, filteredProductsHighPrice, isLowestPrice]);
+  }, [lowestPriceProducts, highestPriceProducts, showLowestPrice]);
 
-  const saveTotal = () => {
-    if (highestPrice !== null && lowestPrice !== null) {
-      return highestPrice - lowestPrice;
-    }
-    return 0;
-  };
+  const saveTotal = () =>
+    highestPrice && lowestPrice ? highestPrice - lowestPrice : 0;
 
-  const formattedHighestPrice =
-    highestPrice !== null ? highestPrice.toFixed(2) : null;
-  const formattedLowestPrice =
-    lowestPrice !== null ? lowestPrice.toFixed(2) : null;
+  const formattedHighestPrice = highestPrice?.toFixed(2);
+  const formattedLowestPrice = lowestPrice?.toFixed(2);
   const formattedSaveTotal = saveTotal().toFixed(2);
 
   return (
@@ -254,7 +238,7 @@ const Compare = () => {
       >
         <div
           className="flex items-center gap-2 border border-orange bg-white/80 rounded-xl max-w-max p-2 text-red-500"
-          onClick={() => setIsLowestPrice(false)}
+          onClick={() => setShowLowestPrice(false)}
         >
           <p className="flex gap-2 text-xl font-semibold">
             <span>£</span>
@@ -264,7 +248,7 @@ const Compare = () => {
 
         <div
           className="flex flex-col items-end border border-orange bg-white/80 rounded-xl max-w-max p-2 text-green-500"
-          onClick={() => setIsLowestPrice(true)}
+          onClick={() => setShowLowestPrice(true)}
         >
           <p className="flex gap-2 text-xl font-semibold">
             <span>£</span>
