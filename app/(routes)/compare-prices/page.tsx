@@ -39,6 +39,9 @@ const Compare = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [list, setList] = useState<ListItem[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filteredProductsHigh, setFilteredProductsHigh] = useState<Product[]>(
+    []
+  );
   const [highestPrice, setHighestPrice] = useState<number | null>(null);
   const [lowestPrice, setLowestPrice] = useState<number | null>(null);
   const backgroundGradient = `linear-gradient(to top, #FBB14B, 50%, transparent)`;
@@ -57,7 +60,8 @@ const Compare = () => {
           setProducts(fetchedProducts);
           const initialFiltered = filterProducts(
             fetchedProducts,
-            JSON.parse(storedList || "[]")
+            JSON.parse(storedList || "[]"),
+            "lowest"
           );
           setFilteredProducts(initialFiltered);
         })
@@ -67,13 +71,23 @@ const Compare = () => {
 
   // Update filtered products when list or products change
   useEffect(() => {
-    const updatedFiltered = filterProducts(products, list);
-    setFilteredProducts(updatedFiltered);
+    const updatedFilteredLowestPrice = filterProducts(products, list, "lowest");
+    const updatedFilteredHighestPrice = filterProducts(
+      products,
+      list,
+      "highest"
+    );
+    setFilteredProducts(updatedFilteredLowestPrice);
+    setFilteredProductsHigh(updatedFilteredHighestPrice);
   }, [list, products]);
 
-  // Function to filter products based on the current list
+  // Function to filter products based on the current list and type (lowest or highest)
   const filterProducts = useCallback(
-    (allProducts: Product[], currentList: ListItem[]): Product[] => {
+    (
+      allProducts: Product[],
+      currentList: ListItem[],
+      type: "lowest" | "highest"
+    ): Product[] => {
       // Clean product names by removing prices and trimming whitespace
       const cleanedProducts = allProducts.map((product) => ({
         ...product,
@@ -91,7 +105,7 @@ const Compare = () => {
         )
       );
 
-      // Group products by name and select the one with the lowest price
+      // Group products by name and select the one with the lowest or highest price
       const groupedProducts = filtered.reduce(
         (acc: { [key: string]: Product[] }, product) => {
           const name = product.product_name.toLocaleLowerCase();
@@ -104,13 +118,21 @@ const Compare = () => {
         {}
       );
 
-      return Object.values(groupedProducts).map((group) =>
+      const priceList = Object.values(groupedProducts).map((group) =>
         group.reduce((minProduct, currentProduct) => {
           const currentPrice = parseFloat(currentProduct.price);
           const minPrice = parseFloat(minProduct.price);
-          return currentPrice < minPrice ? currentProduct : minProduct;
+          return type === "lowest"
+            ? currentPrice < minPrice
+              ? currentProduct
+              : minProduct
+            : currentPrice > minPrice
+            ? currentProduct
+            : minProduct;
         })
       );
+
+      return priceList;
     },
     []
   );
@@ -147,8 +169,13 @@ const Compare = () => {
   // Update highest and lowest prices when filtered products change
   useEffect(() => {
     if (filteredProducts.length > 0) {
-      const { sum: lowestSum } = calculatePrices(products, "lowest");
-      const { sum: highestSum } = calculatePrices(products, "highest");
+      const { sum: lowestSum } = calculatePrices(filteredProducts, "lowest");
+      const { sum: highestSum } = calculatePrices(
+        filteredProductsHigh,
+        "highest"
+      );
+
+      console.log({ filteredProducts, filteredProductsHigh });
 
       setHighestPrice(highestSum);
       setLowestPrice(lowestSum);
@@ -157,29 +184,6 @@ const Compare = () => {
       setLowestPrice(null);
     }
   }, [filteredProducts, calculatePrices, products]);
-
-  // Function to calculate combined prices of filtered products
-  const calculateCombinedPrices = useCallback(() => {
-    const combinedFilteredProducts = filterProducts(products, list);
-
-    const { sum: combinedLowestSum } = calculatePrices(
-      combinedFilteredProducts,
-      "lowest"
-    );
-    const { sum: combinedHighestSum } = calculatePrices(
-      combinedFilteredProducts,
-      "highest"
-    );
-
-    return { combinedLowestSum, combinedHighestSum };
-  }, [filterProducts, products, list, calculatePrices]);
-
-  // Log combined lowest and highest prices when they change
-  useEffect(() => {
-    const { combinedLowestSum, combinedHighestSum } = calculateCombinedPrices();
-    console.log("Combined Lowest Price:", combinedLowestSum);
-    console.log("Combined Highest Price:", combinedHighestSum);
-  }, [calculateCombinedPrices]);
 
   // Function to render product cards
   const renderProductCards = useCallback(() => {
