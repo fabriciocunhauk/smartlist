@@ -38,15 +38,17 @@ interface ListItem {
 const Compare = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [list, setList] = useState<ListItem[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [filteredProductsHigh, setFilteredProductsHigh] = useState<Product[]>(
-    []
-  );
+  const [filteredProductsLowPrice, setFilteredProductsLowPrice] = useState<
+    Product[]
+  >([]);
+  const [filteredProductsHighPrice, setFilteredProductsHighPrice] = useState<
+    Product[]
+  >([]);
   const [highestPrice, setHighestPrice] = useState<number | null>(null);
   const [lowestPrice, setLowestPrice] = useState<number | null>(null);
+  const [isLowestPrice, setIsLowestPrice] = useState<boolean>(true);
   const backgroundGradient = `linear-gradient(to top, #FBB14B, 50%, transparent)`;
 
-  // Fetch list items from local storage and products from API on component mount
   useEffect(() => {
     const storedList = localStorage.getItem("list_item");
     if (storedList) {
@@ -63,13 +65,12 @@ const Compare = () => {
             JSON.parse(storedList || "[]"),
             "lowest"
           );
-          setFilteredProducts(initialFiltered);
+          setFilteredProductsLowPrice(initialFiltered);
         })
         .catch((error) => console.error("Error fetching products:", error));
     }
   }, []);
 
-  // Update filtered products when list or products change
   useEffect(() => {
     const updatedFilteredLowestPrice = filterProducts(products, list, "lowest");
     const updatedFilteredHighestPrice = filterProducts(
@@ -77,18 +78,16 @@ const Compare = () => {
       list,
       "highest"
     );
-    setFilteredProducts(updatedFilteredLowestPrice);
-    setFilteredProductsHigh(updatedFilteredHighestPrice);
+    setFilteredProductsLowPrice(updatedFilteredLowestPrice);
+    setFilteredProductsHighPrice(updatedFilteredHighestPrice);
   }, [list, products]);
 
-  // Function to filter products based on the current list and type (lowest or highest)
   const filterProducts = useCallback(
     (
       allProducts: Product[],
       currentList: ListItem[],
       type: "lowest" | "highest"
     ): Product[] => {
-      // Clean product names by removing prices and trimming whitespace
       const cleanedProducts = allProducts.map((product) => ({
         ...product,
         product_name: product.product_name
@@ -96,7 +95,6 @@ const Compare = () => {
           .trim(),
       }));
 
-      // Filter products based on the current list
       const filtered = cleanedProducts.filter((product) =>
         currentList.some((item) =>
           product.product_name
@@ -105,7 +103,6 @@ const Compare = () => {
         )
       );
 
-      // Group products by name and select the one with the lowest or highest price
       const groupedProducts = filtered.reduce(
         (acc: { [key: string]: Product[] }, product) => {
           const name = product.product_name.toLocaleLowerCase();
@@ -118,7 +115,7 @@ const Compare = () => {
         {}
       );
 
-      const priceList = Object.values(groupedProducts).map((group) =>
+      return Object.values(groupedProducts).map((group) =>
         group.reduce((minProduct, currentProduct) => {
           const currentPrice = parseFloat(currentProduct.price);
           const minPrice = parseFloat(minProduct.price);
@@ -131,19 +128,15 @@ const Compare = () => {
             : minProduct;
         })
       );
-
-      return priceList;
     },
     []
   );
 
-  // Function to calculate the total prices of products
   const calculatePrices = useCallback(
     (productsToCalculate: Product[], type: "highest" | "lowest") => {
       const prices: { [product: string]: number } = {};
       let sum = 0;
 
-      // Calculate prices based on the type (highest or lowest)
       productsToCalculate.forEach((product) => {
         const productName = product.product_name.toLocaleLowerCase();
         const price = parseFloat(product.price);
@@ -158,7 +151,6 @@ const Compare = () => {
         }
       });
 
-      // Calculate the sum of prices
       sum = Object.values(prices).reduce((acc, p) => acc + p, 0);
 
       return { prices, sum: parseFloat(sum.toFixed(2)) };
@@ -166,16 +158,21 @@ const Compare = () => {
     []
   );
 
-  // Update highest and lowest prices when filtered products change
   useEffect(() => {
-    if (filteredProducts.length > 0) {
-      const { sum: lowestSum } = calculatePrices(filteredProducts, "lowest");
+    if (
+      filteredProductsLowPrice.length > 0 ||
+      filteredProductsHighPrice.length > 0
+    ) {
+      const { sum: lowestSum } = calculatePrices(
+        filteredProductsLowPrice,
+        "lowest"
+      );
       const { sum: highestSum } = calculatePrices(
-        filteredProductsHigh,
+        filteredProductsHighPrice,
         "highest"
       );
 
-      console.log({ filteredProducts, filteredProductsHigh });
+      console.log({ filteredProductsLowPrice, filteredProductsHighPrice });
 
       setHighestPrice(highestSum);
       setLowestPrice(lowestSum);
@@ -183,13 +180,22 @@ const Compare = () => {
       setHighestPrice(null);
       setLowestPrice(null);
     }
-  }, [filteredProducts, calculatePrices, products]);
+  }, [
+    filteredProductsLowPrice,
+    calculatePrices,
+    products,
+    filteredProductsHighPrice,
+  ]);
 
-  // Function to render product cards
   const renderProductCards = useCallback(() => {
-    return filteredProducts
-      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
-      .map(({ id, supermarket_name, product_name, price }) => (
+    const productsToRender = isLowestPrice
+      ? filteredProductsLowPrice
+      : filteredProductsHighPrice.sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+
+    return productsToRender.map(
+      ({ id, supermarket_name, product_name, price }) => (
         <Card key={id}>
           {supermarketLogos.map((logo) => {
             if (
@@ -216,10 +222,10 @@ const Compare = () => {
           </p>
           <p className="text-xl font-semibold text-green-500">£{price}</p>
         </Card>
-      ));
-  }, [filteredProducts]);
+      )
+    );
+  }, [filteredProductsLowPrice, filteredProductsHighPrice, isLowestPrice]);
 
-  // Function to calculate the total savings
   const saveTotal = () => {
     if (highestPrice !== null && lowestPrice !== null) {
       return highestPrice - lowestPrice;
@@ -227,7 +233,6 @@ const Compare = () => {
     return 0;
   };
 
-  // Format prices for display
   const formattedHighestPrice =
     highestPrice !== null ? highestPrice.toFixed(2) : null;
   const formattedLowestPrice =
@@ -247,17 +252,21 @@ const Compare = () => {
         style={{ backgroundImage: backgroundGradient }}
         className="fixed bottom-20 flex justify-between text-xl font-semibold text-center w-full p-4"
       >
-        <div className="flex items-center gap-2 border border-orange bg-white/80 rounded-xl max-w-max p-2 text-red-500">
-          <h3>high</h3>
+        <div
+          className="flex items-center gap-2 border border-orange bg-white/80 rounded-xl max-w-max p-2 text-red-500"
+          onClick={() => setIsLowestPrice(false)}
+        >
           <p className="flex gap-2 text-xl font-semibold">
             <span>£</span>
             <span>{formattedHighestPrice}</span>
           </p>
         </div>
 
-        <div className="flex flex-col items-end border border-orange bg-white/80 rounded-xl max-w-max p-2 text-green-500">
+        <div
+          className="flex flex-col items-end border border-orange bg-white/80 rounded-xl max-w-max p-2 text-green-500"
+          onClick={() => setIsLowestPrice(true)}
+        >
           <p className="flex gap-2 text-xl font-semibold">
-            <h3>low</h3>
             <span>£</span>
             <span>{formattedLowestPrice}</span>
           </p>
