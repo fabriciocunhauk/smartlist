@@ -9,6 +9,8 @@ function IoShareSocialOutline() {
     <div className="flex flex-col gap-10 items-center justify-center h-full">
       <Header />
 
+      <h2 className="font-bold text-4xl">Share The SmartList</h2>
+
       <Image
         src={shareQRcode}
         className="h-40 w-40 object-cover rounded"

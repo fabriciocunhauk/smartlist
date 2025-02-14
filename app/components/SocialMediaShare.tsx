@@ -1,5 +1,4 @@
 import React from "react";
-import { FaLinkedin } from "react-icons/fa";
 import { FaSquareFacebook, FaSquareXTwitter } from "react-icons/fa6";
 import { RiWhatsappFill } from "react-icons/ri";
 import instagram from "@/public/images/instagram-icon.svg";
@@ -21,7 +20,7 @@ function SocialMediaShare({ url, title, text }: SocialMediaShareProps) {
     twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${
       encodedTitle + " - " + encodedText
     }`,
-    linkedin: `https://www.linkedin.com/shareArticle?url=${encodedUrl}&title=${encodedTitle}&summary=${encodedText}`,
+
     instagram: `https://www.instagram.com/direct/new/?text=${encodedText} ${encodedUrl}`,
     whatsapp: `https://api.whatsapp.com/send?text=${encodedText} ${encodedUrl}`,
   };
@@ -33,9 +32,7 @@ function SocialMediaShare({ url, title, text }: SocialMediaShareProps) {
       <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer">
         <FaSquareXTwitter className="w-10 h-10 text-black" />
       </a>
-      <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer">
-        <FaLinkedin className="w-10 h-10 text-blue-600" />
-      </a>
+
       <a href={shareLinks.instagram} target="_blank" rel="noopener noreferrer">
         <Image
           src={instagram}
