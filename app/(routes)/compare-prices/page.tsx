@@ -146,6 +146,14 @@ const Compare = () => {
       ? lowestPriceProducts
       : highestPriceProducts;
 
+    const highestPrice = highestPriceProducts.filter((high) =>
+      products.some(
+        (product) =>
+          product.product_name === high.product_name &&
+          product.price !== high.price
+      )
+    );
+
     return productsToRender.map(
       ({ id, supermarket_name, product_name, price }) => (
         <Card key={id}>
@@ -204,7 +212,7 @@ const Compare = () => {
           <p
             className={classNames(
               "text-xl font-semibold",
-              highestPriceProducts.some((p) => p.id === id)
+              highestPrice.some((product) => product.id === id)
                 ? "text-red-500"
                 : "text-green-500"
             )}
@@ -214,7 +222,7 @@ const Compare = () => {
         </Card>
       )
     );
-  }, [lowestPriceProducts, highestPriceProducts, showLowestPrice]);
+  }, [highestPriceProducts, lowestPriceProducts, products, showLowestPrice]);
 
   const saveTotal = () =>
     highestPrice && lowestPrice ? highestPrice - lowestPrice : 0;
