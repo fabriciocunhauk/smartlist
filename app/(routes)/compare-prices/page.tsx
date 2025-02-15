@@ -16,7 +16,7 @@ import asda from "@/public/images/asda.svg";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const supermarketLogos = [
-  { id: 1, name: "morrison", image: morrisons },
+  { id: 1, name: "morrisons", image: morrisons },
   { id: 2, name: "sainsbury’s", image: sainsburys },
   { id: 3, name: "lidl", image: lidl },
   { id: 4, name: "tesco", image: tesco },
@@ -178,7 +178,7 @@ const Compare = () => {
                     )
                 )?.image.src
               }
-              className="flex-shrink-0 object-cover w-20"
+              className="flex-shrink-0  w-20 h-16"
               alt={supermarket_name}
               width={
                 supermarketLogos.find((logo) =>
@@ -244,27 +244,32 @@ const Compare = () => {
         style={{ backgroundImage: backgroundGradient }}
         className="fixed bottom-20 flex justify-between text-xl font-semibold text-center w-full p-4"
       >
-        <div
-          className="flex items-center gap-2 border border-orange bg-white/80 rounded-xl max-w-max p-2 text-red-500"
-          onClick={() => setShowLowestPrice(false)}
-        >
-          <p className="flex gap-2 text-xl font-semibold">
-            <span>£</span>
-            <span>{formattedHighestPrice}</span>
-          </p>
-        </div>
+        {formattedLowestPrice && (
+          <>
+            <div
+              className="flex flex-col items-center justify-between border border-orange bg-white/80 rounded-xl max-w-max px-4 py-2 text-red-500"
+              onClick={() => setShowLowestPrice(false)}
+            >
+              <span>Other</span>
+              <p className="flex gap-2 text-lg font-semibold">
+                <span>£</span>
+                <span>{formattedHighestPrice}</span>
+              </p>
+            </div>
 
-        <div
-          className="flex flex-col items-end border border-orange bg-white/80 rounded-xl max-w-max p-2 text-green-500"
-          onClick={() => setShowLowestPrice(true)}
-        >
-          <p className="flex gap-2 text-xl font-semibold">
-            <span>£</span>
-            <span>{formattedLowestPrice}</span>
-          </p>
-
-          <span className="text-xs">Save {formattedSaveTotal}</span>
-        </div>
+            <div
+              className="flex flex-col items-end border border-orange bg-white/80 rounded-xl max-w-max px-4 py-2 text-green-500"
+              onClick={() => setShowLowestPrice(true)}
+            >
+              <span>SmartList</span>
+              <p className="flex text-lg font-semibold">
+                <span>£</span>
+                <span>{formattedLowestPrice}</span>
+              </p>
+              <span className="text-xs">Save £{formattedSaveTotal}</span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

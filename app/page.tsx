@@ -7,8 +7,8 @@ import { classNames } from "./utils/appearance";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import { Schoolbell } from "next/font/google";
-import { MdOutlineDeleteSweep } from "react-icons/md";
 import { IoCheckmarkSharp } from "react-icons/io5";
+import { TbPlaylistX } from "react-icons/tb";
 
 const schoolbell = Schoolbell({
   weight: "400",
@@ -62,7 +62,7 @@ export default function Home() {
             value={listItem}
           />
           <Button type="submit">
-            <MdFormatListBulletedAdd className="w-6 h-6 text-white" />
+            <MdFormatListBulletedAdd className="w-10 h-7 text-white" />
           </Button>
         </form>
 
@@ -83,7 +83,7 @@ export default function Home() {
                 {list.name}
               </span>
               <div className="flex items-center gap-4">
-                <MdOutlineDeleteSweep
+                <TbPlaylistX
                   className="w-6 h-6 text-red-500 cursor-pointer"
                   onClick={() => handleDelete(list.name)}
                 />

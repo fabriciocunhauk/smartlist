@@ -3,8 +3,8 @@ import Button from "./Button";
 import { LuScanText } from "react-icons/lu";
 // import { FaRegKeyboard } from "react-icons/fa";
 import { IoIosList } from "react-icons/io";
-import { MdOutlineHome } from "react-icons/md";
 import { IoShareSocialOutline } from "react-icons/io5";
+import { GoTasklist } from "react-icons/go";
 
 function Navbar() {
   return (
@@ -15,8 +15,8 @@ function Navbar() {
           link: "flex flex-col bg-transparent hover:bg-transparent h-20",
         }}
       >
-        <MdOutlineHome className="w-7 h-7" />
-        <span className="text-xs">Home</span>
+        <GoTasklist className="w-7 h-7" />
+        <span className="text-xs">List</span>
       </Button>
       <Button
         link="/scan-receipt"
@@ -43,7 +43,7 @@ function Navbar() {
         }}
       >
         <IoIosList className="w-7 h-7" />
-        <span className="text-xs">Price List</span>
+        <span className="text-xs">Compare</span>
       </Button>
       <Button
         link="/share"
