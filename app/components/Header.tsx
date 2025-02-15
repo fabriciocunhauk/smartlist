@@ -22,9 +22,9 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems: MenuItem[] = [
-    { label: "List", href: "/", icon: IoIosList },
+    { label: "List", href: "/", icon: GoTasklist },
     { label: "Scan", href: "/scan-receipt", icon: LuScanText },
-    { label: "Compare", href: "/compare-prices", icon: GoTasklist },
+    { label: "Compare", href: "/compare-prices", icon: IoIosList },
     { label: "Share", href: "/share", icon: IoShareSocialOutline },
   ];
 
