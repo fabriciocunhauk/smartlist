@@ -10,6 +10,7 @@ export default {
     extend: {
       colors: {
         orange: "#FBB14B",
+        lightOrange: "#FEEFD7",
         darkGray: "#34495e",
       },
       keyframes: {

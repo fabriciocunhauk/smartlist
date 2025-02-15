@@ -82,7 +82,7 @@ export default function ReceiptUpload() {
 
       <Container
         classes={{
-          container: "flex flex-col items-center gap-4 text-4xl py-28",
+          container: "flex flex-col items-center gap-4 text-4xl pt-28 pb-40",
         }}
       >
         <h2 className="font-bold">Scan your Receipt</h2>
