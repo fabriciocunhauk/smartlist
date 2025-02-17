@@ -1,7 +1,7 @@
 
 # SmartList - Your Intelligent Shopping Companion
 
-[![SmartList Logo](https://i.imgur.com/your_image_link_here.png)](https://www.smart-list.co.uk/)
+[![SmartList Logo](./public/images/smart-list-logo.svg)](https://www.smart-list.co.uk/)
 
 ## About
 
@@ -18,7 +18,7 @@ SmartList is a Progressive Web App (PWA) designed to revolutionize your grocery 
 
 **Screenshots:**
 
-![SmartList Main Screen](https://i.imgur.com/your_image_link_here.png)
+![SmartList Main Screen](./public/screenshots/mobile_screenshot.png)
 
 *The main screen of SmartList, showcasing the shopping list with added items.*
 
