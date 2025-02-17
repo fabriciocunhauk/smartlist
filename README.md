@@ -1,7 +1,9 @@
 
 # SmartList - Your Intelligent Shopping Companion
 
-[![SmartList Logo](./public/images/smart-list-logo.svg)](https://www.smart-list.co.uk/)
+<a href="https://www.smart-list.co.uk/">
+  <img src="./public/images/smart-list-logo.svg" alt="SmartList Logo" width="208" height="81">
+</a>
 
 ## About
 
