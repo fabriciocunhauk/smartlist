@@ -80,13 +80,7 @@ We welcome contributions from the community! If you'd like to contribute to Smar
 
 This project is licensed under the [MIT License](LICENSE).
 
-## Contact
-
-For any questions or feedback, please contact us at [support@smart-list.co.uk](mailto:support@smart-list.co.uk).
-
 ---
-
-**Note:** Please replace `https://i.imgur.com/your_image_link_here.png` with the actual links to your screenshot images. You can upload the images to Imgur or any other image hosting service and use the direct image links here.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
