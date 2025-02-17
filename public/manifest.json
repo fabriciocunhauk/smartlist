@@ -145,12 +145,12 @@
       "form_factor": "wide"
     },
     {
-      "src": "screenshots/mobile_screenshot.jpeg", 
+      "src": "screenshots/mobile_screenshot.png", 
       "sizes": "1170x2007", 
       "type": "image/png"   
     },
     {
-      "src": "screenshots/mobile_screenshot.jpeg", 
+      "src": "screenshots/mobile_screenshot.png", 
       "sizes": "1170x2007", 
       "type": "image/png",
       "form_factor": "narrow" 
