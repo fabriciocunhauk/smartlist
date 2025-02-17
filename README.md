@@ -22,6 +22,8 @@ SmartList is a Progressive Web App (PWA) designed to revolutionize your grocery 
 
 ![SmartList Main Screen](./public/screenshots/mobile_screenshot.png)
 
+![SmartList Main Screen](./public/screenshots/mobile_smart_list.png)
+
 *The main screen of SmartList, showcasing the shopping list with added items.*
 
 **[Link to SmartList Website](https://www.smart-list.co.uk/)**
