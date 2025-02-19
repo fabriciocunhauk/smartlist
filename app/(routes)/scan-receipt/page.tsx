@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import Button from "@/app/components/Button";
-import Image from "next/image";
+// import Image from "next/image";
 import Header from "@/app/components/Header";
-import receiptGif from "@/public/gif/smart-list-gif.gif";
+// import receiptGif from "@/public/gif/smartlist-gif.gif";
 import Container from "@/app/components/Container";
 import Navbar from "@/app/components/Navbar";
 import Toast from "@/app/components/Toast";
@@ -99,18 +99,18 @@ export default function ReceiptUpload() {
           }}
         >
           <h2 className="font-bold">Scan your Receipt</h2>
-          <Image
+          {/* <Image
             src={receiptGif}
             className="w-52 md:w-full h-96 md:h-full object-cover rounded"
             alt="Loading Gif"
-          />
-          <ul className="text-sm space-y-4">
+          /> */}
+          {/* <ul className="text-sm space-y-4">
             <li>1: Fold the receipt before the balance.</li>
             <li>2: make sure it displays the supermarket name.</li>
             <li>3: Tap the &quot;Upload Receipt&quot; button.</li>
             <li>4: Select the receipt from your gallery or take a photo.</li>
             <li>5: Wait for the upload to complete.</li>
-          </ul>
+          </ul> */}
         </Container>
 
         <Button
