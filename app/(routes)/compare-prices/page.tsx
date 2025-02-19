@@ -12,6 +12,7 @@ import lidl from "@/public/images/lidl.svg";
 import tesco from "@/public/images/tesco-logo.svg";
 import aldi from "@/public/images/aldi-logo.svg";
 import asda from "@/public/images/asda.svg";
+import Spinner from "@/app/components/Spinner";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -236,6 +237,8 @@ const Compare = () => {
       <Header />
       <Container>
         <div className="flex flex-col gap-4 overflow-auto py-24">
+          {products.length === 0 && <Spinner />}
+
           {renderProductCards()}
         </div>
       </Container>

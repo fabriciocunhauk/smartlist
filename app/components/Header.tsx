@@ -30,7 +30,7 @@ function Header() {
 
   return (
     <>
-      <header className="fixed top-0 grid grid-cols-3 w-full place-items-center bg-orange h-24 z-50">
+      <header className="fixed top-0 grid grid-cols-3 w-full place-items-center bg-orange h-24 z-40">
         <div></div>
         <Link href="/" className="w-52">
           <Image
