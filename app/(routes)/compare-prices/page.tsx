@@ -233,7 +233,7 @@ const Compare = () => {
   const formattedSaveTotal = saveTotal().toFixed(2);
 
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
       <Header />
       <Container>
         <div className="flex flex-col gap-4 overflow-auto py-24">

@@ -9,15 +9,35 @@ import Header from "./components/Header";
 import { Schoolbell } from "next/font/google";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { TbPlaylistX } from "react-icons/tb";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const ListSchema = z.object({
+  listItem: z.string().min(2, "Minimum of 2 characters is required"),
+});
 
 const schoolbell = Schoolbell({
   weight: "400",
   subsets: ["latin"],
 });
 
+type ListItem = {
+  name: string;
+  status: boolean;
+};
+
 export default function Home() {
-  const [listItem, setListItem] = useState("");
-  const [list, setList] = useState<{ name: string; status: boolean }[]>([]);
+  const [list, setList] = useState<ListItem[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<z.infer<typeof ListSchema>>({
+    resolver: zodResolver(ListSchema),
+  });
 
   useEffect(() => {
     const storedList = localStorage.getItem("list_item");
@@ -26,25 +46,23 @@ export default function Home() {
     }
   }, []);
 
-  const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const updatedList = [{ name: listItem, status: false }, ...list];
+  const onSubmit = (data: z.infer<typeof ListSchema>) => {
+    const updatedList = [{ name: data.listItem, status: false }, ...list];
     localStorage.setItem("list_item", JSON.stringify(updatedList));
     setList(updatedList);
-    setListItem("");
+    reset();
   };
 
   const handleDelete = (itemToDelete: string) => {
-    const updatedList = list.filter((list) => list.name !== itemToDelete);
+    const updatedList = list.filter((item) => item.name !== itemToDelete);
     localStorage.setItem("list_item", JSON.stringify(updatedList));
     setList(updatedList);
   };
 
   const handleMarkedAsDone = (itemToMark: string) => {
-    const updatedList = list.map((list) =>
-      list.name === itemToMark ? { ...list, status: !list.status } : list
+    const updatedList = list.map((item) =>
+      item.name === itemToMark ? { ...item, status: !item.status } : item
     );
-
     localStorage.setItem("list_item", JSON.stringify(updatedList));
     setList(updatedList);
   };
@@ -53,14 +71,24 @@ export default function Home() {
     <>
       <Header />
       <Container>
-        <form onSubmit={handleSave} className="flex gap-4 mt-24">
-          <input
-            type="text"
-            onChange={(event) => setListItem(event.target.value)}
-            className="border rounded w-full h-11 mb-10 pl-4 uppercase"
-            placeholder="Add To Shopping List"
-            value={listItem}
-          />
+        <form onSubmit={handleSubmit(onSubmit)} className="flex gap-4 mt-24">
+          <div className="flex flex-col gap-4 w-full mb-10">
+            <label htmlFor="listItem" className="sr-only">
+              Add shopping list item
+            </label>
+            <input
+              type="text"
+              id="listItem"
+              className="border rounded w-full h-11 pl-4 uppercase"
+              placeholder="Add To Shopping List"
+              {...register("listItem")}
+            />
+            {errors.listItem && (
+              <span className="text-xs text-red-500 mx-auto">
+                {errors.listItem.message}
+              </span>
+            )}
+          </div>
           <Button type="submit">
             <MdFormatListBulletedAdd className="w-10 h-7 text-white" />
           </Button>
@@ -69,7 +97,7 @@ export default function Home() {
         <div
           className={`flex flex-col gap-4 overflow-auto h-[400px] md:h-[500px] lg:h-[1000px] pb-10 ${schoolbell.className}`}
         >
-          {list.map((list, index) => (
+          {list.map((item, index) => (
             <div
               key={index}
               className="flex items-center justify-between w-full border-darkGray/20 border-b pb-2"
@@ -77,22 +105,28 @@ export default function Home() {
               <span
                 className={classNames(
                   "tracking-widest uppercase font-bold text-xl",
-                  list.status && "line-through animate-fade-in-left"
+                  item.status && "line-through animate-fade-in-left"
                 )}
               >
-                {list.name}
+                {item.name}
               </span>
               <div className="flex items-center gap-4">
                 <TbPlaylistX
+                  aria-label={`delete ${item.name}`}
                   className="w-6 h-6 text-red-500 cursor-pointer"
-                  onClick={() => handleDelete(list.name)}
+                  onClick={() => handleDelete(item.name)}
                 />
                 <IoCheckmarkSharp
+                  aria-label={
+                    item.status
+                      ? `mark ${item.name} as undone`
+                      : `mark ${item.name} as done`
+                  }
                   className={classNames(
                     "w-6 h-6 cursor-pointer",
-                    list.status && "text-green-500"
+                    item.status && "text-green-500"
                   )}
-                  onClick={() => handleMarkedAsDone(list.name)}
+                  onClick={() => handleMarkedAsDone(item.name)}
                 />
               </div>
             </div>
