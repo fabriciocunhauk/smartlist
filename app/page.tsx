@@ -12,6 +12,7 @@ import { TbPlaylistX } from "react-icons/tb";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "./components/ThemeProvider";
 
 const ListSchema = z.object({
   listItem: z.string().min(2, "Minimum of 2 characters is required"),
@@ -29,6 +30,7 @@ type ListItem = {
 
 export default function Home() {
   const [list, setList] = useState<ListItem[]>([]);
+  const { theme } = useTheme();
 
   const {
     register,
@@ -68,7 +70,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className={theme.secondary}>
       <Header />
       <Container>
         <form onSubmit={handleSubmit(onSubmit)} className="flex gap-4 mt-24">
@@ -95,7 +97,7 @@ export default function Home() {
         </form>
 
         <div
-          className={`flex flex-col gap-4 overflow-auto h-[400px] md:h-[500px] lg:h-[1000px] pb-10 ${schoolbell.className}`}
+          className={`flex flex-col gap-4 overflow-auto h-[400px] sm:h-[450px] md:h-[900px] lg:h-[1200px] pb-32 ${schoolbell.className}`}
         >
           {list.map((item, index) => (
             <div
@@ -134,6 +136,6 @@ export default function Home() {
         </div>
       </Container>
       <Navbar />
-    </>
+    </div>
   );
 }

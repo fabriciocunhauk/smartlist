@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+      'sm': '392px',
+    },
       colors: {
         orange: "#FBB14B",
         lightOrange: "#FEEFD7",
