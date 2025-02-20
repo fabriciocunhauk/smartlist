@@ -92,7 +92,7 @@ export default function Home() {
             )}
           </div>
           <Button type="submit">
-            <MdFormatListBulletedAdd className="w-10 h-7 text-white" />
+            <MdFormatListBulletedAdd className="w-10 h-7 text-white/80" />
           </Button>
         </form>
 

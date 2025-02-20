@@ -14,7 +14,7 @@ function Navbar() {
   return (
     <footer
       className={classNames(
-        "fixed bottom-0 flex items-center justify-between h-20 w-full p-4 text-white",
+        "fixed bottom-0 flex items-center justify-between h-20 w-full p-4 text-white/70",
         theme.primary
       )}
     >
