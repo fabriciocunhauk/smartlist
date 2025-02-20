@@ -6,33 +6,55 @@ import {
   useEffect,
   useState,
 } from "react";
+import { getDataFromIndexedDb } from "../utils/getDataFromIndexedDb";
+import { storeToIndexedDb } from "../utils/storeToIndexedDb";
 
-const getInitialTheme = () => {
-  const store = localStorage.getItem("theme");
+interface Theme {
+  text: string;
+  primary: string;
+  secondary: string;
+}
 
-  if (store === null) {
-    localStorage.setItem(
-      "theme",
-      JSON.stringify({
-        text: "text-orange",
-        primary: "bg-orange",
-        secondary: "bg-lightOrange",
-      })
-    );
-  }
-
-  const initialThemeColor = JSON.parse(store as string);
-
-  return initialThemeColor;
+const initialTheme: Theme = {
+  text: "text-orange",
+  primary: "bg-orange",
+  secondary: "bg-lightOrange",
 };
 
-const ThemeContext = createContext(getInitialTheme());
+const getInitialTheme = async () => {
+  const dbName = "theme_db";
+  const storeName = "theme_store";
+  const storedTheme = await getDataFromIndexedDb(dbName, storeName);
+  return storedTheme || initialTheme;
+};
+
+interface ThemeContextType {
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
+}
+
+const ThemeContext = createContext<ThemeContextType>({
+  theme: initialTheme,
+  setTheme: () => {},
+});
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState(getInitialTheme());
+  const [theme, setTheme] = useState<Theme>(initialTheme);
+
+  const dbName = "theme_db";
+  const storeName = "theme_store";
 
   useEffect(() => {
-    localStorage.setItem("theme", JSON.stringify(theme));
+    const loadTheme = async () => {
+      const loadedTheme = await getInitialTheme();
+      setTheme(loadedTheme);
+    };
+
+    loadTheme();
+  }, []);
+
+  useEffect(() => {
+    storeToIndexedDb(theme, dbName, storeName);
   }, [theme]);
 
   return (
