@@ -97,7 +97,7 @@ export default function Home() {
         </form>
 
         <div
-          className={`flex flex-col gap-4 overflow-auto h-[400px] sm:h-[450px] md:h-[900px] lg:h-[1200px] pb-32 ${schoolbell.className}`}
+          className={`flex flex-col gap-4 overflow-auto h-[400px] sm:h-[450px] md:h-[900px] lg:h-[1050px] pb-32 ${schoolbell.className}`}
         >
           {list.map((item, index) => (
             <div

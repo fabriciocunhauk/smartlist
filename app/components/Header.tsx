@@ -74,13 +74,21 @@ const Header = () => {
           className="mx-2 my-6 text-3xl place-self-end cursor-pointer"
           onClick={toggleMenu}
         />
-
         <nav className="flex flex-col space-y-6 mt-10">
+          <Link href="/" className="w-52">
+            <Image
+              src={logo.src}
+              alt="Logo"
+              width={logo.width}
+              height={logo.height}
+            />
+          </Link>
+
           {menuItems.map((item, index) => (
             <Link
               key={index}
               href={item.href}
-              className="flex items-center gap-2 text-lg font-semibold transition-colors duration-200 ml-9"
+              className="flex items-center gap-2 text-lg font-semibold transition-colors duration-200 ml-16"
               onClick={toggleMenu}
             >
               <item.icon />
@@ -89,7 +97,7 @@ const Header = () => {
           ))}
           <Link
             href="https://fabriciocunha.vercel.app"
-            className="flex items-center gap-2 text-lg font-semibold transition-colors duration-200"
+            className="font-semibold mx-auto"
             onClick={toggleMenu}
           >
             Developer Portfolio

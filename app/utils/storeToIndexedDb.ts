@@ -1,6 +1,7 @@
 import getIndexedDb from "./getIndexedDb";
 
 interface Theme {
+  colorCode: string;
   text: string,
     primary: string,
     secondary: string

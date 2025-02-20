@@ -10,12 +10,14 @@ import { getDataFromIndexedDb } from "../utils/getDataFromIndexedDb";
 import { storeToIndexedDb } from "../utils/storeToIndexedDb";
 
 interface Theme {
+  colorCode: string;
   text: string;
   primary: string;
   secondary: string;
 }
 
 const initialTheme: Theme = {
+  colorCode: "#FBB14B",
   text: "text-orange",
   primary: "bg-orange",
   secondary: "bg-lightOrange",
