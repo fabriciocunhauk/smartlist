@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { classNames } from "./utils/appearance";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,15 +38,17 @@ export default function RootLayout({
         <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
       </head>
 
-      <body
-        className={classNames(
-          `${geistSans.variable} ${geistMono.variable} antialiased text-darkGray`,
-          "flex flex-col justify-between"
-        )}
-      >
-        <main className="flex-grow">{children}</main>
-        <Analytics />
-      </body>
+      <ThemeProvider>
+        <body
+          className={classNames(
+            `${geistSans.variable} ${geistMono.variable} antialiased text-darkGray`,
+            "flex flex-col justify-between"
+          )}
+        >
+          <main className="flex-grow">{children}</main>
+          <Analytics />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }

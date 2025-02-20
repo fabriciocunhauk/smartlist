@@ -7,10 +7,12 @@ import receiptGif from "@/public/gif/smartlist.gif";
 import Container from "@/app/components/Container";
 import Navbar from "@/app/components/Navbar";
 import Toast from "@/app/components/Toast";
+import { useTheme } from "@/app/components/ThemeProvider";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ReceiptUpload() {
+  const { theme } = useTheme();
   const [toastAlertSettings, setToastAlertSettings] = useState({
     active: false,
     color: "",
@@ -85,7 +87,7 @@ export default function ReceiptUpload() {
   };
 
   return (
-    <>
+    <div className={theme.secondary}>
       <Toast
         setToastAlertSettings={setToastAlertSettings}
         toastAlertSettings={toastAlertSettings}
@@ -124,6 +126,6 @@ export default function ReceiptUpload() {
         </Button>
         <Navbar />
       </div>
-    </>
+    </div>
   );
 }

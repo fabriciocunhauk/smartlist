@@ -13,6 +13,7 @@ import tesco from "@/public/images/tesco-logo.svg";
 import aldi from "@/public/images/aldi-logo.svg";
 import asda from "@/public/images/asda.svg";
 import Spinner from "@/app/components/Spinner";
+import { useTheme } from "@/app/components/ThemeProvider";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -38,6 +39,7 @@ interface ListItem {
 }
 
 const Compare = () => {
+  const { theme } = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
   const [list, setList] = useState<ListItem[]>([]);
   const [highestPrice, setHighestPrice] = useState<number | null>(null);
@@ -48,7 +50,7 @@ const Compare = () => {
     []
   );
 
-  const backgroundGradient = `linear-gradient(to top, #FBB14B, 50%, transparent)`;
+  const backgroundGradient = `linear-gradient(to top, ${theme.colorCode} 50%, transparent)`;
 
   useEffect(() => {
     const storedList = localStorage.getItem("list_item");
@@ -233,7 +235,7 @@ const Compare = () => {
   const formattedSaveTotal = saveTotal().toFixed(2);
 
   return (
-    <div className="h-screen relative">
+    <div className={classNames("h-screen relative", theme.secondary)}>
       <Header />
       <Container>
         <div className="flex flex-col gap-4 overflow-auto py-24">

@@ -1,12 +1,22 @@
+"use client";
 import Header from "@/app/components/Header";
 import Navbar from "@/app/components/Navbar";
 import Image from "next/image";
 import shareQRcode from "@/public/images/share-smart-list.png";
 import SocialMediaShare from "@/app/components/SocialMediaShare";
+import { useTheme } from "@/app/components/ThemeProvider";
+import { classNames } from "@/app/utils/appearance";
 
 function IoShareSocialOutline() {
+  const { theme } = useTheme();
+
   return (
-    <div className="flex flex-col gap-10 items-center justify-center h-full">
+    <div
+      className={classNames(
+        "flex flex-col gap-10 items-center justify-center h-full",
+        theme.secondary
+      )}
+    >
       <Header />
 
       <h2 className="font-bold text-4xl">Share The SmartList</h2>
