@@ -188,41 +188,91 @@ const RenderProductCards: React.FC<{
   lowestPriceProducts: Product[];
   highestPriceProducts: Product[];
   products: Product[];
-}> = ({ showLowestPrice, lowestPriceProducts, highestPriceProducts }) => {
+}> = ({
+  showLowestPrice,
+  lowestPriceProducts,
+  highestPriceProducts,
+  products,
+}) => {
   const productsToRender = showLowestPrice
     ? lowestPriceProducts
     : highestPriceProducts;
 
-  return (
-    <>
-      {productsToRender.map(({ id, supermarket_name, product_name, price }) => {
-        const logo = supermarketLogos.find((logo) =>
+  const highestPrice = highestPriceProducts.filter((high) =>
+    products.some(
+      (product) =>
+        product.product_name === high.product_name &&
+        product.price !== high.price
+    )
+  );
+
+  return productsToRender.map(
+    ({ id, supermarket_name, product_name, price }) => (
+      <Card key={id}>
+        {supermarketLogos.find((logo) =>
           supermarket_name
-            .toLowerCase()
+            .toLocaleLowerCase()
             .split(" ")
             .some((word) =>
-              logo.name.toLowerCase().includes(word.toLowerCase())
+              logo.name.toLocaleLowerCase().includes(word.toLocaleLowerCase())
             )
-        );
-        return (
-          <Card key={id}>
-            {logo && (
-              <Image
-                src={logo.image.src}
-                className="flex-shrink-0 w-20 h-16"
-                alt={supermarket_name}
-                width={logo.image.width}
-                height={logo.image.height}
-              />
-            )}
-            <p className="font-semibold text-xs md:text-base uppercase">
-              {product_name}
-            </p>
-            <p className="text-xl font-semibold text-green-500">£{price}</p>
-          </Card>
-        );
-      })}
-    </>
+        ) && (
+          <Image
+            src={
+              supermarketLogos.find((logo) =>
+                supermarket_name
+                  .toLocaleLowerCase()
+                  .split(" ")
+                  .some((word) =>
+                    logo.name
+                      .toLocaleLowerCase()
+                      .includes(word.toLocaleLowerCase())
+                  )
+              )?.image.src
+            }
+            className="flex-shrink-0  w-20 h-16"
+            alt={supermarket_name}
+            width={
+              supermarketLogos.find((logo) =>
+                supermarket_name
+                  .toLocaleLowerCase()
+                  .split(" ")
+                  .some((word) =>
+                    logo.name
+                      .toLocaleLowerCase()
+                      .includes(word.toLocaleLowerCase())
+                  )
+              )?.image.width
+            }
+            height={
+              supermarketLogos.find((logo) =>
+                supermarket_name
+                  .toLocaleLowerCase()
+                  .split(" ")
+                  .some((word) =>
+                    logo.name
+                      .toLocaleLowerCase()
+                      .includes(word.toLocaleLowerCase())
+                  )
+              )?.image.height
+            }
+          />
+        )}
+        <p className="font-semibold text-xs md:text-base uppercase">
+          {product_name}
+        </p>
+        <p
+          className={classNames(
+            "text-xl font-semibold",
+            highestPrice.some((product) => product.id === id)
+              ? "text-red-500"
+              : "text-green-500"
+          )}
+        >
+          £{price}
+        </p>
+      </Card>
+    )
   );
 };
 
