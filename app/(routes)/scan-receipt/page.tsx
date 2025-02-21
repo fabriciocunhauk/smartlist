@@ -8,6 +8,7 @@ import Container from "@/app/components/Container";
 import Navbar from "@/app/components/Navbar";
 import Toast from "@/app/components/Toast";
 import { useTheme } from "@/app/components/ThemeProvider";
+import { classNames } from "@/app/utils/appearance";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -38,8 +39,8 @@ export default function ReceiptUpload() {
           try {
             setToastAlertSettings({
               active: true,
-              color: "warning",
-              message: "Receipt uploaded and processed successfully!",
+              color: "success",
+              message: "Receipt uploaded successfully!",
             });
 
             const response = await fetch(`${BASE_URL}/api/parse-receipt`, {
@@ -87,12 +88,17 @@ export default function ReceiptUpload() {
   };
 
   return (
-    <div className={theme.secondary}>
+    <>
       <Toast
         setToastAlertSettings={setToastAlertSettings}
         toastAlertSettings={toastAlertSettings}
       />
-      <div className="relative flex flex-col items-center justify-center gap-10">
+      <div
+        className={classNames(
+          "relative flex flex-col items-center gap-10 h-full",
+          theme.secondary
+        )}
+      >
         <Header />
 
         <Container
@@ -101,18 +107,45 @@ export default function ReceiptUpload() {
           }}
         >
           <h2 className="font-bold">Scan your Receipt</h2>
+
+          <ul className="text-sm space-y-6 pl-5 font-semibold">
+            <li className="flex items-center gap-4">
+              <span className="flex items-center justify-center outline rounded-full w-6 h-6">
+                1
+              </span>
+              <p>Fold the receipt before the balance.</p>
+            </li>
+            <li className="flex items-center gap-4">
+              <span className="flex items-center justify-center outline rounded-full w-6 h-6">
+                2
+              </span>
+              <p>Make sure it displays the supermarket name.</p>
+            </li>
+            <li className="flex items-center gap-4">
+              <span className="flex items-center justify-center outline rounded-full w-6 h-6">
+                3
+              </span>
+              <p>Tap the &quot;Upload Receipt&quot; button.</p>
+            </li>
+            <li className="flex items-center gap-4">
+              <span className="flex items-center justify-center outline rounded-full w-6 h-6">
+                4
+              </span>
+              <p>Select the receipt from your gallery or take a photo.</p>
+            </li>
+            <li className="flex items-center gap-4">
+              <span className="flex items-center justify-center outline rounded-full w-6 h-6">
+                5
+              </span>
+              <p>Wait for the upload to complete.</p>
+            </li>
+          </ul>
+
           <Image
             src={receiptGif}
-            className="w-52 md:w-full h-96 md:h-full object-cover rounded"
+            className="w-52 h-96 md:h-full object-cover rounded"
             alt="Loading Gif"
           />
-          <ul className="text-sm space-y-4">
-            <li>1: Fold the receipt before the balance.</li>
-            <li>2: make sure it displays the supermarket name.</li>
-            <li>3: Tap the &quot;Upload Receipt&quot; button.</li>
-            <li>4: Select the receipt from your gallery or take a photo.</li>
-            <li>5: Wait for the upload to complete.</li>
-          </ul>
         </Container>
 
         <Button
@@ -126,6 +159,6 @@ export default function ReceiptUpload() {
         </Button>
         <Navbar />
       </div>
-    </div>
+    </>
   );
 }

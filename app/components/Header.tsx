@@ -50,15 +50,19 @@ const Header = () => {
             height={logo.height}
           />
         </Link>
-        <div
-          className={classNames(
-            "place-self-end my-auto rounded-md mr-4 p-2 cursor-pointer",
-            theme.secondary,
-            theme.text
-          )}
-          onClick={toggleMenu}
-        >
-          <IoMenu className="w-6 h-6" />{" "}
+
+        <div className="relative flex justify-end w-20 -mr-4">
+          <ThemeColors />
+          <div
+            className={classNames(
+              "my-auto rounded-md p-2 cursor-pointer",
+              theme.secondary,
+              theme.text
+            )}
+            onClick={toggleMenu}
+          >
+            <IoMenu className="w-6 h-6" />{" "}
+          </div>
         </div>
       </header>
 
@@ -103,8 +107,6 @@ const Header = () => {
             Developer Portfolio
           </Link>
         </nav>
-
-        <ThemeColors />
 
         <div className="mt-8">
           <p className={classNames("text-sm", theme.text)}>

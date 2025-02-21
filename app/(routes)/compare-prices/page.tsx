@@ -235,10 +235,10 @@ const Compare = () => {
   const formattedSaveTotal = saveTotal().toFixed(2);
 
   return (
-    <div className={classNames("h-screen relative", theme.secondary)}>
+    <div className={classNames("h-full relative pb-52 pt-24", theme.secondary)}>
       <Header />
       <Container>
-        <div className="flex flex-col gap-4 overflow-auto py-24">
+        <div className="flex flex-col gap-4 overflow-auto">
           {products.length === 0 && <Spinner />}
 
           {renderProductCards()}
