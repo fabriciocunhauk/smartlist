@@ -42,7 +42,7 @@ const Header = () => {
         )}
       >
         <div></div>
-        <Link href="/" className="w-52">
+        <Link href="/" className="w-40 md:w-52">
           <Image
             src={logo.src}
             alt="Logo"
