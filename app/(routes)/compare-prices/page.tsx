@@ -14,6 +14,7 @@ import lidl from "@/public/images/lidl.svg";
 import tesco from "@/public/images/tesco-logo.svg";
 import aldi from "@/public/images/aldi-logo.svg";
 import asda from "@/public/images/asda.svg";
+import { getDataFromIndexedDb } from "@/app/utils/getDataFromIndexedDb";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -64,8 +65,14 @@ const Compare = () => {
   }, []);
 
   useEffect(() => {
-    const storedList = localStorage.getItem("list_item");
-    if (storedList) setList(JSON.parse(storedList));
+    const getListFromIndexDb = async () => {
+      const dbName = "list_db";
+      const storeName = "list_store";
+      const storedList = await getDataFromIndexedDb(dbName, storeName);
+      if (storedList) setList(storedList);
+    };
+
+    getListFromIndexDb();
   }, []);
 
   useEffect(() => {

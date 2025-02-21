@@ -7,7 +7,12 @@ interface Theme {
     secondary: string
 }
 
-export async function storeToIndexedDb(data: Theme, dbName: string, storeName: string) {
+type ListItem = {
+  name: string;
+  status: boolean;
+}[];
+
+export async function storeToIndexedDb(data: Theme | ListItem, dbName: string, storeName: string) {
     const store = await getIndexedDb(dbName, storeName, "readwrite");
 
   try {

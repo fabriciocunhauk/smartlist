@@ -13,6 +13,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTheme } from "./components/ThemeProvider";
+import { storeToIndexedDb } from "./utils/storeToIndexedDb";
+import { getDataFromIndexedDb } from "./utils/getDataFromIndexedDb";
 
 const ListSchema = z.object({
   listItem: z.string().min(2, "Minimum of 2 characters is required"),
@@ -31,6 +33,8 @@ type ListItem = {
 export default function Home() {
   const [list, setList] = useState<ListItem[]>([]);
   const { theme } = useTheme();
+  const dbName = "list_db";
+  const storeName = "list_store";
 
   const {
     register,
@@ -42,22 +46,24 @@ export default function Home() {
   });
 
   useEffect(() => {
-    const storedList = localStorage.getItem("list_item");
-    if (storedList) {
-      setList(JSON.parse(storedList));
-    }
+    const getListFromIndexDb = async () => {
+      const storedList = await getDataFromIndexedDb(dbName, storeName);
+      if (storedList) setList(storedList);
+    };
+
+    getListFromIndexDb();
   }, []);
 
   const onSubmit = (data: z.infer<typeof ListSchema>) => {
     const updatedList = [{ name: data.listItem, status: false }, ...list];
-    localStorage.setItem("list_item", JSON.stringify(updatedList));
+    storeToIndexedDb(updatedList, dbName, storeName);
     setList(updatedList);
     reset();
   };
 
   const handleDelete = (itemToDelete: string) => {
     const updatedList = list.filter((item) => item.name !== itemToDelete);
-    localStorage.setItem("list_item", JSON.stringify(updatedList));
+    storeToIndexedDb(updatedList, dbName, storeName);
     setList(updatedList);
   };
 
@@ -65,7 +71,8 @@ export default function Home() {
     const updatedList = list.map((item) =>
       item.name === itemToMark ? { ...item, status: !item.status } : item
     );
-    localStorage.setItem("list_item", JSON.stringify(updatedList));
+    storeToIndexedDb(updatedList, dbName, storeName);
+
     setList(updatedList);
   };
 
