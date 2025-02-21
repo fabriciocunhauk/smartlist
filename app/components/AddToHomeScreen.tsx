@@ -5,14 +5,23 @@ import { MdDownloading } from "react-icons/md";
 
 const AddToHomeScreen: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-
-  // Detect iOS devices
-  const isIOS =
-    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+  const [isIOS, setIsIOS] = useState(false); // State to track iOS devices
 
   useEffect(() => {
-    // Skip if running in standalone mode or on iOS
-    if (isIOS || window.matchMedia("(display-mode: standalone)").matches) {
+    // Detect iOS devices on the client side
+    if (typeof window !== "undefined" && typeof navigator !== "undefined") {
+      setIsIOS(
+        /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+          !(window as any).MSStream
+      );
+    }
+
+    // Check if the app is running in standalone mode
+    const isStandalone = window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches;
+
+    if (isStandalone || isIOS) {
       return;
     }
 
@@ -55,7 +64,7 @@ const AddToHomeScreen: React.FC = () => {
     }
   };
 
-  // Render nothing if no deferredPrompt is available or on iOS
+  // Render nothing if no deferredPrompt is available, on iOS, or in standalone mode
   if (isIOS) {
     return (
       <Button onClick={handleClick}>
