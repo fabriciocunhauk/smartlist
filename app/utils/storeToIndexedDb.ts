@@ -1,10 +1,11 @@
 import getIndexedDb from "./getIndexedDb";
 
 interface Theme {
+  id?: number;
   colorCode: string;
-  text: string,
-    primary: string,
-    secondary: string
+  text: string;
+  primary: string;
+  secondary: string;
 }
 
 type ListItem = {
@@ -12,7 +13,7 @@ type ListItem = {
   status: boolean;
 }[];
 
-export async function storeToIndexedDb(data: Theme | ListItem, dbName: string, storeName: string) {
+export async function storeToIndexedDb(data: Theme | Theme[] | ListItem, dbName: string, storeName: string) {
     const store = await getIndexedDb(dbName, storeName, "readwrite");
 
   try {

@@ -9,10 +9,12 @@ type CardProps = {
 
 function Card({ children, classes }: CardProps) {
   const { theme } = useTheme();
+
   return (
     <div
+      style={{ borderColor: theme.colorCode }}
       className={classNames(
-        "flex items-center justify-between w-full h-20 border border-orange rounded bg-opacity-10 odd:bg-opacity-60 p-4 shadow-md",
+        "flex items-center justify-between w-full h-20 border rounded bg-opacity-10 odd:bg-opacity-60 p-4 shadow-md",
         classes?.card,
         theme.primary
       )}
