@@ -23,7 +23,7 @@ export default function ReceiptUpload() {
   const handleGallery = async () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
-    fileInput.accept = ".jpeg, .jpg, .png";
+    fileInput.accept = ".jpeg, .jpg, .png, .HEIC";
     fileInput.onchange = async (e) => {
       const target = e.target as HTMLInputElement;
       const file = target.files && target.files[0];
