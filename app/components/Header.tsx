@@ -43,6 +43,7 @@ const Header = () => {
         )}
       >
         <div>{/* <AddToHomeScreen /> */}</div>
+        <ThemeColors />
         <Link href="/" className="w-40 md:w-52">
           <Image
             src={logo.src}
@@ -52,18 +53,15 @@ const Header = () => {
           />
         </Link>
 
-        <div className="relative flex justify-end w-20 -mr-4">
-          <ThemeColors />
-          <div
-            className={classNames(
-              "my-auto rounded-md p-2 cursor-pointer",
-              theme.secondary,
-              theme.text
-            )}
-            onClick={toggleMenu}
-          >
-            <IoMenu className="w-6 h-6" />{" "}
-          </div>
+        <div
+          className={classNames(
+            "my-auto rounded-md p-2 cursor-pointer place-self-end mr-4",
+            theme.secondary,
+            theme.text
+          )}
+          onClick={toggleMenu}
+        >
+          <IoMenu className="w-6 h-6" />{" "}
         </div>
       </header>
 
