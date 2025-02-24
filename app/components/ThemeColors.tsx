@@ -57,7 +57,7 @@ function ThemeColors() {
   };
 
   return (
-    <div className="flex flex-col absolute left-4">
+    <div className="flex flex-col absolute left-4 top-5">
       <div
         className={classNames(
           "overflow-hidden h-10 p-2 transition-all duration-300 ease-in-out",
