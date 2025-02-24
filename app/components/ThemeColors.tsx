@@ -30,6 +30,7 @@ function ThemeColors() {
           "overflow-hidden h-10 p-2 transition-all duration-300 ease-in-out",
           active && "h-80"
         )}
+        onClick={() => setActive(!active)}
       >
         <div className="flex flex-col gap-10">
           {sortedThemes.map(({ id, colorCode, text, primary, secondary }) => {

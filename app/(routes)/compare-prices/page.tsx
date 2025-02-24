@@ -158,7 +158,8 @@ const Compare = () => {
         className="fixed bottom-20 flex justify-between text-xl font-semibold text-center w-full p-4"
       >
         <div
-          className="flex flex-col items-center border border-orange bg-white/80 rounded-xl max-w-max px-4 py-2 text-red-500"
+          style={{ borderColor: theme.colorCode }}
+          className="flex flex-col items-center border bg-white/80 rounded-xl max-w-max px-4 py-2 text-red-500"
           onClick={() => setShowLowestPrice(false)}
         >
           <span>Other</span>
@@ -168,7 +169,8 @@ const Compare = () => {
           </p>
         </div>
         <div
-          className="flex flex-col items-end border border-orange bg-white/80 rounded-xl max-w-max px-4 py-2 text-green-500"
+          style={{ borderColor: theme.colorCode }}
+          className="flex flex-col items-end border bg-white/80 rounded-xl max-w-max px-4 py-2 text-green-500"
           onClick={() => setShowLowestPrice(true)}
         >
           <span>SmartList</span>
