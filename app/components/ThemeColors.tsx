@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../context/ThemeContext";
 import { classNames } from "../utils/appearance";
 import { IoIosArrowDown } from "react-icons/io";
 

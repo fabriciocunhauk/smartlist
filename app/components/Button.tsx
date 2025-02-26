@@ -1,7 +1,7 @@
 import { classNames } from "@/app/utils/appearance";
 import Link from "next/link";
 import React, { ReactNode } from "react";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../context/ThemeContext";
 
 type ButtonProps = {
   children?: ReactNode;

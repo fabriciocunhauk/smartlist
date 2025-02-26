@@ -11,7 +11,7 @@ import type { ComponentType } from "react";
 import logo from "@/public/images/smart-list-logo.svg";
 import { classNames } from "../utils/appearance";
 import ThemeColors from "./ThemeColors";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../context/ThemeContext";
 import { IoIosList } from "react-icons/io";
 // import AddToHomeScreen from "./AddToHomeScreen";
 

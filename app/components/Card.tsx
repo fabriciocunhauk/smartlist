@@ -1,6 +1,6 @@
 import React from "react";
 import { classNames } from "../utils/appearance";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../context/ThemeContext";
 
 type CardProps = {
   children: React.ReactNode;

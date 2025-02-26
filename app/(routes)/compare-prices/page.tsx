@@ -7,7 +7,7 @@ import Header from "@/app/components/Header";
 import Navbar from "@/app/components/Navbar";
 import Spinner from "@/app/components/Spinner";
 import { classNames } from "@/app/utils/appearance";
-import { useTheme } from "@/app/components/ThemeProvider";
+import { useTheme } from "@/app/context/ThemeContext";
 import morrisons from "@/public/images/morrisons.svg";
 import sainsburys from "@/public/images/sainsburys-logo.svg";
 import lidl from "@/public/images/lidl.svg";
@@ -15,6 +15,7 @@ import tesco from "@/public/images/tesco-logo.svg";
 import aldi from "@/public/images/aldi-logo.svg";
 import asda from "@/public/images/asda.svg";
 import { getDataFromIndexedDb } from "@/app/utils/getDataFromIndexedDb";
+import { useToastMessage } from "@/app/context/ToastMessageProvider";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -58,7 +59,6 @@ interface Product {
   price: string;
 }
 
-// New component for price comparison footer
 const PriceComparisonFooter = ({
   lowestTotal,
   highestTotal,
@@ -129,7 +129,6 @@ const SupermarketLogo = ({ supermarketName }: { supermarketName: string }) => {
   );
 };
 
-// New component for product price display
 const ProductPrice = ({
   price,
   isHighest,
@@ -147,7 +146,6 @@ const ProductPrice = ({
   </p>
 );
 
-// New component for individual product card
 const ProductCard = ({
   product,
   highestPrice,
@@ -167,7 +165,6 @@ const ProductCard = ({
   </Card>
 );
 
-// Updated RenderProductCards component
 const RenderProductCards: React.FC<{
   showLowestPrice: boolean;
   lowestPriceProducts: Product[];
@@ -202,7 +199,6 @@ const RenderProductCards: React.FC<{
 
 // Main Compare component
 const Compare = () => {
-  const { theme } = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
   const [list, setList] = useState<{ name: string; status: boolean }[]>([]);
   const [lowestPriceProducts, setLowestPriceProducts] = useState<Product[]>([]);
@@ -211,6 +207,8 @@ const Compare = () => {
   );
   const [loading, setLoading] = useState(true);
   const [showLowestPrice, setShowLowestPrice] = useState(true);
+  const { theme } = useTheme();
+  const { setToastContent } = useToastMessage();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -224,6 +222,11 @@ const Compare = () => {
         }
       } catch (error) {
         console.error("Error fetching products:", error);
+        setToastContent({
+          active: true,
+          color: "error",
+          message: "Error fetching products, please try again later!",
+        });
       } finally {
         setLoading(false);
       }

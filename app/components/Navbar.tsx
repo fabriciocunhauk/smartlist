@@ -5,7 +5,7 @@ import { LuScanText } from "react-icons/lu";
 import { IoIosList } from "react-icons/io";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { GoTasklist } from "react-icons/go";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../context/ThemeContext";
 import { classNames } from "../utils/appearance";
 
 function Navbar() {

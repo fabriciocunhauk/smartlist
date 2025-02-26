@@ -12,7 +12,7 @@ import { TbPlaylistX } from "react-icons/tb";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTheme } from "./components/ThemeProvider";
+import { useTheme } from "./context/ThemeContext";
 import { storeToIndexedDb } from "./utils/storeToIndexedDb";
 import { getDataFromIndexedDb } from "./utils/getDataFromIndexedDb";
 

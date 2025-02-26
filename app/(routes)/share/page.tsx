@@ -4,7 +4,7 @@ import Navbar from "@/app/components/Navbar";
 import Image from "next/image";
 import shareQRcode from "@/public/images/share-smart-list.png";
 import SocialMediaShare from "@/app/components/SocialMediaShare";
-import { useTheme } from "@/app/components/ThemeProvider";
+import { useTheme } from "@/app/context/ThemeContext";
 import { classNames } from "@/app/utils/appearance";
 
 function IoShareSocialOutline() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../context/ThemeContext";
 
 function Spinner() {
   const { theme } = useTheme();
