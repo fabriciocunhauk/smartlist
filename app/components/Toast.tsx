@@ -3,7 +3,7 @@
 import { classNames } from "../utils/appearance";
 import { IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp, IoWarningOutline } from "react-icons/io5";
-import { useToastMessage } from "../context/ToastMessageProvider";
+import { useToastMessage } from "../context/ToastMessageContext";
 
 const Toast = () => {
   const { active, color, message, setToastContent } = useToastMessage();

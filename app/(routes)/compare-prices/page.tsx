@@ -15,7 +15,7 @@ import tesco from "@/public/images/tesco-logo.svg";
 import aldi from "@/public/images/aldi-logo.svg";
 import asda from "@/public/images/asda.svg";
 import { getDataFromIndexedDb } from "@/app/utils/getDataFromIndexedDb";
-import { useToastMessage } from "@/app/context/ToastMessageProvider";
+import { useToastMessage } from "@/app/context/ToastMessageContext";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

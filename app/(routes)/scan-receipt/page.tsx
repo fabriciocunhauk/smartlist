@@ -1,5 +1,4 @@
 "use client";
-
 import Button from "@/app/components/Button";
 import Image from "next/image";
 import Header from "@/app/components/Header";
@@ -8,7 +7,7 @@ import Container from "@/app/components/Container";
 import Navbar from "@/app/components/Navbar";
 import { classNames } from "@/app/utils/appearance";
 import { useTheme } from "@/app/context/ThemeContext";
-import { useToastMessage } from "@/app/context/ToastMessageProvider";
+import { useToastMessage } from "@/app/context/ToastMessageContext";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

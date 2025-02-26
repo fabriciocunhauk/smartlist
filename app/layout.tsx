@@ -4,7 +4,7 @@ import { classNames } from "./utils/appearance";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { ThemeProvider } from "./context/ThemeContext";
-import { ToastMessageProvider } from "./context/ToastMessageProvider";
+import { ToastMessageProvider } from "./context/ToastMessageContext";
 import Toast from "./components/Toast";
 
 const geistSans = Geist({
