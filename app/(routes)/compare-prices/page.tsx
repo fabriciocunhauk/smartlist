@@ -19,12 +19,36 @@ import { getDataFromIndexedDb } from "@/app/utils/getDataFromIndexedDb";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const supermarketLogos = [
-  { id: 1, name: "morrisons", image: morrisons },
-  { id: 2, name: "sainsbury’s", image: sainsburys },
-  { id: 3, name: "lidl", image: lidl },
-  { id: 4, name: "tesco", image: tesco },
-  { id: 5, name: "aldi", image: aldi },
-  { id: 6, name: "asda", image: asda },
+  {
+    image: morrisons,
+    nameVariants: ["morrisons", "morrison"],
+    alt: "Morrisons",
+  },
+  {
+    image: sainsburys,
+    nameVariants: ["sainsburys", "sainsbury’s", "sainsbury"],
+    alt: "Sainsbury's",
+  },
+  {
+    image: lidl,
+    nameVariants: ["lidl"],
+    alt: "Lidl",
+  },
+  {
+    image: tesco,
+    nameVariants: ["tesco"],
+    alt: "Tesco",
+  },
+  {
+    image: aldi,
+    nameVariants: ["aldi"],
+    alt: "Aldi",
+  },
+  {
+    image: asda,
+    nameVariants: ["asda"],
+    alt: "Asda",
+  },
 ];
 
 interface Product {
@@ -34,6 +58,149 @@ interface Product {
   price: string;
 }
 
+// New component for price comparison footer
+const PriceComparisonFooter = ({
+  lowestTotal,
+  highestTotal,
+  saveTotal,
+  setShowLowestPrice,
+  theme,
+}: {
+  lowestTotal: string;
+  highestTotal: string;
+  saveTotal: string;
+  setShowLowestPrice: (value: boolean) => void;
+  theme: any;
+}) => (
+  <div
+    style={{
+      backgroundImage: `linear-gradient(to top, ${theme.colorCode} 50%, transparent)`,
+    }}
+    className="fixed bottom-20 flex justify-between text-xl font-semibold text-center w-full p-4"
+  >
+    <div
+      style={{ borderColor: theme.colorCode }}
+      className="flex flex-col items-center border bg-white/80 rounded-xl max-w-max px-4 py-2 text-red-500"
+      onClick={() => setShowLowestPrice(false)}
+    >
+      <span>Other</span>
+      <p className="flex gap-2 text-lg font-semibold">
+        <span>£</span>
+        <span>{highestTotal}</span>
+      </p>
+    </div>
+    <div
+      style={{ borderColor: theme.colorCode }}
+      className="flex flex-col items-end border bg-white/80 rounded-xl max-w-max px-4 py-2 text-green-500"
+      onClick={() => setShowLowestPrice(true)}
+    >
+      <span>SmartList</span>
+      <p className="flex text-lg font-semibold">
+        <span>£</span>
+        <span>{lowestTotal}</span>
+      </p>
+      <span className="text-xs">Save £{saveTotal}</span>
+    </div>
+  </div>
+);
+
+// New component for supermarket logo
+const SupermarketLogo = ({ supermarketName }: { supermarketName: string }) => {
+  const normalizeName = (name: string) =>
+    name.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+  const logo = supermarketLogos.find((logo) => {
+    const cleanSupermarketName = normalizeName(supermarketName);
+    return logo.nameVariants.some((variant) =>
+      cleanSupermarketName.includes(normalizeName(variant))
+    );
+  });
+
+  if (!logo) return null;
+
+  return (
+    <Image
+      src={logo.image}
+      className="flex-shrink-0 w-20 h-16 object-contain"
+      alt={logo.alt}
+      width={logo.image.width}
+      height={logo.image.height}
+    />
+  );
+};
+
+// New component for product price display
+const ProductPrice = ({
+  price,
+  isHighest,
+}: {
+  price: string;
+  isHighest: boolean;
+}) => (
+  <p
+    className={classNames(
+      "text-xl font-semibold",
+      isHighest ? "text-red-500" : "text-green-500"
+    )}
+  >
+    £{price}
+  </p>
+);
+
+// New component for individual product card
+const ProductCard = ({
+  product,
+  highestPrice,
+}: {
+  product: Product;
+  highestPrice: Product[];
+}) => (
+  <Card>
+    <SupermarketLogo supermarketName={product.supermarket_name} />
+    <p className="font-semibold text-xs md:text-base uppercase">
+      {product.product_name}
+    </p>
+    <ProductPrice
+      price={product.price}
+      isHighest={highestPrice.some((p) => p.id === product.id)}
+    />
+  </Card>
+);
+
+// Updated RenderProductCards component
+const RenderProductCards: React.FC<{
+  showLowestPrice: boolean;
+  lowestPriceProducts: Product[];
+  highestPriceProducts: Product[];
+  products: Product[];
+}> = ({
+  showLowestPrice,
+  lowestPriceProducts,
+  highestPriceProducts,
+  products,
+}) => {
+  const productsToRender = showLowestPrice
+    ? lowestPriceProducts
+    : highestPriceProducts;
+
+  const highestPrice = highestPriceProducts.filter((high) =>
+    products.some(
+      (product) =>
+        product.product_name === high.product_name &&
+        product.price !== high.price
+    )
+  );
+
+  return productsToRender.map((product) => (
+    <ProductCard
+      key={product.id}
+      product={product}
+      highestPrice={highestPrice}
+    />
+  ));
+};
+
+// Main Compare component
 const Compare = () => {
   const { theme } = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
@@ -151,130 +318,14 @@ const Compare = () => {
         </div>
       </Container>
       <Navbar />
-      <div
-        style={{
-          backgroundImage: `linear-gradient(to top, ${theme.colorCode} 50%, transparent)`,
-        }}
-        className="fixed bottom-20 flex justify-between text-xl font-semibold text-center w-full p-4"
-      >
-        <div
-          style={{ borderColor: theme.colorCode }}
-          className="flex flex-col items-center border bg-white/80 rounded-xl max-w-max px-4 py-2 text-red-500"
-          onClick={() => setShowLowestPrice(false)}
-        >
-          <span>Other</span>
-          <p className="flex gap-2 text-lg font-semibold">
-            <span>£</span>
-            <span>{highestTotal}</span>
-          </p>
-        </div>
-        <div
-          style={{ borderColor: theme.colorCode }}
-          className="flex flex-col items-end border bg-white/80 rounded-xl max-w-max px-4 py-2 text-green-500"
-          onClick={() => setShowLowestPrice(true)}
-        >
-          <span>SmartList</span>
-          <p className="flex text-lg font-semibold">
-            <span>£</span>
-            <span>{lowestTotal}</span>
-          </p>
-          <span className="text-xs">Save £{saveTotal}</span>
-        </div>
-      </div>
+      <PriceComparisonFooter
+        lowestTotal={lowestTotal}
+        highestTotal={highestTotal}
+        saveTotal={saveTotal}
+        setShowLowestPrice={setShowLowestPrice}
+        theme={theme}
+      />
     </div>
-  );
-};
-
-const RenderProductCards: React.FC<{
-  showLowestPrice: boolean;
-  lowestPriceProducts: Product[];
-  highestPriceProducts: Product[];
-  products: Product[];
-}> = ({
-  showLowestPrice,
-  lowestPriceProducts,
-  highestPriceProducts,
-  products,
-}) => {
-  const productsToRender = showLowestPrice
-    ? lowestPriceProducts
-    : highestPriceProducts;
-
-  const highestPrice = highestPriceProducts.filter((high) =>
-    products.some(
-      (product) =>
-        product.product_name === high.product_name &&
-        product.price !== high.price
-    )
-  );
-
-  return productsToRender.map(
-    ({ id, supermarket_name, product_name, price }) => (
-      <Card key={id}>
-        {supermarketLogos.find((logo) =>
-          supermarket_name
-            .toLocaleLowerCase()
-            .split(" ")
-            .some((word) =>
-              logo.name.toLocaleLowerCase().includes(word.toLocaleLowerCase())
-            )
-        ) && (
-          <Image
-            src={
-              supermarketLogos.find((logo) =>
-                supermarket_name
-                  .toLocaleLowerCase()
-                  .split(" ")
-                  .some((word) =>
-                    logo.name
-                      .toLocaleLowerCase()
-                      .includes(word.toLocaleLowerCase())
-                  )
-              )?.image.src
-            }
-            className="flex-shrink-0  w-20 h-16"
-            alt={supermarket_name}
-            width={
-              supermarketLogos.find((logo) =>
-                supermarket_name
-                  .toLocaleLowerCase()
-                  .split(" ")
-                  .some((word) =>
-                    logo.name
-                      .toLocaleLowerCase()
-                      .includes(word.toLocaleLowerCase())
-                  )
-              )?.image.width
-            }
-            height={
-              supermarketLogos.find((logo) =>
-                supermarket_name
-                  .toLocaleLowerCase()
-                  .split(" ")
-                  .some((word) =>
-                    logo.name
-                      .toLocaleLowerCase()
-                      .includes(word.toLocaleLowerCase())
-                  )
-              )?.image.height
-            }
-          />
-        )}
-        <p className="font-semibold text-xs md:text-base uppercase">
-          {product_name}
-        </p>
-        <p
-          className={classNames(
-            "text-xl font-semibold",
-            highestPrice.some((product) => product.id === id)
-              ? "text-red-500"
-              : "text-green-500"
-          )}
-        >
-          £{price}
-        </p>
-      </Card>
-    )
   );
 };
 

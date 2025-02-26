@@ -31,7 +31,7 @@ function Toast({ setToastAlertSettings, toastAlertSettings }: ToastPropTypes) {
     <div
       className={classNames(
         "mx-auto space-y-3 z-50 transition-all delay-200 duration-300 ease-in-out absolute -top-14 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[320px] ",
-        toastAlertSettings.active ? "translate-y-16" : "-translate-y-20"
+        toastAlertSettings.active ? "translate-y-16" : "-translate-y-28"
       )}
     >
       <div

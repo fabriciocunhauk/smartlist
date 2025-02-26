@@ -40,7 +40,7 @@ export default function ReceiptUpload() {
             setToastAlertSettings({
               active: true,
               color: "success",
-              message: "Receipt uploaded successfully!",
+              message: "We are processing your upload!",
             });
 
             const response = await fetch(`${BASE_URL}/api/parse-receipt`, {
@@ -49,8 +49,20 @@ export default function ReceiptUpload() {
             });
 
             if (response.ok) {
+              setToastAlertSettings({
+                active: true,
+                color: "success",
+                message: "Receipt uploaded successfully!",
+              });
             } else {
               const errorData = await response.json();
+
+              setToastAlertSettings({
+                active: true,
+                color: "error",
+                message: errorData.error || response.statusText,
+              });
+
               console.error("Error uploading receipt:", errorData);
               console.log(
                 `Error uploading receipt: ${

@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SmartList",
   description:
-    "Streamline your shopping with SmartList, the ultimate tool for organizing, price comparison, and deal hunting.",
+    "Looking for an easy way to manage your shopping lists and find the best deals? Our SmartList Price Comparison helps you create and organize shopping lists while comparing prices across different stores and finding the best price.",
 };
 
 export default function RootLayout({
