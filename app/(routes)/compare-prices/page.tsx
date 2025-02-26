@@ -104,7 +104,6 @@ const PriceComparisonFooter = ({
   </div>
 );
 
-// New component for supermarket logo
 const SupermarketLogo = ({ supermarketName }: { supermarketName: string }) => {
   const normalizeName = (name: string) =>
     name.toLowerCase().replace(/[^a-z0-9]/g, "");

@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SmartList",
   description:
-    "Looking for an easy way to manage your shopping lists and find the best deals? Our SmartList Price Comparison helps you create and organize shopping lists while comparing prices across different stores and finding the best price.",
+    "Looking for an easy way to manage your shopping lists and find the best deals? SmartList Price Comparison is here to help! Our intuitive tool lets you create and organize shopping lists effortlessly while comparing prices across multiple stores to ensure you always get the best deal. Whether you're saving on groceries, electronics, or household essentials, SmartList saves you time and money. Try it today and discover how simple shopping can be!",
 };
 
 export default function RootLayout({
