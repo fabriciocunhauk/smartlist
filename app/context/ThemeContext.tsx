@@ -9,14 +9,6 @@ import {
 import { getDataFromIndexedDb } from "../utils/getDataFromIndexedDb";
 import { storeToIndexedDb } from "../utils/storeToIndexedDb";
 
-interface Theme {
-  id?: number;
-  colorCode: string;
-  text: string;
-  primary: string;
-  secondary: string;
-}
-
 const themeSelection = [
   {
     id: 1,
@@ -55,30 +47,19 @@ const themeSelection = [
   },
 ];
 
+interface Theme {
+  id?: number;
+  colorCode: string;
+  text: string;
+  primary: string;
+  secondary: string;
+}
+
 const initialTheme: Theme = {
   colorCode: "#FBB14B",
   text: "text-orange",
   primary: "bg-orange",
   secondary: "bg-lightOrange",
-};
-
-const getInitialTheme = async () => {
-  const dbName = "theme_db";
-  const storeName = "theme_store";
-  const storedTheme = await getDataFromIndexedDb(dbName, storeName);
-  return storedTheme || initialTheme;
-};
-
-const getInitialThemes = async () => {
-  const dbName = "theme_selection_db";
-  const storeName = "theme_selection_store";
-  const storedTheme = await getDataFromIndexedDb(dbName, storeName);
-
-  if (!storedTheme) {
-    storeToIndexedDb(themeSelection, dbName, storeName);
-  }
-
-  return storedTheme;
 };
 
 interface ThemeContextType {
@@ -95,21 +76,37 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>(initialTheme);
-  const [storedThemes, setStoredThemes] = useState<Theme[]>([]);
+  const [storedThemes, setStoredThemes] = useState<Theme[]>(themeSelection);
 
   const dbName = "theme_db";
   const storeName = "theme_store";
+  const dbNameForSelection = "theme_selection_db";
+  const storeNameForSelection = "theme_selection_store";
 
   useEffect(() => {
-    const loadTheme = async () => {
-      const loadedTheme = await getInitialTheme();
-      const storedThemes = await getInitialThemes();
+    const initializeThemeAndStoredThemes = async () => {
+      const loadedTheme = await getDataFromIndexedDb(dbName, storeName);
+      if (loadedTheme) {
+        setTheme(loadedTheme);
+      }
 
-      setTheme(loadedTheme);
-      setStoredThemes(storedThemes);
+      const storedThemes = await getDataFromIndexedDb(
+        dbNameForSelection,
+        storeNameForSelection
+      );
+      if (!storedThemes) {
+        storeToIndexedDb(
+          themeSelection,
+          dbNameForSelection,
+          storeNameForSelection
+        );
+        setStoredThemes(themeSelection);
+      } else {
+        setStoredThemes(storedThemes);
+      }
     };
 
-    loadTheme();
+    initializeThemeAndStoredThemes();
   }, []);
 
   useEffect(() => {

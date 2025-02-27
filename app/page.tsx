@@ -1,16 +1,16 @@
 "use client";
+import { useEffect, useState } from "react";
 import Container from "./components/Container";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
-import { Schoolbell } from "next/font/google";
+import ShoppingListForm from "./components/home/ShoppingListForm";
+import { getDataFromIndexedDb } from "./utils/getDataFromIndexedDb";
+import { storeToIndexedDb } from "./utils/storeToIndexedDb";
+import { useTheme } from "./context/ThemeContext";
 import { TbPlaylistX } from "react-icons/tb";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import { useEffect, useState } from "react";
 import { classNames } from "./utils/appearance";
-import { useTheme } from "./context/ThemeContext";
-import { storeToIndexedDb } from "./utils/storeToIndexedDb";
-import { getDataFromIndexedDb } from "./utils/getDataFromIndexedDb";
-import ShoppingListForm from "./components/home/ShoppingListForm";
+import { Schoolbell } from "next/font/google";
 
 const schoolbell = Schoolbell({
   weight: "400",
