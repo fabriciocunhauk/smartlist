@@ -18,9 +18,7 @@ function IoShareSocialOutline() {
       )}
     >
       <Header />
-
       <h2 className="font-bold text-4xl">Share The SmartList</h2>
-
       <Image
         src={shareQRcode}
         className="h-40 w-40 object-cover rounded"
@@ -32,7 +30,6 @@ function IoShareSocialOutline() {
         title="Unlock Your Smart Shopping Experience!"
         text="Streamline your shopping with SmartList, the ultimate tool for organizing, price comparison, and deal hunting."
       />
-
       <Navbar />
     </div>
   );
