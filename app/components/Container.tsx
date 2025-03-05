@@ -9,7 +9,7 @@ type ContainerProps = {
 };
 
 type SizeMapProps = {
-  [key: string]: string; // Add an index signature to allow any string key
+  [key: string]: string;
 };
 
 export default function Container({

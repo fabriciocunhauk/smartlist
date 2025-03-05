@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Button from "../Button";
 
-// Schema for list item validation
 const ListSchema = z.object({
   listItem: z.string().min(2, "Minimum of 2 characters is required"),
 });
@@ -24,7 +23,6 @@ export default function ShoppingListForm({ onSubmit }: FormProps) {
     resolver: zodResolver(ListSchema),
   });
 
-  // Handle form submission and reset the form
   const handleFormSubmit = (data: z.infer<typeof ListSchema>) => {
     onSubmit(data);
     reset();
