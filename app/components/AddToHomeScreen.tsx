@@ -70,7 +70,7 @@ const AddToHomeScreen: React.FC = () => {
   if (deferredPrompt || isIOS) {
     return (
       <Button onClick={handleClick} classes={{ button: "ml-10" }}>
-        <MdDownloading className="text-white/60 w-20" size="40" />
+        <MdDownloading className="text-white/60 w-10" size="30" />
       </Button>
     );
   }
