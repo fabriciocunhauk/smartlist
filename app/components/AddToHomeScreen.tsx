@@ -5,10 +5,9 @@ import { MdDownloading } from "react-icons/md";
 
 const AddToHomeScreen: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [isIOS, setIsIOS] = useState(false); // State to track iOS devices
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
-    // Detect iOS devices on the client side
     if (typeof window !== "undefined" && typeof navigator !== "undefined") {
       setIsIOS(
         /iPad|iPhone|iPod/.test(navigator.userAgent) &&
@@ -21,65 +20,62 @@ const AddToHomeScreen: React.FC = () => {
       "(display-mode: standalone)"
     ).matches;
 
-    if (isStandalone || isIOS) {
+    if (isStandalone) {
       return;
     }
 
     const handleBeforeInstallPrompt = (e: Event) => {
       console.log("beforeinstallprompt fired", e);
       e.preventDefault();
-      setDeferredPrompt(e); // Store the event for later use
+      setDeferredPrompt(e);
     };
 
     const handleAppInstalled = () => {
       console.log("App installed");
-      setDeferredPrompt(null); // Reset the prompt after installation
+      setDeferredPrompt(null);
     };
 
-    // Add event listeners
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
-      // Clean up event listeners
       window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt
       );
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
-  }, [isIOS]);
+  }, []);
 
   const handleClick = () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt(); // Trigger the native install prompt
+      deferredPrompt.prompt();
       deferredPrompt.userChoice.then(({ outcome }: { outcome: string }) => {
         console.log(
           `User ${
             outcome === "accepted" ? "accepted" : "dismissed"
           } the A2HS prompt`
         );
-        setDeferredPrompt(null); // Reset the prompt after user interaction
+        setDeferredPrompt(null);
       });
+    }
+
+    if (isIOS) {
+      alert(
+        "To install this app on your iPhone, tap the share button at the top or bottom of the screen, then select 'Add to Home Screen'."
+      );
     }
   };
 
-  // Render nothing if no deferredPrompt is available, on iOS, or in standalone mode
-  if (isIOS) {
+  if (deferredPrompt || isIOS) {
     return (
-      <Button onClick={handleClick}>
+      <Button onClick={handleClick} classes={{ button: "ml-10" }}>
         <MdDownloading className="text-white/60 w-20" size="40" />
       </Button>
     );
   }
 
-  if (!deferredPrompt) return null;
-
-  return (
-    <Button onClick={handleClick}>
-      <MdDownloading className="text-white/60 w-20" size="40" />
-    </Button>
-  );
+  return null;
 };
 
 export default AddToHomeScreen;

@@ -13,7 +13,7 @@ import { classNames } from "../utils/appearance";
 import ThemeColors from "./ThemeColors";
 import { useTheme } from "../context/ThemeContext";
 import { IoIosList } from "react-icons/io";
-// import AddToHomeScreen from "./AddToHomeScreen";
+import AddToHomeScreen from "./AddToHomeScreen";
 
 interface MenuItem {
   label: string;
@@ -42,9 +42,9 @@ const Header = () => {
           theme.primary
         )}
       >
-        {/* <AddToHomeScreen /> */}
-        <div></div>
+        <AddToHomeScreen />
         <ThemeColors />
+
         <Link href="/" className="w-40 md:w-52">
           <Image
             src={logo.src}
