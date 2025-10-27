@@ -143,3 +143,4 @@ Scalability of the backend
 User experience and accessibility
 Testing and quality assurance
 This breakdown provides a clear structure for the development of the Shopping List PWA with Price Comparison. Feel free to adapt it based on your specific requirements and priorities.
+-
