@@ -4,6 +4,7 @@ import { classNames } from "../utils/appearance";
 import { IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp, IoWarningOutline } from "react-icons/io5";
 import { useToastMessage } from "../context/ToastMessageContext";
+import { useEffect, useCallback } from "react";
 
 const Toast = () => {
   const { active, color, message, setToastContent } = useToastMessage();
@@ -19,13 +20,22 @@ const Toast = () => {
     }
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setToastContent({
       active: false,
       color,
       message,
     });
-  };
+  }, [color, message, setToastContent]);
+
+  useEffect(() => {
+    if (active) {
+      const timer = setTimeout(() => {
+        handleClose();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [active, handleClose]);
 
   return (
     <div

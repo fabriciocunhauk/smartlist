@@ -1,22 +1,8 @@
 import getIndexedDb from "./getIndexedDb";
 
-interface Theme {
-  id?: number;
-  colorCode: string;
-  text: string;
-  primary: string;
-  secondary: string;
-}
-
-type ListItem = {
-  name: string;
-  status: boolean;
-}[];
-
-export async function storeToIndexedDb(data: Theme | Theme[] | ListItem, dbName: string, storeName: string) {
-    const store = await getIndexedDb(dbName, storeName, "readwrite");
-
+export async function storeToIndexedDb<T>(data: T, dbName: string, storeName: string) {
   try {
+    const store = await getIndexedDb(dbName, storeName, "readwrite");
     store.clear();
     const request = store.put(data);
 
@@ -25,9 +11,9 @@ export async function storeToIndexedDb(data: Theme | Theme[] | ListItem, dbName:
     };
 
     request.onerror = (error) => {
-      console.error("Error storing new data:", error);
+      console.error(`Error storing new data in ${storeName}:`, error);
     };
   } catch (error) {
-    console.error("Error updating data in IndexedDB:", error);
+    console.error(`Error updating data in IndexedDB (${dbName}):`, error);
   }
 }

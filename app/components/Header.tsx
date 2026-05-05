@@ -51,6 +51,7 @@ const Header = () => {
             alt="Logo"
             width={logo.width}
             height={logo.height}
+            priority={true}
           />
         </Link>
 
@@ -85,6 +86,7 @@ const Header = () => {
               alt="Logo"
               width={logo.width}
               height={logo.height}
+              priority={true}
             />
           </Link>
 
