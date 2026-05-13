@@ -8,6 +8,7 @@ import Navbar from "@/app/components/Navbar";
 import { classNames } from "@/app/utils/appearance";
 import { useTheme } from "@/app/context/ThemeContext";
 import { useToastMessage } from "@/app/context/ToastMessageContext";
+import { compressImage } from "@/app/utils/compressImage";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -23,55 +24,49 @@ export default function ReceiptUpload() {
   const { theme } = useTheme();
   const { setToastContent } = useToastMessage();
 
-  const dataURLtoBlob = (dataURL: string): Blob => {
-    const [header, base64Data] = dataURL.split(";base64,");
-    const contentType = header.split(":")[1];
-    const raw = window.atob(base64Data);
-    const arrayBuffer = new Uint8Array(raw.length).map((_, i) =>
-      raw.charCodeAt(i)
-    );
-    return new Blob([arrayBuffer], { type: contentType });
-  };
-
   const handleFileUpload = async (file: File) => {
     try {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const dataURL = reader.result as string;
-        const blob = dataURLtoBlob(dataURL);
+      // Compress + convert to JPEG before upload.
+      // iPhone HEIC photos can be 8MB+; this brings them down to ~300KB
+      // which dramatically improves OCR speed and accuracy.
+      setToastContent({
+        active: true,
+        color: "success",
+        message: "Optimising image…",
+      });
 
-        const formData = new FormData();
-        formData.append("file", blob, "receipt.jpeg");
+      const compressed = await compressImage(file);
 
+      const formData = new FormData();
+      formData.append("file", compressed, "receipt.jpg");
+
+      setToastContent({
+        active: true,
+        color: "success",
+        message: "We are processing your upload!",
+      });
+
+      const response = await fetch(`${BASE_URL}/api/parse-receipt`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
         setToastContent({
           active: true,
           color: "success",
-          message: "We are processing your upload!",
+          message: "Receipt uploaded successfully!",
         });
-
-        const response = await fetch(`${BASE_URL}/api/parse-receipt`, {
-          method: "POST",
-          body: formData,
+      } else {
+        const errorData = await response.json();
+        const errorMessage = errorData.error || response.statusText;
+        setToastContent({
+          active: true,
+          color: "error",
+          message: errorMessage,
         });
-
-        if (response.ok) {
-          setToastContent({
-            active: true,
-            color: "success",
-            message: "Receipt uploaded successfully!",
-          });
-        } else {
-          const errorData = await response.json();
-          const errorMessage = errorData.error || response.statusText;
-          setToastContent({
-            active: true,
-            color: "error",
-            message: errorMessage,
-          });
-          console.error("Error uploading receipt:", errorMessage);
-        }
-      };
-      reader.readAsDataURL(file);
+        console.error("Error uploading receipt:", errorMessage);
+      }
     } catch (error) {
       console.error("Error uploading receipt:", error);
       setToastContent({
@@ -86,7 +81,9 @@ export default function ReceiptUpload() {
   const handleGallery = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
-    fileInput.accept = ".jpeg, .jpg, .png, .HEIC";
+    // Accept common image formats including iPhone HEIC photos.
+    // No `capture` attribute so the user can choose camera OR gallery.
+    fileInput.accept = "image/jpeg,image/png,image/heic,image/heif,.HEIC,.HEIF";
     fileInput.onchange = (e) => {
       const target = e.target as HTMLInputElement;
       const file = target.files && target.files[0];
