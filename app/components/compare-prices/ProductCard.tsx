@@ -36,7 +36,6 @@ const ProductCard = ({
     savingsPercent,
   } = item;
 
-  // Active product selection based on toggle state
   const activeProduct = (showLowestPrice || !hasDifference) ? cheapestProduct : expensiveProduct;
 
   const formatTitle = (text: string) => {
@@ -72,7 +71,6 @@ const ProductCard = ({
       })
       .join(" ");
 
-    // Clean up packaging notations (e.g. x4, x15, x 15)
     formatted = formatted
       .replace(/\s+[xX](\d+)/g, " x$1")
       .replace(/\s+[xX]\s+(\d+)/g, " x$1")
@@ -89,7 +87,6 @@ const ProductCard = ({
     <div
       className={classNames(
         "flex items-center justify-between w-full rounded-2xl p-4 border transition-all duration-300 shadow-sm hover:shadow-md bg-white/95 hover:bg-white",
-        // Soft border depending on active theme or dynamic selection
         hasDifference
           ? showLowestPrice
             ? "border-emerald-200 bg-gradient-to-r from-emerald-50/10 to-transparent animate-fade-in-left"
@@ -97,14 +94,11 @@ const ProductCard = ({
           : "border-slate-100"
       )}
     >
-      {/* Left Area: Logo & Info */}
       <div className="flex items-center gap-4 min-w-0 flex-grow">
-        {/* Supermarket Logo framed in beautiful pod */}
         <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1.5 border border-slate-100 shadow-sm shrink-0">
           <SupermarketLogo supermarketName={activeSupermarket || ""} />
         </div>
         
-        {/* Typographical stack */}
         <div className="flex flex-col min-w-0 pr-2">
           <h3 className="font-extrabold text-sm md:text-base text-slate-800 tracking-wide truncate">
             {cardTitle}
@@ -115,9 +109,7 @@ const ProductCard = ({
         </div>
       </div>
 
-      {/* Right Area: Dynamic Badges & Price */}
       <div className="flex items-center gap-3 shrink-0">
-        {/* Comparison Badge / Pill */}
         {hasDifference ? (
           showLowestPrice ? (
             <div className="flex items-center bg-emerald-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-sm shadow-emerald-500/10 uppercase tracking-wider select-none shrink-0">
@@ -137,7 +129,6 @@ const ProductCard = ({
           </span>
         )}
 
-        {/* Dynamic Price display */}
         <span
           className={classNames(
             "text-base md:text-lg font-black tracking-tight",
