@@ -52,6 +52,14 @@ export default function RootLayout({
         />
         <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
         
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7386584956005563"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
         {/* Google Analytics & Consent Mode v2 */}
         {gaId && (
           <>

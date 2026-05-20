@@ -7,6 +7,7 @@ import { getDataFromIndexedDb } from "../../utils/getDataFromIndexedDb";
 import { storeToIndexedDb } from "../../utils/storeToIndexedDb";
 import Spinner from "../Spinner";
 import { Schoolbell } from "next/font/google";
+import AdSense from "../AdSense";
 
 const schoolbell = Schoolbell({
   weight: "400",
@@ -92,6 +93,7 @@ export default function ShoppingList() {
           ))
         )}
       </div>
+      <AdSense adSlot="3727793913" />
     </>
   );
 }
