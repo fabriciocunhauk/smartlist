@@ -8,6 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { ToastMessageProvider } from "./context/ToastMessageContext";
 import Toast from "./components/Toast";
 import Footer from "./components/Footer";
+import CookieConsent from "./components/CookieConsent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,9 +52,42 @@ export default function RootLayout({
         />
         <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
         
-        {/* Google Analytics (gtag.js) */}
+        {/* Google Analytics & Consent Mode v2 */}
         {gaId && (
           <>
+            <Script id="google-consent-mode" strategy="beforeInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                
+                try {
+                  const savedConsent = localStorage.getItem('cookie-consent-v2');
+                  if (savedConsent) {
+                    const consent = JSON.parse(savedConsent);
+                    gtag('consent', 'default', {
+                      'ad_storage': consent.marketing ? 'granted' : 'denied',
+                      'ad_user_data': consent.marketing ? 'granted' : 'denied',
+                      'ad_personalization': consent.marketing ? 'granted' : 'denied',
+                      'analytics_storage': consent.analytics ? 'granted' : 'denied'
+                    });
+                  } else {
+                    gtag('consent', 'default', {
+                      'ad_storage': 'denied',
+                      'ad_user_data': 'denied',
+                      'ad_personalization': 'denied',
+                      'analytics_storage': 'denied'
+                    });
+                  }
+                } catch (e) {
+                  gtag('consent', 'default', {
+                    'ad_storage': 'denied',
+                    'ad_user_data': 'denied',
+                    'ad_personalization': 'denied',
+                    'analytics_storage': 'denied'
+                  });
+                }
+              `}
+            </Script>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
               strategy="afterInteractive"
@@ -80,6 +114,7 @@ export default function RootLayout({
             )}
           >
             <Toast />
+            <CookieConsent />
             <main className="flex-grow md:flex md:flex-col md:overflow-hidden">{children}</main>
             <Footer />
             <Analytics />
