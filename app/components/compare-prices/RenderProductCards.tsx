@@ -8,34 +8,27 @@ interface Product {
   price: string;
 }
 
+interface ComparedItem {
+  shoppingListItem: string;
+  cheapestProduct: Product;
+  expensiveProduct: Product;
+  hasDifference: boolean;
+  savings: string;
+  savingsPercent: number;
+}
+
 const RenderProductCards = ({
   showLowestPrice,
-  lowestPriceProducts,
-  highestPriceProducts,
-  products,
+  comparedItems,
 }: {
   showLowestPrice: boolean;
-  lowestPriceProducts: Product[];
-  highestPriceProducts: Product[];
-  products: Product[];
+  comparedItems: ComparedItem[];
 }) => {
-  const productsToRender = showLowestPrice
-    ? lowestPriceProducts
-    : highestPriceProducts;
-
-  const highestPrice = highestPriceProducts.filter((high) =>
-    products.some(
-      (product) =>
-        product.product_name === high.product_name &&
-        product.price !== high.price
-    )
-  );
-
-  return productsToRender.map((product) => (
+  return comparedItems.map((item, index) => (
     <ProductCard
-      key={product.id}
-      product={product}
-      highestPrice={highestPrice}
+      key={index}
+      item={item}
+      showLowestPrice={showLowestPrice}
     />
   ));
 };

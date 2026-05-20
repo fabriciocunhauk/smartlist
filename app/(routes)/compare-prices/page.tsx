@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@/app/components/Container";
 import Header from "@/app/components/Header";
 import Navbar from "@/app/components/Navbar";
@@ -20,13 +20,19 @@ interface Product {
   price: string;
 }
 
+interface ComparedItem {
+  shoppingListItem: string;
+  cheapestProduct: Product;
+  expensiveProduct: Product;
+  hasDifference: boolean;
+  savings: string;
+  savingsPercent: number;
+}
+
 const Compare = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [list, setList] = useState<{ name: string; status: boolean }[]>([]);
-  const [lowestPriceProducts, setLowestPriceProducts] = useState<Product[]>([]);
-  const [highestPriceProducts, setHighestPriceProducts] = useState<Product[]>(
-    []
-  );
+  const [comparedItems, setComparedItems] = useState<ComparedItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showLowestPrice, setShowLowestPrice] = useState(true);
   const { theme } = useTheme();
@@ -54,7 +60,7 @@ const Compare = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [setToastContent]);
 
   useEffect(() => {
     const getListFromIndexDb = async () => {
@@ -68,62 +74,93 @@ const Compare = () => {
   }, []);
 
   useEffect(() => {
-    if (!loading && products.length > 0) {
-      const filteredProducts = filterProducts(products, list);
-      setLowestPriceProducts(findMinMaxPrices(filteredProducts, "lowest"));
-      setHighestPriceProducts(findMinMaxPrices(filteredProducts, "highest"));
+    if (!loading && products.length > 0 && list.length > 0) {
+      const results: ComparedItem[] = list
+        .map((item) => {
+          const keyword = item.name.toLowerCase().trim();
+          if (!keyword) return null;
+
+          // Find all products matching this keyword using strict word-boundary matching.
+          // This prevents partial matches like "milk" matching "milkybar" or "milkshake",
+          // while supporting common singular/plural matching.
+          const matches = products
+            .map((product) => ({
+              ...product,
+              cleaned_name: product.product_name
+                .replace(/£\d+\.\d+[a-zA-Z]?/g, "")
+                .trim()
+                .toLowerCase(),
+            }))
+            .filter((product) => {
+              const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+              
+              // 1. Try matching with optional plural suffix (s or es) at word boundary
+              const regexKeywordPlural = new RegExp(`\\b${escapedKeyword}(?:es|s)?\\b`, "i");
+              if (regexKeywordPlural.test(product.cleaned_name)) return true;
+
+              // 2. If search keyword is plural (ends in s/es), try matching the singular form
+              if (keyword.endsWith("s")) {
+                let singularKeyword = keyword;
+                if (keyword.endsWith("es")) {
+                  singularKeyword = keyword.slice(0, -2);
+                } else {
+                  singularKeyword = keyword.slice(0, -1);
+                }
+                const escapedSingular = singularKeyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                const regexSingular = new RegExp(`\\b${escapedSingular}\\b`, "i");
+                if (regexSingular.test(product.cleaned_name)) return true;
+              }
+
+              return false;
+            });
+
+          if (matches.length === 0) return null;
+
+          // Find cheapest matching product
+          const cheapestProduct = matches.reduce((min, current) =>
+            parseFloat(current.price) < parseFloat(min.price) ? current : min
+          , matches[0]);
+
+          // Find most expensive matching product
+          const expensiveProduct = matches.reduce((max, current) =>
+            parseFloat(current.price) > parseFloat(max.price) ? current : max
+          , matches[0]);
+
+          const cheapestPrice = parseFloat(cheapestProduct.price);
+          const expensivePrice = parseFloat(expensiveProduct.price);
+          const hasDifference = expensivePrice > cheapestPrice;
+          const savings = (expensivePrice - cheapestPrice).toFixed(2);
+          const savingsPercent =
+            expensivePrice > 0
+              ? Math.round(((expensivePrice - cheapestPrice) / expensivePrice) * 100)
+              : 0;
+
+          return {
+            shoppingListItem: item.name,
+            cheapestProduct,
+            expensiveProduct,
+            hasDifference,
+            savings,
+            savingsPercent,
+          };
+        })
+        .filter(Boolean) as ComparedItem[];
+
+      setComparedItems(results);
+    } else {
+      setComparedItems([]);
     }
   }, [products, list, loading]);
 
-  const filterProducts = useCallback(
-    (
-      allProducts: Product[],
-      currentList: { name: string; status: boolean }[]
-    ) =>
-      allProducts
-        .map((product) => ({
-          ...product,
-          product_name: product.product_name
-            .replace(/£\d+\.\d+[a-zA-Z]?/g, "")
-            .trim(),
-        }))
-        .filter((product) =>
-          currentList.some((item) =>
-            product.product_name.toLowerCase().includes(item.name.toLowerCase())
-          )
-        ),
-    []
-  );
+  const lowestTotal = comparedItems
+    .reduce((acc, item) => acc + parseFloat(item.cheapestProduct.price), 0)
+    .toFixed(2);
 
-  const findMinMaxPrices = useCallback(
-    (productsToCalculate: Product[], type: "highest" | "lowest") =>
-      Object.values(
-        productsToCalculate.reduce((acc, product) => {
-          const name = product.product_name.toLowerCase();
-          acc[name] = [...(acc[name] || []), product];
-          return acc;
-        }, {} as Record<string, Product[]>)
-      ).map((group) =>
-        group.reduce(
-          (minMax, current) =>
-            parseFloat(current.price) < parseFloat(minMax.price) ===
-            (type === "lowest")
-              ? current
-              : minMax,
-          group[0]
-        )
-      ),
-    []
-  );
+  const highestTotal = comparedItems
+    .reduce((acc, item) => acc + parseFloat(item.expensiveProduct.price), 0)
+    .toFixed(2);
 
-  const calculateTotal = (products: Product[]) =>
-    products.reduce((acc, p) => acc + parseFloat(p.price), 0).toFixed(2);
-
-  const lowestTotal = calculateTotal(lowestPriceProducts);
-  const highestTotal = calculateTotal(highestPriceProducts);
-  const saveTotal = (
-    parseFloat(highestTotal) - parseFloat(lowestTotal)
-  ).toFixed(2);
+  const saveTotal = (parseFloat(highestTotal) - parseFloat(lowestTotal)).toFixed(2);
 
   return (
     <div className={classNames("h-full relative pb-52 pt-24", theme.secondary)}>
@@ -135,9 +172,7 @@ const Compare = () => {
           ) : (
             <RenderProductCards
               showLowestPrice={showLowestPrice}
-              lowestPriceProducts={lowestPriceProducts}
-              highestPriceProducts={highestPriceProducts}
-              products={products}
+              comparedItems={comparedItems}
             />
           )}
         </div>
