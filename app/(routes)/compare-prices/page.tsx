@@ -81,7 +81,7 @@ const Compare = () => {
   return (
     <div
       className={classNames(
-        "h-full pt-24 md:pt-20 pb-52 md:pb-0 md:flex md:flex-col md:overflow-hidden relative",
+        "h-full pt-24 md:pt-20 pb-52 md:pb-0 md:flex md:flex-col md:overflow-y-auto relative",
         theme.secondary
       )}
     >
@@ -89,7 +89,7 @@ const Compare = () => {
       <Container
         classes={{
           container:
-            "w-full pb-20 md:pb-32 md:flex-grow md:flex md:flex-col md:overflow-hidden md:max-w-4xl md:px-8",
+            "w-full pb-20 md:pb-6 md:flex-grow md:flex md:flex-col md:overflow-hidden md:max-w-4xl md:px-8",
         }}
       >
         <div className="flex flex-col gap-4 overflow-auto md:flex-grow md:overflow-y-auto">

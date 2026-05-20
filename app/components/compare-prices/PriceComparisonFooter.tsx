@@ -25,7 +25,7 @@ const PriceComparisonFooter = ({
   };
 
   return (
-    <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-md mx-auto">
+    <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-md mx-auto md:relative md:bottom-auto md:left-auto md:transform-none md:mb-6 md:mt-2">
       <div className="bg-white/90 backdrop-blur-md border border-white/60 shadow-2xl rounded-3xl p-4 flex flex-col gap-3 select-none">
         
         {/* Top Savings Info Bar */}
