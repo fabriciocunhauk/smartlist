@@ -50,33 +50,17 @@ const ProductCard = ({
 
   const formatProductName = (text: string) => {
     if (!text) return "";
-    let formatted = text
+    return text
       .trim()
-      .toLowerCase()
       .split(/\s+/)
       .map((word) => {
-        if (word === "js" || word === "js'") return "Sainsbury's";
-        if (word === "med") return "Medium";
-        if (word === "bkg") return "Bag";
-        if (word === "toms" || word === "tomatoes") return "Tomatoes";
-        if (word === "stwb" || word === "strawb") return "Strawberry";
-        if (word === "choc") return "Chocolate";
-        if (word === "veg") return "Vegetables";
-        if (word === "hzlnut") return "Hazelnut";
-        if (word === "procecco") return "Prosecco";
-        if (word === "blnc") return "Blanc";
-        if (word === "dble") return "Double";
-        if (word === "ft") return "Fairtrade";
-        return word.charAt(0).toUpperCase() + word.slice(1);
+        const isUpper = word === word.toUpperCase() && /[a-zA-Z]/.test(word);
+        if (isUpper) {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word;
       })
       .join(" ");
-
-    formatted = formatted
-      .replace(/\s+[xX](\d+)/g, " x$1")
-      .replace(/\s+[xX]\s+(\d+)/g, " x$1")
-      .replace(/\s+x\s*[a-zA-Z]/g, (m) => m.toLowerCase());
-
-    return formatted;
   };
 
   const cardTitle = formatTitle(shoppingListItem);
@@ -103,8 +87,11 @@ const ProductCard = ({
           <h3 className="font-extrabold text-sm md:text-base text-slate-800 tracking-wide truncate">
             {cardTitle}
           </h3>
-          <span className="text-[10px] font-medium text-slate-400 truncate mt-0.5">
-            Matched: <strong className="font-semibold text-slate-600">{matchedProductName}</strong> at {activeSupermarket}
+          <span className="text-[10px] font-semibold text-slate-500 truncate mt-0.5">
+            {matchedProductName}
+          </span>
+          <span className="text-[9px] font-medium text-slate-400 truncate">
+            at {activeSupermarket}
           </span>
         </div>
       </div>

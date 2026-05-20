@@ -1,6 +1,6 @@
 "use client";
 import { MdFormatListBulletedAdd } from "react-icons/md";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Button from "../Button";
@@ -15,12 +15,13 @@ type FormProps = {
 
 export default function ShoppingListForm({ onSubmit }: FormProps) {
   const {
-    register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<z.infer<typeof ListSchema>>({
     resolver: zodResolver(ListSchema),
+    defaultValues: { listItem: "" },
   });
 
   const handleFormSubmit = (data: z.infer<typeof ListSchema>) => {
@@ -34,12 +35,22 @@ export default function ShoppingListForm({ onSubmit }: FormProps) {
         <label htmlFor="listItem" className="sr-only">
           Add shopping list item
         </label>
-        <input
-          type="text"
-          id="listItem"
-          className="border rounded w-full h-11 pl-4 uppercase"
-          placeholder="Add To Shopping List"
-          {...register("listItem")}
+        <Controller
+          name="listItem"
+          control={control}
+          render={({ field }) => (
+            <input
+              {...field}
+              type="text"
+              id="listItem"
+              className="border rounded w-full h-11 pl-4"
+              placeholder="Add to shopping list"
+              autoComplete="on"
+              inputMode="text"
+              enterKeyHint="done"
+              onChange={(e) => field.onChange(e.target.value)}
+            />
+          )}
         />
         {errors.listItem && (
           <span className="text-xs text-red-500 mx-auto">
