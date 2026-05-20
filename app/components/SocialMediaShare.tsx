@@ -59,11 +59,11 @@ function SocialMediaShare({ url, title, text }: SocialMediaShareProps) {
   ];
 
   return (
-    <div className="flex flex-col gap-3.5 w-full mt-2">
+    <div className="flex flex-col gap-2.5 sm:gap-3.5 w-full mt-1 sm:mt-2">
       <p className="text-xs font-bold text-slate-500/80 uppercase tracking-wider text-left">
         Or share directly via
       </p>
-      <div className="grid grid-cols-4 gap-3 justify-center w-full">
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 justify-center w-full">
         {platforms.map((platform) => (
           <a
             key={platform.name}
@@ -71,7 +71,7 @@ function SocialMediaShare({ url, title, text }: SocialMediaShareProps) {
             target="_blank"
             rel="noopener noreferrer"
             className={classNames(
-              "group flex flex-col items-center justify-center p-3 rounded-2xl border border-slate-200/50 bg-white/40 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2",
+              "group flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-2xl border border-slate-200/50 bg-white/40 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2",
               platform.colorClass
             )}
             title={`Share on ${platform.name}`}
