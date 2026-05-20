@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { classNames } from "./utils/appearance";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "./context/ThemeContext";
 import { ToastMessageProvider } from "./context/ToastMessageContext";
@@ -39,6 +40,21 @@ export default function RootLayout({
           sizes="180x180"
         />
         <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
+        
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXGG3TLW5C"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-XXGG3TLW5C');
+          `}
+        </Script>
       </head>
 
       <ToastMessageProvider>
