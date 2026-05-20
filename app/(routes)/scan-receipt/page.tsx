@@ -412,44 +412,46 @@ export default function ReceiptUpload() {
               </div>
 
               {/* Simulated Instant Presets Gallery */}
-              <div className="bg-white/90 backdrop-blur-lg border border-slate-200/60 shadow-xl rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300">
-                <div className="flex flex-col gap-1">
-                  <h4 className="text-sm font-extrabold text-slate-800 tracking-tight flex items-center gap-1.5">
-                    <span>Try with Sample Templates</span>
-                    <span className="text-[10px] font-black uppercase bg-emerald-500 text-white px-2 py-0.5 rounded-full scale-90">
-                      Mock
-                    </span>
-                  </h4>
-                  <p className="text-[10px] font-semibold text-slate-400">
-                    No physical receipt nearby? Click a preset card below to test the active laser scan and matched savings visualizer instantly.
-                  </p>
-                </div>
-
-                <div className="flex flex-col gap-2.5">
-                  {mockReceipts.map((mock) => (
-                    <button
-                      key={mock.id}
-                      disabled={isUploading}
-                      onClick={() => handleSimulateScan(mock.name)}
-                      className={classNames(
-                        "flex items-center justify-between border rounded-2xl p-3.5 text-left transition-all duration-300 bg-gradient-to-r hover:scale-[1.02] hover:shadow-sm w-full select-none outline-none focus:ring-1 focus:ring-slate-300",
-                        mock.color,
-                        isUploading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-                      )}
-                    >
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-xs font-black tracking-tight">{mock.name}</span>
-                        <span className="text-[10px] font-semibold text-slate-400 mt-0.5 truncate max-w-[200px]">
-                          {mock.desc}
-                        </span>
-                      </div>
-                      <span className={classNames("text-[9px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider shrink-0", mock.badge)}>
-                        Test Scan
+              {process.env.NODE_ENV !== "production" && (
+                <div className="bg-white/90 backdrop-blur-lg border border-slate-200/60 shadow-xl rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300">
+                  <div className="flex flex-col gap-1">
+                    <h4 className="text-sm font-extrabold text-slate-800 tracking-tight flex items-center gap-1.5">
+                      <span>Try with Sample Templates</span>
+                      <span className="text-[10px] font-black uppercase bg-emerald-500 text-white px-2 py-0.5 rounded-full scale-90">
+                        Mock
                       </span>
-                    </button>
-                  ))}
+                    </h4>
+                    <p className="text-[10px] font-semibold text-slate-400">
+                      No physical receipt nearby? Click a preset card below to test the active laser scan and matched savings visualizer instantly.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5">
+                    {mockReceipts.map((mock) => (
+                      <button
+                        key={mock.id}
+                        disabled={isUploading}
+                        onClick={() => handleSimulateScan(mock.name)}
+                        className={classNames(
+                          "flex items-center justify-between border rounded-2xl p-3.5 text-left transition-all duration-300 bg-gradient-to-r hover:scale-[1.02] hover:shadow-sm w-full select-none outline-none focus:ring-1 focus:ring-slate-300",
+                          mock.color,
+                          isUploading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                        )}
+                      >
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-xs font-black tracking-tight">{mock.name}</span>
+                          <span className="text-[10px] font-semibold text-slate-400 mt-0.5 truncate max-w-[200px]">
+                            {mock.desc}
+                          </span>
+                        </div>
+                        <span className={classNames("text-[9px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider shrink-0", mock.badge)}>
+                          Test Scan
+                        </span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
 

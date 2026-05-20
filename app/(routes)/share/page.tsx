@@ -7,7 +7,11 @@ import shareQRcode from "@/public/images/share-smart-list.png";
 import SocialMediaShare from "@/app/components/SocialMediaShare";
 import { useTheme } from "@/app/context/ThemeContext";
 import { classNames } from "@/app/utils/appearance";
-import { IoCopyOutline, IoCheckmarkOutline, IoDownloadOutline } from "react-icons/io5";
+import {
+  IoCopyOutline,
+  IoCheckmarkOutline,
+  IoDownloadOutline,
+} from "react-icons/io5";
 
 function SharePage() {
   const { theme } = useTheme();
@@ -27,21 +31,20 @@ function SharePage() {
   return (
     <div
       className={classNames(
-        "flex flex-col items-center justify-between min-h-screen pb-28 md:pb-12 px-4 transition-colors duration-300 ease-in-out",
-        theme.secondary
+        "flex flex-col items-center justify-between min-h-screen mt-16 md:mt-0 pb-28 md:pb-12 px-4 transition-colors duration-300 ease-in-out",
+        theme.secondary,
       )}
     >
       <Header />
 
       <main className="flex-1 flex items-center justify-center w-full max-w-md mx-auto my-auto py-6">
         <div className="w-full bg-white/70 backdrop-blur-lg border border-white/40 shadow-xl rounded-[32px] p-6 md:p-8 flex flex-col items-center text-center gap-6 transition-all duration-300">
-
           {/* Header Info */}
           <div className="flex flex-col items-center gap-2">
             <span
               className={classNames(
                 "px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-white/80 border border-white/60 shadow-sm",
-                theme.text
+                theme.text,
               )}
             >
               Spread the Word
@@ -50,7 +53,8 @@ function SharePage() {
               Share SmartList
             </h2>
             <p className="text-sm font-medium text-slate-500 max-w-[280px]">
-              Help others save time and shop smarter. Invite friends and family to join!
+              Help others save time and shop smarter. Invite friends and family
+              to join!
             </p>
           </div>
 
@@ -71,7 +75,7 @@ function SharePage() {
               download="smartlist-qr-code.png"
               className={classNames(
                 "flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white shadow-md transition-all duration-300 active:scale-95 hover:shadow-lg hover:brightness-105 cursor-pointer",
-                theme.primary
+                theme.primary,
               )}
             >
               <IoDownloadOutline className="w-4 h-4" />
@@ -94,7 +98,9 @@ function SharePage() {
                 onClick={handleCopy}
                 className={classNames(
                   "flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl text-xs font-bold text-white transition-all duration-300 active:scale-95 shadow-sm focus:outline-none min-w-[90px]",
-                  copied ? "bg-emerald-500 hover:bg-emerald-600" : theme.primary
+                  copied
+                    ? "bg-emerald-500 hover:bg-emerald-600"
+                    : theme.primary,
                 )}
                 aria-label="Copy link to clipboard"
               >
@@ -119,7 +125,6 @@ function SharePage() {
             title="Unlock Your Smart Shopping Experience!"
             text="Streamline your shopping with SmartList, the ultimate tool for organizing, price comparison, and deal hunting."
           />
-
         </div>
       </main>
 
