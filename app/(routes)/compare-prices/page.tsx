@@ -11,6 +11,7 @@ import { useToastMessage } from "@/app/context/ToastMessageContext";
 import PriceComparisonFooter from "@/app/components/compare-prices/PriceComparisonFooter";
 import RenderProductCards from "@/app/components/compare-prices/RenderProductCards";
 import { compareShoppingList, Product, ComparedItem } from "@/app/utils/compare";
+import AdSense from "@/app/components/AdSense";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -95,10 +96,13 @@ const Compare = () => {
           {loading ? (
             <Spinner />
           ) : (
-            <RenderProductCards
-              showLowestPrice={showLowestPrice}
-              comparedItems={comparedItems}
-            />
+            <>
+              <RenderProductCards
+                showLowestPrice={showLowestPrice}
+                comparedItems={comparedItems}
+              />
+              <AdSense adSlot="8409274958" className="mt-8 mb-4 max-w-[300px]" />
+            </>
           )}
         </div>
       </Container>
