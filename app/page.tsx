@@ -11,9 +11,19 @@ export default function Home() {
   const { theme } = useTheme();
 
   return (
-    <div className={classNames("h-full pt-24", theme.secondary)}>
+    <div
+      className={classNames(
+        "h-full pt-24 md:pt-20 md:flex md:flex-col md:overflow-hidden",
+        theme.secondary
+      )}
+    >
       <Header />
-      <Container>
+      <Container
+        classes={{
+          container:
+            "w-full md:flex-grow md:flex md:flex-col md:overflow-hidden md:max-w-4xl md:px-8",
+        }}
+      >
         <ShoppingList />
       </Container>
       <Navbar />

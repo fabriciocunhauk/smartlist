@@ -97,14 +97,14 @@ export default function ReceiptUpload() {
   return (
     <div
       className={classNames(
-        "relative flex flex-col items-center gap-10 h-full",
+        "relative flex flex-col items-center gap-10 h-full md:overflow-hidden",
         theme.secondary
       )}
     >
       <Header />
       <Container
         classes={{
-          container: "flex flex-col items-center gap-4 text-4xl pt-28 pb-40",
+          container: "flex flex-col items-center gap-4 text-4xl pt-28 pb-40 md:pt-20 md:pb-6 md:flex-grow md:overflow-y-auto w-full md:max-w-4xl md:px-8",
         }}
       >
         <h2 className="font-bold">Scan your Receipt</h2>
@@ -120,14 +120,14 @@ export default function ReceiptUpload() {
         </ul>
         <Image
           src={receiptGif}
-          className="w-52 h-96 md:h-full object-cover rounded"
+          className="w-52 h-96 md:h-[400px] object-cover rounded"
           alt="Loading Gif"
         />
       </Container>
       <Button
         classes={{
           button:
-            "fixed bottom-0 mb-28 rounded-full flex items-center justify-center gap-4 text-white min-w-40",
+            "fixed bottom-48 rounded-full flex items-center justify-center gap-4 text-white min-w-40",
         }}
         onClick={handleGallery}
       >

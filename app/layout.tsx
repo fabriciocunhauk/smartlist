@@ -6,6 +6,7 @@ import "./globals.css";
 import { ThemeProvider } from "./context/ThemeContext";
 import { ToastMessageProvider } from "./context/ToastMessageContext";
 import Toast from "./components/Toast";
+import Footer from "./components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,11 +46,12 @@ export default function RootLayout({
           <body
             className={classNames(
               `${geistSans.variable} ${geistMono.variable} antialiased text-darkGray`,
-              "flex flex-col justify-between"
+              "flex flex-col justify-between md:h-screen md:overflow-hidden"
             )}
           >
             <Toast />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow md:flex md:flex-col md:overflow-hidden">{children}</main>
+            <Footer />
             <Analytics />
           </body>
         </ThemeProvider>

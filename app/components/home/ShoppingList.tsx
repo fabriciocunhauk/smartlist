@@ -75,7 +75,7 @@ export default function ShoppingList() {
       <ShoppingListForm onSubmit={handleFormSubmit} />
 
       <div
-        className={`flex flex-col gap-4 overflow-auto h-[460px] md:h-[900px] lg:h-[1050px] pb-32 mt-6 ${schoolbell.className}`}
+        className={`flex flex-col gap-4 overflow-y-auto h-[460px] md:h-auto md:flex-grow md:pb-6 mt-6 ${schoolbell.className}`}
       >
         {list.length === 0 ? (
           <p className="text-center text-darkGray/60 mt-10">

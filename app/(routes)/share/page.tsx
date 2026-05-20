@@ -13,7 +13,7 @@ function IoShareSocialOutline() {
   return (
     <div
       className={classNames(
-        "flex flex-col gap-10 items-center justify-center h-full",
+        "flex flex-col gap-10 items-center justify-center h-full pt-24 md:pt-20 md:overflow-hidden",
         theme.secondary
       )}
     >

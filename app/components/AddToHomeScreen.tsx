@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 import Button from "./Button";
 import { MdDownloading } from "react-icons/md";
 
-const AddToHomeScreen: React.FC = () => {
+interface AddToHomeScreenProps {
+  buttonClass?: string;
+}
+
+const AddToHomeScreen: React.FC<AddToHomeScreenProps> = ({ buttonClass = "ml-10" }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isIOS, setIsIOS] = useState(false);
 
@@ -69,7 +73,7 @@ const AddToHomeScreen: React.FC = () => {
 
   if (deferredPrompt || isIOS) {
     return (
-      <Button onClick={handleClick} classes={{ button: "ml-10" }}>
+      <Button onClick={handleClick} classes={{ button: buttonClass }}>
         <MdDownloading className="text-white/60 w-10" size="30" />
       </Button>
     );

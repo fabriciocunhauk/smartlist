@@ -78,10 +78,20 @@ const Compare = () => {
   const saveTotal = (parseFloat(highestTotal) - parseFloat(lowestTotal)).toFixed(2);
 
   return (
-    <div className={classNames("h-full relative pb-52 pt-24", theme.secondary)}>
+    <div
+      className={classNames(
+        "h-full pt-24 md:pt-20 pb-52 md:pb-0 md:flex md:flex-col md:overflow-hidden relative",
+        theme.secondary
+      )}
+    >
       <Header />
-      <Container classes={{ container: "pb-20" }}>
-        <div className="flex flex-col gap-4 overflow-auto">
+      <Container
+        classes={{
+          container:
+            "w-full pb-20 md:pb-32 md:flex-grow md:flex md:flex-col md:overflow-hidden md:max-w-4xl md:px-8",
+        }}
+      >
+        <div className="flex flex-col gap-4 overflow-auto md:flex-grow md:overflow-y-auto">
           {loading ? (
             <Spinner />
           ) : (

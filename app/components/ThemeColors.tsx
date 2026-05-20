@@ -3,7 +3,11 @@ import { useTheme } from "../context/ThemeContext";
 import { classNames } from "../utils/appearance";
 import { IoIosArrowDown } from "react-icons/io";
 
-function ThemeColors() {
+interface ThemeColorsProps {
+  className?: string;
+}
+
+function ThemeColors({ className = "absolute left-4 top-5 z-50" }: ThemeColorsProps) {
   const [active, setActive] = useState(false);
   const { storedThemes, theme, setTheme } = useTheme();
 
@@ -24,7 +28,7 @@ function ThemeColors() {
   };
 
   return (
-    <div className="flex flex-col absolute left-4 top-5">
+    <div className={classNames("flex flex-col", className)}>
       <div
         className={classNames(
           "overflow-hidden h-10 p-2 transition-all duration-300 ease-in-out",
