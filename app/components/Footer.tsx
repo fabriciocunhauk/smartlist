@@ -14,7 +14,7 @@ function Footer() {
     <footer
       className={classNames(
         "hidden md:block w-full border-t border-slate-200/50 py-10 px-8 transition-all duration-300",
-        theme.secondary
+        theme.primary
       )}
     >
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">

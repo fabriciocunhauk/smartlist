@@ -39,20 +39,20 @@ const Header = () => {
       <header
         className={classNames(
           "fixed top-0 w-full z-40 transition-all duration-300 ease-in-out px-4",
-          "grid grid-cols-3 h-24 place-content-center",
+          "h-24",
           "md:flex md:items-center md:justify-between md:h-20 md:px-8",
           theme.primary
         )}
       >
-        {/* Actions Group (Mobile: absolute top left, Desktop: static flex end) */}
-        <div className="absolute left-4 top-5 flex items-center gap-2 md:static md:left-auto md:top-auto md:gap-4 md:order-3">
-          <ThemeColors className="static left-auto top-auto z-50" />
+        {/* Actions Group (Mobile: absolute left, Desktop: static flex end) */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 md:static md:translate-y-0 md:gap-4 md:order-3">
+          <ThemeColors />
           <AddToHomeScreen buttonClass="ml-0 md:ml-0" />
         </div>
 
-        {/* Logo (Mobile: col 2 centered, Desktop: left order-1) */}
-        <div className="col-start-2 place-self-center md:col-start-auto md:place-self-auto md:order-1">
-          <Link href="/" className="w-36 md:w-44 flex items-center">
+        {/* Logo (Mobile: absolute centered, Desktop: static left order-1) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 md:order-1 flex justify-center items-center">
+          <Link href="/" className="w-36 md:w-44 flex items-center justify-center">
             <Image
               src={logo.src}
               alt="Logo"
@@ -63,8 +63,8 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Menu & Navigation (Mobile: col 3 right, Desktop: center order-2) */}
-        <div className="col-start-3 place-self-end md:col-start-auto md:place-self-auto md:order-2 flex items-center">
+        {/* Menu & Navigation (Mobile: absolute right, Desktop: static center order-2) */}
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 md:static md:translate-y-0 md:order-2 flex items-center">
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1.5 lg:gap-3" aria-label="Desktop Navigation">
             {menuItems.map((item, index) => {
