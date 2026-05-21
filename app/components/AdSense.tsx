@@ -34,8 +34,14 @@ export default function AdSense({
     }
   }, []);
 
+  const hasMaxWidth = className.includes("max-w-");
+
   return (
-    <div className={`w-full overflow-hidden my-4 mx-auto max-w-lg pb-16 md:pb-4 ${className}`}>
+    <div
+      className={`w-full overflow-hidden my-4 mx-auto pb-16 md:pb-4 ${
+        hasMaxWidth ? "" : "max-w-lg"
+      } ${className}`}
+    >
       {/* SmartList_Article_Footer_Multiplex */}
       <ins
         className="adsbygoogle"
