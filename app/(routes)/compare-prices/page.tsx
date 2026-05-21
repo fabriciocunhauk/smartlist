@@ -101,7 +101,7 @@ const Compare = () => {
                 showLowestPrice={showLowestPrice}
                 comparedItems={comparedItems}
               />
-              <AdSense adSlot="8409274958" className="mt-8 mb-4 max-w-[300px]" />
+              <AdSense adSlot="8409274958" className="mt-8 mb-4 w-full max-w-[728px]" />
             </>
           )}
         </div>
