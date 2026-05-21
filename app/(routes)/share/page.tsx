@@ -16,7 +16,7 @@ import {
 function SharePage() {
   const { theme } = useTheme();
   const [copied, setCopied] = useState(false);
-  const shareUrl = "https://www.smart-list.co.uk";
+  const shareUrl = "https://smart-list.co.uk";
 
   const handleCopy = async () => {
     try {

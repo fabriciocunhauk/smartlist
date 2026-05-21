@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     "Compare prices of your shopping list items across top supermarkets like Sainsbury's, Morrisons, Aldi, and Tesco. Find the cheapest prices and save money instantly with SmartList.",
   alternates: {
-    canonical: "https://www.smart-list.co.uk/compare-prices",
+    canonical: "https://smart-list.co.uk/compare-prices",
   },
 };
 
