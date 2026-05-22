@@ -1,7 +1,6 @@
-
 # SmartList - Your Intelligent Shopping Companion
 
-<a href="https://www.smart-list.co.uk/">
+<a href="https://smart-list.co.uk/">
   <img src="./public/images/smart-list-logo.svg" alt="SmartList Logo" width="208" height="81">
 </a>
 
@@ -11,12 +10,12 @@ SmartList is a Progressive Web App (PWA) designed to revolutionize your grocery 
 
 **Key Features:**
 
-* **Effortless List Creation:** Easily create and manage shopping lists to keep track of items you need to buy.
-* **Product Addition:** Add new products to your shopping list with ease.
-* **Price Comparison:** Compare prices of products from different stores to find the best deals.
-* **Lowest Price View:** See the lowest price for each product on your list and the store where it was found.
-* **Offline Access:** Access your shopping lists and price comparisons even without an internet connection.
-* **Installable PWA:** Install the app on your home screen for quick and easy access.
+- **Effortless List Creation:** Easily create and manage shopping lists to keep track of items you need to buy.
+- **Product Addition:** Add new products to your shopping list with ease.
+- **Price Comparison:** Compare prices of products from different stores to find the best deals.
+- **Lowest Price View:** See the lowest price for each product on your list and the store where it was found.
+- **Offline Access:** Access your shopping lists and price comparisons even without an internet connection.
+- **Installable PWA:** Install the app on your home screen for quick and easy access.
 
 **Screenshots:**
 
@@ -27,43 +26,43 @@ SmartList is a Progressive Web App (PWA) designed to revolutionize your grocery 
 
 <img src="./public/screenshots/desktop_screenshot.png" alt="SmartList Main Screen 1" />
 
-*The main screen of SmartList, showcasing the shopping list with added items.*
+_The main screen of SmartList, showcasing the shopping list with added items._
 
-**[Link to SmartList Website](https://www.smart-list.co.uk/)**
+**[Link to SmartList Website](https://smart-list.co.uk/)**
 
 ## User Stories
 
-* As a user, I want to be able to create a shopping list, so that I can keep track of the items I need to buy.
-* As a user, I want to be able to add new products to my shopping list, so that I can include all the items I need.
-* As a user, I want to be able to view my current shopping list, so that I can easily see what I need to buy.
-* As a user, I want to be able to compare prices of products from different stores, so that I can find the best deals.
-* As a user, I want to be able to add new price information for products, so that the price comparison feature can be kept up-to-date.
-* As a user, I want to be able to view the lowest price for each product on my shopping list, so that I can make informed purchasing decisions.
-* As a user, I want to be able to view the store where the lowest price for each product was found, so that I know where to go to get the best deals.
-* As a user, I want to be able to use the app offline, so that I can access my shopping list and price comparisons even when I don't have an internet connection.
-* As a user, I want to be able to install the app on my home screen, so that I can easily access it from my device.
+- As a user, I want to be able to create a shopping list, so that I can keep track of the items I need to buy.
+- As a user, I want to be able to add new products to my shopping list, so that I can include all the items I need.
+- As a user, I want to be able to view my current shopping list, so that I can easily see what I need to buy.
+- As a user, I want to be able to compare prices of products from different stores, so that I can find the best deals.
+- As a user, I want to be able to add new price information for products, so that the price comparison feature can be kept up-to-date.
+- As a user, I want to be able to view the lowest price for each product on my shopping list, so that I can make informed purchasing decisions.
+- As a user, I want to be able to view the store where the lowest price for each product was found, so that I know where to go to get the best deals.
+- As a user, I want to be able to use the app offline, so that I can access my shopping list and price comparisons even when I don't have an internet connection.
+- As a user, I want to be able to install the app on my home screen, so that I can easily access it from my device.
 
 ## Technical Tasks
 
-* Set up the React project
-* Create components for the shopping list, product form, price comparison, and navigation
-* Implement API calls to interact with the backend
-* Develop the price extraction and comparison logic
-* Implement PWA features (service worker, manifest file)
-* Write unit and integration tests
-* Design and implement the user interface
-* Address any bugs or issues
+- Set up the React project
+- Create components for the shopping list, product form, price comparison, and navigation
+- Implement API calls to interact with the backend
+- Develop the price extraction and comparison logic
+- Implement PWA features (service worker, manifest file)
+- Write unit and integration tests
+- Design and implement the user interface
+- Address any bugs or issues
 
 ## Additional Considerations
 
-* Data privacy and security
-* Scalability of the backend
-* User experience and accessibility
-* Testing and quality assurance
+- Data privacy and security
+- Scalability of the backend
+- User experience and accessibility
+- Testing and quality assurance
 
 ## Getting Started
 
-1.  **Visit the Website:** Go to [https://www.smart-list.co.uk/](https://www.smart-list.co.uk/) on your device's browser.
+1.  **Visit the Website:** Go to [https://smart-list.co.uk/](https://smart-list.co.uk/) on your device's browser.
 2.  **Add to Home Screen:** Follow the prompts to install the PWA on your home screen.
 3.  **Create an Account (Optional):** Sign up for an account to save your lists and preferences.
 4.  **Start Shopping:** Begin adding items to your shopping list and exploring the price comparison features.
@@ -118,6 +117,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## Shopping List PWA with Price Comparison
 
 User Stories
+
 - As a user,I want to be able to create a shopping list,so that I can keep track of the items I need to buy.
 - As a user,I want to be able to add new products to my shopping list,so that I can include all the items I need.
 - As a user,I want to be able to view my current shopping list,so that I can easily see what I need to buy.
@@ -127,8 +127,9 @@ User Stories
 - As a user,I want to be able to view the store where the lowest price for each product was found,so that I know where to go to get the best deals.
 - As a user,I want to be able to use the app offline,so that I can access my shopping list and price comparisons even when I don't have an internet connection.
 - As a user,I want to be able to install the app on my home screen,so that I can easily access it from my device.
-  
+
 ## Technical Tasks:
+
 Set up the React project
 Create components for the shopping list, product form, price comparison, and navigation
 Implement API calls to interact with the backend
@@ -143,4 +144,5 @@ Scalability of the backend
 User experience and accessibility
 Testing and quality assurance
 This breakdown provides a clear structure for the development of the Shopping List PWA with Price Comparison. Feel free to adapt it based on your specific requirements and priorities.
+
 -

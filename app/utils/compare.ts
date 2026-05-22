@@ -108,95 +108,123 @@ const KEYWORD_ALIASES: Record<string, string[][]> = {
   ketchup:     [["ketchup"], ["hp sauce"]],
 };
 
-/**
- * Returns all alias patterns for a given keyword (normalised to lowercase).
- * Falls back to the keyword itself if no alias entry exists.
- */
-function getAliasPatterns(keyword: string): string[][] {
-  const lower = keyword.toLowerCase().trim();
-  return KEYWORD_ALIASES[lower] ?? [[lower]];
-}
+
 
 /** Tokens that are clearly size/quantity — not part of the product name. */
 const SIZE_TOKEN = /^(\d+\.?\d*(g|kg|ml|cl|l|oz|lb|lbs)?|x\d+|\d+x|\d+)$/i;
-const UNIT_TOKEN = /^(g|kg|ml|cl|l|oz|lb|lbs|pints?|litre?s?|pack|pk|each|ea|jar|tin|can|bag|box|bottle|btl)$/i;
+const UNIT_TOKEN = /^(g|kg|ml|cl|l|oz|lb|lbs|pints?|litre?s?|pack|pk|pck|each|ea|jar|tin|can|bag|bkg|pkg|box|bottle|btl|tub|tray|pcs|pc|loaf|loaves)$/i;
 
-function getMainWords(productWords: string[]): string[] {
-  const words = [...productWords];
-  while (words.length > 1) {
-    const last = words[words.length - 1];
-    if (SIZE_TOKEN.test(last) || UNIT_TOKEN.test(last)) {
-      words.pop();
-    } else {
-      break;
+function wordsMatch(kwWord: string, prodWord: string): boolean {
+  const kw = kwWord.toLowerCase();
+  const prod = prodWord.toLowerCase();
+
+  if (kw === prod) return true;
+
+  // Plural/singular check
+  if (
+    kw === `${prod}s` ||
+    kw === `${prod}es` ||
+    prod === `${kw}s` ||
+    prod === `${kw}es`
+  ) {
+    return true;
+  }
+
+  // Alias check
+  const kwAliases = KEYWORD_ALIASES[kw];
+  if (kwAliases) {
+    for (const terms of kwAliases) {
+      if (terms.some((term) => term.toLowerCase() === prod)) {
+        return true;
+      }
     }
   }
-  return words;
-}
 
-/**
- * For single-word keywords NOT in the alias map, fall back to the
- * "last meaningful word" heuristic to avoid false positives.
- */
-function isKeywordMainSubject(keyword: string, productWords: string[]): boolean {
-  const mainWords = getMainWords(productWords);
-  if (mainWords.length === 0) return false;
-  const lastWord = mainWords[mainWords.length - 1];
-  const kw = keyword.toLowerCase();
-  return (
-    lastWord === kw ||
-    lastWord === `${kw}s` ||
-    lastWord === `${kw}es` ||
-    kw === `${lastWord}s` ||
-    kw === `${lastWord}es`
-  );
-}
-
-function matchesAliasPatterns(keyword: string, cleanedName: string): boolean {
-  const patterns = getAliasPatterns(keyword);
-  return patterns.some((andTerms) =>
-    andTerms.every((term) => {
-      const escaped = escapeRegex(term.toLowerCase());
-      const isAlphanumeric = /^[a-z0-9]+$/i.test(term);
-      const regex = isAlphanumeric
-        ? new RegExp(`\\b${escaped}\\b`, "i")
-        : new RegExp(escaped, "i");
-      return regex.test(cleanedName);
-    })
-  );
-}
-
-/**
- * Determines whether a product is a genuine match for the keyword.
- * Priority:
- *   1. If keyword has a known alias map → use it
- *   2. Otherwise → use last-word heuristic for single-word keywords
- *   3. Multi-word keywords without aliases → simple substring check
- */
-function isGenuineMatch(keyword: string, product: Product & { cleaned_name: string }): boolean {
-  const lower = keyword.toLowerCase().trim();
-  const hasAlias = lower in KEYWORD_ALIASES;
-
-  if (hasAlias) {
-    return matchesAliasPatterns(lower, product.cleaned_name);
+  const prodAliases = KEYWORD_ALIASES[prod];
+  if (prodAliases) {
+    for (const terms of prodAliases) {
+      if (terms.some((term) => term.toLowerCase() === kw)) {
+        return true;
+      }
+    }
   }
 
-  const productWords = product.cleaned_name.split(/\s+/).filter(Boolean);
-  const keywordWords = lower.split(/\s+/).filter(Boolean);
+  return false;
+}
 
-  if (keywordWords.length === 1) {
-    // Single word without alias: must be the main subject (last meaningful word)
-    const escaped = escapeRegex(lower);
-    const regex = new RegExp(`\\b${escaped}(?:es|s)?\\b`, "i");
-    if (!regex.test(product.cleaned_name)) return false;
-    return isKeywordMainSubject(lower, productWords);
+function findCoreAliasKey(text: string): string | null {
+  const lower = text.toLowerCase().trim();
+  const words = lower.split(/\s+/).filter(Boolean);
+
+  const aliasKeys = Object.keys(KEYWORD_ALIASES).sort((a, b) => b.length - a.length);
+
+  for (let i = words.length - 1; i >= 0; i--) {
+    const candidate = words.slice(i).join(" ");
+    for (const key of aliasKeys) {
+      if (
+        key === candidate ||
+        KEYWORD_ALIASES[key].some((andTerms) =>
+          andTerms.every((term) => term === candidate)
+        )
+      ) {
+        return key;
+      }
+    }
   }
 
-  // Multi-word: all words must appear
-  return keywordWords.every((word) => {
-    const escaped = escapeRegex(word);
-    return new RegExp(`\\b${escaped}\\b`, "i").test(product.cleaned_name);
-  });
+  for (const key of aliasKeys) {
+    const escaped = escapeRegex(key);
+    const regex = new RegExp(`\\b${escaped}\\b`, "i");
+    if (regex.test(lower)) {
+      return key;
+    }
+  }
+
+  return null;
+}
+
+function isGenuineMatch(
+  keyword: string,
+  product: Product & { cleaned_name: string }
+): boolean {
+  const cleanedKeyword = cleanProductName(keyword);
+
+  const kwWords = cleanedKeyword
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((word) => !SIZE_TOKEN.test(word) && !UNIT_TOKEN.test(word));
+  const prodWords = product.cleaned_name
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((word) => !SIZE_TOKEN.test(word) && !UNIT_TOKEN.test(word));
+
+  if (kwWords.length === 0) return false;
+
+  // 1. Try strict multi-word match
+  const strictMatch = kwWords.every((kwWord) =>
+    prodWords.some((prodWord) => wordsMatch(kwWord, prodWord))
+  );
+  if (strictMatch) return true;
+
+  // 2. Loose fallback via core subject
+  const kwCore = findCoreAliasKey(cleanedKeyword);
+  const prodCore = findCoreAliasKey(product.cleaned_name);
+
+  if (kwCore && prodCore && kwCore === prodCore) {
+    const hasConflictingAdjective =
+      (kwWords.includes("apple") && prodWords.includes("orange")) ||
+      (kwWords.includes("orange") && prodWords.includes("apple")) ||
+      (kwWords.includes("white") && prodWords.includes("brown")) ||
+      (kwWords.includes("brown") && prodWords.includes("white")) ||
+      (kwWords.includes("salted") && prodWords.includes("unsalted")) ||
+      (kwWords.includes("unsalted") && prodWords.includes("salted"));
+
+    if (!hasConflictingAdjective) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 export function compareShoppingList(
