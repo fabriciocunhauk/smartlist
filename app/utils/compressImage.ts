@@ -12,7 +12,6 @@
  */
 export async function compressImage(
   file: File,
-  maxDimension = 1800,
   quality = 0.85
 ): Promise<Blob> {
   return new Promise((resolve, reject) => {
@@ -23,7 +22,9 @@ export async function compressImage(
       URL.revokeObjectURL(url);
 
       const { width, height } = img;
-      const scale = Math.min(1, maxDimension / Math.max(width, height));
+      // For receipt OCR, the horizontal text resolution (width) is critical.
+      // We scale based on width, ensuring a minimum crisp width of 1200px (or original width if smaller).
+      const scale = Math.min(1, 1200 / width);
       const targetWidth = Math.round(width * scale);
       const targetHeight = Math.round(height * scale);
 
