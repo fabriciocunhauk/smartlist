@@ -11,6 +11,25 @@ import AdSense from "./AdSense";
 function Footer() {
   const { theme } = useTheme();
 
+  // Adjust colors dynamically based on the active theme
+  const isLightTheme = theme.id === 1; // Theme ID 1 is Orange
+
+  const textSecondaryClass = isLightTheme 
+    ? "text-slate-700/80" 
+    : "text-white/70";
+
+  const linkClass = isLightTheme
+    ? "text-slate-700 hover:text-slate-900 transition-colors duration-200"
+    : "text-white/80 hover:text-white transition-colors duration-200";
+
+  const portfolioClass = isLightTheme
+    ? "text-slate-700 hover:text-slate-900 transition-colors duration-200 underline underline-offset-4 decoration-slate-400 hover:decoration-slate-600"
+    : "text-white/80 hover:text-white transition-colors duration-200 underline underline-offset-4 decoration-white/30 hover:decoration-white/60";
+
+  const copyrightClass = isLightTheme
+    ? "flex flex-col items-center md:items-end gap-2 text-xs text-slate-700/80 font-medium"
+    : "flex flex-col items-center md:items-end gap-2 text-xs text-white/70 font-medium";
+
   return (
     <footer
       className={classNames(
@@ -35,20 +54,37 @@ function Footer() {
                 height={logo.height}
                 priority={true}
                 className="brightness-90 contrast-125"
+                style={theme.id !== 1 ? { filter: "brightness(0) invert(1)" } : undefined}
               />
             </Link>
-            <p className="text-xs text-slate-500 font-medium tracking-wide">
+            <p className={classNames("text-xs font-medium tracking-wide", textSecondaryClass)}>
               Smart shopping starts here.
             </p>
           </div>
 
+          {/* Middle Side: Quick Links */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold">
+            <Link href="/about-us" className={linkClass}>
+              About Us
+            </Link>
+            <Link href="/faq" className={linkClass}>
+              FAQ
+            </Link>
+            <Link href="/privacy-policy" className={linkClass}>
+              Privacy Policy
+            </Link>
+            <Link href="/terms-of-service" className={linkClass}>
+              Terms of Service
+            </Link>
+          </div>
+
           {/* Right Side: Copyright & Portfolio */}
-          <div className="flex flex-col items-center md:items-end gap-2 text-xs text-slate-500 font-medium">
+          <div className={copyrightClass}>
             <Link
               href="https://fabriciocunha.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-slate-800 transition-colors duration-200 underline underline-offset-4 decoration-slate-300 hover:decoration-slate-500"
+              className={portfolioClass}
             >
               Developer Portfolio
             </Link>

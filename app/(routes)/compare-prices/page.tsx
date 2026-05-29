@@ -10,7 +10,11 @@ import { getDataFromIndexedDb } from "@/app/utils/getDataFromIndexedDb";
 import { useToastMessage } from "@/app/context/ToastMessageContext";
 import PriceComparisonFooter from "@/app/components/compare-prices/PriceComparisonFooter";
 import RenderProductCards from "@/app/components/compare-prices/RenderProductCards";
-import { compareShoppingList, Product, ComparedItem } from "@/app/utils/compare";
+import {
+  compareShoppingList,
+  Product,
+  ComparedItem,
+} from "@/app/utils/compare";
 import AdSense from "@/app/components/AdSense";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -76,13 +80,15 @@ const Compare = () => {
     .reduce((acc, item) => acc + parseFloat(item.expensiveProduct.price), 0)
     .toFixed(2);
 
-  const saveTotal = (parseFloat(highestTotal) - parseFloat(lowestTotal)).toFixed(2);
+  const saveTotal = (
+    parseFloat(highestTotal) - parseFloat(lowestTotal)
+  ).toFixed(2);
 
   return (
     <div
       className={classNames(
-        "h-full pt-24 md:pt-20 pb-52 md:pb-0 md:flex md:flex-col md:overflow-y-auto relative",
-        theme.secondary
+        "h-screen md:h-screen md:flex md:flex-col md:overflow-hidden pt-24 md:pt-20 relative",
+        theme.secondary,
       )}
     >
       <Header />
@@ -101,7 +107,10 @@ const Compare = () => {
                 showLowestPrice={showLowestPrice}
                 comparedItems={comparedItems}
               />
-              <AdSense adSlot="8409274958" className="mt-8 mb-4 w-full max-w-[728px]" />
+              <AdSense
+                adSlot="8409274958"
+                className="mt-8 mb-4 w-full max-w-[728px]"
+              />
             </>
           )}
         </div>

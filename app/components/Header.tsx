@@ -59,6 +59,7 @@ const Header = () => {
               width={logo.width}
               height={logo.height}
               priority={true}
+              style={theme.id !== 1 ? { filter: "brightness(0) invert(1)" } : undefined}
             />
           </Link>
         </div>

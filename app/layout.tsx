@@ -118,12 +118,12 @@ export default function RootLayout({
           <body
             className={classNames(
               `${geistSans.variable} ${geistMono.variable} antialiased text-darkGray`,
-              "flex flex-col justify-between md:h-screen md:overflow-hidden"
+              "flex flex-col justify-between min-h-screen"
             )}
           >
             <Toast />
             <CookieConsent />
-            <main className="flex-grow md:flex md:flex-col md:overflow-hidden">{children}</main>
+            <main className="flex-grow md:flex md:flex-col">{children}</main>
             <Footer />
             <Analytics />
           </body>
