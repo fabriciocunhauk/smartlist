@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Article } from "@/app/lib/blog";
+import { formatDate } from "@/app/utils/formatDate";
 import { LuClock, LuArrowRight } from "react-icons/lu";
 
 interface ArticleCardProps {
@@ -8,11 +9,7 @@ interface ArticleCardProps {
 }
 
 export default function ArticleCard({ article, colorCode = "#f97316" }: ArticleCardProps) {
-  const formattedDate = new Date(article.publishedAt).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const formattedDate = formatDate(article.publishedAt);
 
   return (
     <Link

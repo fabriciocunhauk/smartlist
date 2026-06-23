@@ -15,7 +15,9 @@ import {
   Product,
   ComparedItem,
 } from "@/app/utils/compare";
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { getCachedProducts } from "@/app/utils/productsCache";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 const Compare = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -29,6 +31,12 @@ const Compare = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        const cached = getCachedProducts();
+        if (cached) {
+          setProducts(cached);
+          setLoading(false);
+          return;
+        }
         if (BASE_URL) {
           const response = await fetch(`${BASE_URL}/api/price-list`);
           if (!response.ok)

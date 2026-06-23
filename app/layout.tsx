@@ -148,7 +148,7 @@ export default function RootLayout({
           >
             <Toast />
             <CookieConsent />
-            <main className="flex-grow md:flex md:flex-col">{children}</main>
+            <main className="flex-grow md:min-h-0 md:flex md:flex-col">{children}</main>
             <Footer />
             <Analytics />
           </body>

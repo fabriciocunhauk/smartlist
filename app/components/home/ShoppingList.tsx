@@ -5,6 +5,7 @@ import ShoppingListForm from "./ShoppingListForm";
 import ListItem, { ListItemType } from "./ListItem";
 import { getDataFromIndexedDb } from "../../utils/getDataFromIndexedDb";
 import { storeToIndexedDb } from "../../utils/storeToIndexedDb";
+import { prefetchProducts } from "../../utils/productsCache";
 import Spinner from "../Spinner";
 import { Schoolbell } from "next/font/google";
 const schoolbell = Schoolbell({
@@ -15,9 +16,16 @@ const schoolbell = Schoolbell({
 const DB_NAME = "list_db";
 const STORE_NAME = "list_store";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+
 export default function ShoppingList() {
   const [list, setList] = useState<ListItemType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Warm up the backend on homepage load so compare prices is instant
+  useEffect(() => {
+    prefetchProducts(BASE_URL);
+  }, []);
 
   useEffect(() => {
     const fetchListFromIndexedDb = async () => {

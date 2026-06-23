@@ -20,7 +20,9 @@ const NO_AD_PATHS = [
 function Footer() {
   const { theme } = useTheme();
   const pathname = usePathname();
-  const shouldShowAd = !NO_AD_PATHS.includes(pathname);
+  const shouldShowAd = !NO_AD_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(p + "/")
+  );
 
   // Adjust colors dynamically based on the active theme
   const isLightTheme = theme.id === 1; // Theme ID 1 is Orange

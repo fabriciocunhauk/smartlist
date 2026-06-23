@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div
       className={classNames(
-        "h-screen md:flex-1 md:flex md:flex-col md:overflow-hidden pt-24 md:pt-20",
+        "h-screen md:flex-1 md:min-h-0 md:flex md:flex-col md:overflow-hidden pt-24 md:pt-20",
         theme.secondary
       )}
     >
