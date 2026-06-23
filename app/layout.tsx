@@ -52,6 +52,31 @@ export default function RootLayout({
         />
         <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
         
+        {/* WebApplication Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "SmartList",
+              url: "https://smart-list.co.uk",
+              description:
+                "UK grocery price comparison PWA. Compare Tesco, Aldi, and Sainsbury's prices and save on your weekly shop.",
+              applicationCategory: "ShoppingApplication",
+              operatingSystem: "All",
+              browserRequirements: "Requires JavaScript",
+              offers: { "@type": "Offer", price: "0", priceCurrency: "GBP" },
+              areaServed: { "@type": "Country", name: "United Kingdom" },
+              publisher: {
+                "@type": "Organization",
+                name: "SmartList",
+                url: "https://smart-list.co.uk",
+              },
+            }),
+          }}
+        />
+
         {/* Google AdSense */}
         <Script
           async

@@ -15,8 +15,6 @@ import {
   Product,
   ComparedItem,
 } from "@/app/utils/compare";
-import AdSense from "@/app/components/AdSense";
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Compare = () => {
@@ -106,10 +104,6 @@ const Compare = () => {
               <RenderProductCards
                 showLowestPrice={showLowestPrice}
                 comparedItems={comparedItems}
-              />
-              <AdSense
-                adSlot="8409274958"
-                className="mt-8 mb-4 w-full max-w-[728px]"
               />
             </>
           )}

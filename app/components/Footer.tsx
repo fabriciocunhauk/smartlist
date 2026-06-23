@@ -3,13 +3,24 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import logo from "@/public/images/smart-list-logo.svg";
 import { useTheme } from "../context/ThemeContext";
 import { classNames } from "../utils/appearance";
 import AdSense from "./AdSense";
 
+const NO_AD_PATHS = [
+  "/privacy-policy",
+  "/terms-of-service",
+  "/about-us",
+  "/faq",
+  "/share",
+];
+
 function Footer() {
   const { theme } = useTheme();
+  const pathname = usePathname();
+  const shouldShowAd = !NO_AD_PATHS.includes(pathname);
 
   // Adjust colors dynamically based on the active theme
   const isLightTheme = theme.id === 1; // Theme ID 1 is Orange
@@ -38,10 +49,12 @@ function Footer() {
       )}
     >
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
-        {/* Desktop Footer Ad Unit */}
-        <div className="w-full flex justify-center">
-          <AdSense adSlot="3727793913" className="w-full max-w-[728px] m-0 p-0" />
-        </div>
+        {/* Desktop Footer Ad Unit — only shown on content pages */}
+        {shouldShowAd && (
+          <div className="w-full flex justify-center">
+            <AdSense adSlot="3727793913" className="w-full max-w-[728px] m-0 p-0" />
+          </div>
+        )}
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Left Side: Logo & Tagline */}
@@ -64,6 +77,12 @@ function Footer() {
 
           {/* Middle Side: Quick Links */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold">
+            <Link href="/how-it-works" className={linkClass}>
+              How It Works
+            </Link>
+            <Link href="/blog" className={linkClass}>
+              Blog
+            </Link>
             <Link href="/about-us" className={linkClass}>
               About Us
             </Link>
